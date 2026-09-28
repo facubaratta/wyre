@@ -47,7 +47,7 @@ export default function ServiceGroupHeading({ id, panelId, title, subsections, o
       "--section-title-size": open ? "var(--open-title-size)" : "var(--closed-title-size)" }}>
       <Box component="button" id={id} type="button" aria-expanded={open} aria-controls={panelId}
         aria-disabled={open} onClick={() => { if (!open) onSelect(); }} sx={rowSx}>
-        <Box component="span" sx={{ flex: "1 1 auto", minWidth: 0 }}>{title}</Box>
+        <Box component="span" sx={{ flex: "1 1 auto", minWidth: 0 }}><Box component="span" data-wire-source="" sx={{ display: "inline-block" }}>{title}</Box></Box>
         <ServiceIconRail subsections={subsections} open={open} />
       </Box>
     </Typography>

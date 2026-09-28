@@ -47,6 +47,7 @@ export default function ServiceFeatureItem({
       }}
     >
       <ServiceIcon
+        wireTarget
         svg={subsection.icon}
         size="var(--bullet-icon-size)"
         visible={open}

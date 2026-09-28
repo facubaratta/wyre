@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { usePreferences } from "../../../preferences/PreferencesProvider";
 
 interface Props {
+  wireTarget?: boolean;
   svg: string;
   size: string;
   visible: boolean;
@@ -12,6 +13,7 @@ interface Props {
 const transition = "opacity 500ms ease, transform 650ms cubic-bezier(.2,.7,.2,1)";
 
 export default function ServiceIcon({
+  wireTarget = false,
   svg,
   size,
   visible,
@@ -25,6 +27,7 @@ export default function ServiceIcon({
     <Box
       component="span"
       aria-hidden="true"
+      data-wire-target={wireTarget ? "" : undefined}
       sx={{
         display: "block",
         color: "var(--accent)",

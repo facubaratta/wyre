@@ -24,16 +24,21 @@ export default function ServiceFeatureList({ id, subsections, open }: Props) {
     >
       <Box sx={{ minHeight: 0, overflow: "hidden" }}>
         <Box
-          component="ul"
+          component="div"
           sx={{
-            listStyle: "none",
-            p: 0,
-            m: 0,
+            position: "relative",
+            "--feature-row-height": "clamp(2.7rem, 4vw, 3.5rem)",
+            "--feature-row-gap": "clamp(.9rem, 1.25vw, 1.25rem)",
             pt: 3,
-            display: "grid",
-            rowGap: "clamp(.9rem, 1.25vw, 1.25rem)",
+            pl: "clamp(28px, 2.8vw, 40px)",
+            "@media (max-width:640px)": {
+              pt: "22px",
+              pl: "28px",
+              "--feature-row-gap": "16px",
+            },
           }}
         >
+          <Box component="ul" sx={{ position: "relative", listStyle: "none", p: 0, m: 0, display: "grid", rowGap: "var(--feature-row-gap)" }}>
           {subsections.map((subsection, index) => (
             <ServiceFeatureItem
               key={subsection.title}
@@ -42,6 +47,7 @@ export default function ServiceFeatureList({ id, subsections, open }: Props) {
               open={open}
             />
           ))}
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -1,4 +1,6 @@
 import Box from "@mui/material/Box";
+import { useRef } from "react";
+import ServiceEnergyWires from "./ServiceEnergyWires";
 import type { ServiceGroupData } from "./serviceGroups";
 import ServiceGroupHeading from "./ServiceGroupHeading";
 import ServiceFeatureList from "./ServiceFeatureList";
@@ -46,6 +48,7 @@ interface Props {
 
 export default function ServiceGroup({ section, index, active, onSelect }: Props) {
   const { reduceMotion } = usePreferences();
+  const sectionRef = useRef<HTMLElement>(null);
   const open = active;
   const headingId = `wyre-section-${index}`;
   const panelId = `${headingId}-features`;
@@ -53,6 +56,7 @@ export default function ServiceGroup({ section, index, active, onSelect }: Props
   return (
     <Box
       component="section"
+      ref={sectionRef}
       aria-labelledby={headingId}
       sx={{
         ...sectionSx,
@@ -69,6 +73,7 @@ export default function ServiceGroup({ section, index, active, onSelect }: Props
         py: open ? "var(--open-padding)" : "var(--section-padding)",
       }}
     >
+      <ServiceEnergyWires sectionRef={sectionRef} open={open} />
       <ServiceGroupHeading
         id={headingId}
         panelId={panelId}
