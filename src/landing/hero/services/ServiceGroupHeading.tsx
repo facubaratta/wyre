@@ -5,11 +5,9 @@ import type { ServiceFeature } from "./serviceGroups";
 
 interface Props {
   id: string;
-  panelId: string;
   title: string;
   subsections: ServiceFeature[];
   open: boolean;
-  onSelect: () => void;
 }
 
 const rowSx = {
@@ -19,16 +17,7 @@ const rowSx = {
   width: "100%",
   minHeight: "44px",
   padding: 0,
-  border: 0,
-  background: "transparent",
   color: "inherit",
-  font: "inherit",
-  letterSpacing: "inherit",
-  textAlign: "left",
-  cursor: "pointer",
-  "&[aria-disabled=true]": { cursor: "default" },
-  "&:hover": { color: "var(--accent-light)" },
-  "&:focus-visible": { outline: "2px solid var(--accent)", outlineOffset: "4px" },
 };
 
 const titleSx = {
@@ -41,12 +30,11 @@ const titleSx = {
   letterSpacing: "-.015em",
 };
 
-export default function ServiceGroupHeading({ id, panelId, title, subsections, open, onSelect }: Props) {
+export default function ServiceGroupHeading({ id, title, subsections, open }: Props) {
   return (
-    <Typography component="h2" sx={{ ...titleSx,
+    <Typography id={id} component="h2" sx={{ ...titleSx,
       "--section-title-size": open ? "var(--open-title-size)" : "var(--closed-title-size)" }}>
-      <Box component="button" id={id} type="button" aria-expanded={open} aria-controls={panelId}
-        aria-disabled={open} onClick={() => { if (!open) onSelect(); }} sx={rowSx}>
+      <Box component="span" sx={rowSx}>
         <Box component="span" sx={{ flex: "1 1 auto", minWidth: 0 }}><Box component="span" data-wire-source="" sx={{ display: "inline-block" }}>{title}</Box></Box>
         <ServiceIconRail subsections={subsections} open={open} />
       </Box>

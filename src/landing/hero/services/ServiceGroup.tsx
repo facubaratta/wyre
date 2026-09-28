@@ -45,10 +45,9 @@ interface Props {
   section: ServiceGroupData;
   index: number;
   active: boolean;
-  onSelect: () => void;
 }
 
-export default function ServiceGroup({ section, index, active, onSelect }: Props) {
+export default function ServiceGroup({ section, index, active }: Props) {
   const { reduceMotion } = usePreferences();
   const sectionRef = useRef<HTMLElement>(null);
   const open = active;
@@ -78,11 +77,9 @@ export default function ServiceGroup({ section, index, active, onSelect }: Props
       <ServiceEnergyWires sectionRef={sectionRef} open={open} />
       <ServiceGroupHeading
         id={headingId}
-        panelId={panelId}
         title={section.title}
         subsections={section.subsections}
         open={open}
-        onSelect={onSelect}
       />
       <ServiceFeatureList
         id={panelId}
