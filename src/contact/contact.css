@@ -1,0 +1,19 @@
+.contact-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.contact-buttons__link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 44px; padding: 10px 18px; border: 1px solid rgba(235,232,222,.35); border-radius: 3px; background: #181a19; color: #ebe8de; font-size: 14px; line-height: 1.2; text-decoration: none; }
+.contact-buttons__icon { width: 22px; height: 22px; flex-shrink: 0; }
+.contact-buttons__link--whatsapp { background: var(--accent); border-color: var(--accent); color: #181a19; }
+.contact-buttons__link:hover { border-color: var(--accent); color: var(--accent); }
+.contact-buttons__link--whatsapp:hover { color: #181a19; border-color: #ebe8de; }
+.contact-buttons__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.hero-contact { position: absolute; top: 4svh; left: 7vw; right: 7vw; z-index: 2; }
+.hero-contact .contact-buttons { justify-content: center; gap: 16px; }
+.hero-contact .contact-buttons__link { min-height: 72px; padding: 18px 30px; gap: 16px; font-size: clamp(20px, 1.8vw, 27px); }
+.hero-contact .contact-buttons__icon { width: 30px; height: 30px; }
+@media (max-width: 640px) {
+  .hero-contact { top: 3svh; left: 8vw; right: 8vw; }
+  .hero-contact .contact-buttons { gap: 10px; }
+  .hero-contact .contact-buttons__link { width: 100%; min-height: 56px; padding: 14px 12px; font-size: clamp(16px, 4.4vw, 20px); gap: 12px; }
+  .hero-contact .contact-buttons__icon { width: 26px; height: 26px; }
+  .closing-screen .contact-buttons { width: 100%; gap: 8px; }
+  .closing-screen .contact-buttons__link { width: 100%; padding-inline: 12px; font-size: 13px; }
+}

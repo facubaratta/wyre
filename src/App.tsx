@@ -1,29 +1,35 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import GridBackground from "./gridBackground/GridBackground";
-import Hero from "./hero/Hero";
+import LandingPage from "./landing/LandingPage";
+import { PreferencesProvider } from "./preferences/PreferencesProvider";
 
 const theme = createTheme({
   palette: {
     mode: "dark",
-    background: { default: "#07102b", paper: "#07102b" },
-    text: { primary: "#f2f2ee" },
+    background: { default: "#181a19", paper: "#181a19" },
+    text: { primary: "#ebe8de", secondary: "#a4a69d" },
+    primary: { main: "#c2a27b" },
   },
-  typography: { fontFamily: "Arial, Helvetica, sans-serif" },
+  typography: { fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' },
+  components: {
+    MuiCssBaseline: { styleOverrides: {
+      "::selection": { background: "var(--accent)", color: "#181a19" },
+      body: { overscrollBehavior: "none" },
+    } },
+  },
 });
-
-const Page = () => (
-  <Box sx={{ minHeight: "100svh", background: "#07102b" }}>
-    <GridBackground />
-    <Hero />
-  </Box>
-);
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Page />
+      <PreferencesProvider>
+        <Box sx={{ minHeight: "100svh", background: "#181a19" }}>
+          <GridBackground />
+          <LandingPage />
+        </Box>
+      </PreferencesProvider>
     </ThemeProvider>
   );
 }
