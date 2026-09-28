@@ -29,11 +29,11 @@ export default function ServiceFeatureList({ id, subsections, open }: Props) {
             position: "relative",
             "--feature-row-height": "clamp(2.7rem, 4vw, 3.5rem)",
             "--feature-row-gap": "clamp(.9rem, 1.25vw, 1.25rem)",
-            pt: 3,
+            pt: 1.5,
             pl: "clamp(28px, 2.8vw, 40px)",
             "@media (max-width:640px)": {
-              pt: "22px",
-              pl: "28px",
+              pt: "8px",
+              pl: "24px",
               "--feature-row-gap": "16px",
             },
           }}
