@@ -43,7 +43,7 @@ export default function ServiceHighlights({
       flex: "0 0 auto",
       width: "100%",
       transition: "margin-top 240ms cubic-bezier(.22,1,.36,1)",
-      mt: isAtTop ? 10 : 0,
+      mt: isAtTop ? 4 : 0,
     },
   };
 
