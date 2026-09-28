@@ -25,6 +25,12 @@ const itemSx = {
   lineHeight: 1.55,
   fontWeight: 400,
   "& > span:first-of-type": { mt: ".2em" },
+  "@media (max-width:640px)": {
+    fontSize: "clamp(1.125rem, 4.6vw, 1.25rem)",
+    lineHeight: 1.45,
+    gap: "10px",
+    "& > span:first-of-type": { mt: ".16em" },
+  },
 };
 
 export default function ServiceFeatureItem({
