@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { usePreferences } from '../preferences/PreferencesProvider';
 
-const SCROLL_STEP = .8;
+const SCROLL_STEP = .62;
 const SEQUENCE_START = .25;
 const CLOSING_SCROLL = .08;
-const HINT_HOLD = .5;
+const HINT_HOLD = .8;
 const TRANSITION_SCROLL = .8;
 const PROJECT_SCROLL = 1;
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
@@ -38,10 +38,12 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
   const stageProgress = (position - SEQUENCE_START) / SCROLL_STEP - stage;
   // Hold the top and bottom briefly; the page scroll exposes overflowing content in between.
   const heroScrollProgress = stage < 0 ? clamp(position / SEQUENCE_START)
-    : stage < sectionCount ? clamp((stageProgress - .15) / .7) : 0;
+    : stage < sectionCount ? clamp((stageProgress - .08) / .84) : 0;
   const portfolioProgress = clamp((position - portfolioStart) / TRANSITION_SCROLL);
   const closingProgress = reduceMotion ? (manualProject === projectCount ? 1 : 0)
     : clamp((position - closingStart) / TRANSITION_SCROLL);
+  const sequenceEnd = closingStart + TRANSITION_SCROLL;
+  const scrollShadowOpacity = reduceMotion ? 1 : 1 - clamp((position - (sequenceEnd - .3)) / .3);
   const projectIndex = reduceMotion ? Math.min(manualProject, projectCount - 1) : Math.max(0, Math.min(projectCount - 1,
     Math.floor((position - projectsStart) / PROJECT_SCROLL)));
 
@@ -51,8 +53,9 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
     showAccentHint: reduceMotion || position >= hintStart,
     portfolioProgress,
     closingProgress,
+    scrollShadowOpacity,
     projectIndex,
-    minHeight: reduceMotion ? undefined : (closingStart + TRANSITION_SCROLL + 1.7) * scroll.viewport,
+    minHeight: reduceMotion ? undefined : (sequenceEnd + 1.7) * scroll.viewport,
     selectService: (index: number) => {
       if (index < 0 || index >= sectionCount) return;
       if (reduceMotion) setManualService(index);
