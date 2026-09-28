@@ -41,18 +41,19 @@ interface Props {
   section: ServiceGroupData;
   index: number;
   active: boolean;
+  onSelect: () => void;
 }
 
-export default function ServiceGroup({ section, index, active }: Props) {
+export default function ServiceGroup({ section, index, active, onSelect }: Props) {
   const { reduceMotion } = usePreferences();
-  const open = active || reduceMotion;
+  const open = active;
   const headingId = `wyre-section-${index}`;
+  const panelId = `${headingId}-features`;
 
   return (
     <Box
       component="section"
       aria-labelledby={headingId}
-      aria-expanded={open}
       sx={{
         ...sectionSx,
         "&::before": {
@@ -70,11 +71,14 @@ export default function ServiceGroup({ section, index, active }: Props) {
     >
       <ServiceGroupHeading
         id={headingId}
+        panelId={panelId}
         title={section.title}
         subsections={section.subsections}
         open={open}
+        onSelect={onSelect}
       />
       <ServiceFeatureList
+        id={panelId}
         subsections={section.subsections}
         open={open}
       />

@@ -4,10 +4,12 @@ import { usePreferences } from "../../preferences/PreferencesProvider";
 
 interface HeroWordmarkProps {
   showAccentHint: boolean;
+  animationActive: boolean;
 }
 
 export default function HeroWordmark({
   showAccentHint,
+  animationActive,
 }: HeroWordmarkProps) {
   const { accent, setAccent } = usePreferences();
   return (
@@ -24,7 +26,7 @@ export default function HeroWordmark({
         },
         animation: "wordmark-enter 1100ms cubic-bezier(.22,1,.36,1) both",
         "@media (prefers-reduced-motion: reduce)": { animation: "none" },
-        "@media (max-width:640px)": { fontSize: "min(32vw, 18svh)" },
+        "@media (max-width:640px)": { fontSize: "min(32vw, 18svh)", order: -1 },
         "@media (max-width:640px) and (max-height:700px)": {
           fontSize: "min(28vw, 13svh)",
         },
@@ -35,6 +37,7 @@ export default function HeroWordmark({
         accent={accent}
         onAccentChange={setAccent}
         showAccentHint={showAccentHint}
+        animationActive={animationActive}
       />
     </Box>
   );

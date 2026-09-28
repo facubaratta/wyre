@@ -14,6 +14,7 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
   const { reduceMotion } = usePreferences();
   const [scroll, setScroll] = useState(() => ({ y: window.scrollY, viewport: Math.max(window.innerHeight, 1) }));
   const [manualProject, setManualProject] = useState(0);
+  const [manualService, setManualService] = useState(0);
   const hintStart = SEQUENCE_START + sectionCount * SCROLL_STEP + CLOSING_SCROLL;
   const portfolioStart = hintStart + HINT_HOLD;
   const projectsStart = portfolioStart + TRANSITION_SCROLL;
@@ -34,6 +35,10 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
 
   const position = scroll.y / scroll.viewport;
   const stage = Math.floor((position - SEQUENCE_START) / SCROLL_STEP);
+  const stageProgress = (position - SEQUENCE_START) / SCROLL_STEP - stage;
+  // Hold the top and bottom briefly; the page scroll exposes overflowing content in between.
+  const heroScrollProgress = stage < 0 ? clamp(position / SEQUENCE_START)
+    : stage < sectionCount ? clamp((stageProgress - .15) / .7) : 0;
   const portfolioProgress = clamp((position - portfolioStart) / TRANSITION_SCROLL);
   const closingProgress = reduceMotion ? (manualProject === projectCount ? 1 : 0)
     : clamp((position - closingStart) / TRANSITION_SCROLL);
@@ -41,13 +46,18 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
     Math.floor((position - projectsStart) / PROJECT_SCROLL)));
 
   return {
-    activeIndex: stage >= 0 && stage < sectionCount ? stage : -1,
+    activeIndex: reduceMotion ? manualService : stage >= 0 && stage < sectionCount ? stage : -1,
+    heroScrollProgress,
     showAccentHint: reduceMotion || position >= hintStart,
     portfolioProgress,
     closingProgress,
     projectIndex,
-    reduceMotion,
     minHeight: reduceMotion ? undefined : (closingStart + TRANSITION_SCROLL + 1.7) * scroll.viewport,
+    selectService: (index: number) => {
+      if (index < 0 || index >= sectionCount) return;
+      if (reduceMotion) setManualService(index);
+      else window.scrollTo({ top: (SEQUENCE_START + index * SCROLL_STEP + .05) * scroll.viewport, behavior: 'instant' });
+    },
     selectProject: (index: number) => {
       if (reduceMotion) setManualProject(index);
       else window.scrollTo({ top: (projectsStart + index * PROJECT_SCROLL + .05) * scroll.viewport, behavior: 'instant' });

@@ -19,7 +19,7 @@ const railSx = {
 export default function ServiceIconRail({ subsections, open }: Props) {
   const { reduceMotion } = usePreferences();
   return (
-    <Box sx={{ ...railSx, ...(open ? { width: 0, overflow: "hidden", ml: 0 } : {}), "--section-icon-size": open ? "var(--open-icon-size)" : "var(--closed-icon-size)" }}>
+    <Box component="span" sx={{ ...railSx, ...(open ? { width: 0, overflow: "hidden", ml: 0 } : {}), "--section-icon-size": open ? "var(--open-icon-size)" : "var(--closed-icon-size)" }}>
       {subsections.map((subsection, index) => (
         <ServiceIcon
           key={subsection.title}

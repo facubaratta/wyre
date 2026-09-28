@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, type PropsWithChildren } from 'react';
+import { createContext, useContext, useMemo, type PropsWithChildren } from 'react';
 import useAccentColor from '../theme/useAccentColor';
 import useReducedMotion from '../hooks/useReducedMotion';
 

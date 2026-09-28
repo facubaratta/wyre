@@ -42,7 +42,7 @@ export default function Portfolio({
     >
       <div className="portfolio__assembly">
         <div className="portfolio__monitor">
-          <ProjectBrowser project={project} projects={projects} projectIndex={projectIndex} closingProgress={closingProgress} />
+          <ProjectBrowser project={project} projects={projects} projectIndex={projectIndex} closingProgress={closingProgress} loadImages={visible} />
         </div>
         <div className="portfolio__stand" aria-hidden="true" />
         <div className="portfolio__foot" aria-hidden="true" />

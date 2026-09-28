@@ -8,13 +8,15 @@ import { usePreferences } from "../preferences/PreferencesProvider";
 
 export default function LandingPage() {
   const { reduceMotion } = usePreferences();
-  const { activeIndex, showAccentHint, minHeight, portfolioProgress, closingProgress, projectIndex, selectProject } = useLandingSequence(serviceGroups.length, projects.length);
+  const { activeIndex, heroScrollProgress, showAccentHint, minHeight, portfolioProgress, closingProgress, projectIndex, selectProject, selectService } = useLandingSequence(serviceGroups.length, projects.length);
 
   return (
     <Box component="main" sx={{ minHeight }}>
       <Box sx={{ position: reduceMotion ? "relative" : "sticky", top: 0, height: reduceMotion ? "auto" : "100svh" }}>
         <HeroSection
           activeIndex={activeIndex}
+          onSelectService={selectService}
+          scrollProgress={heroScrollProgress}
           showAccentHint={showAccentHint}
           exitProgress={portfolioProgress}
         />

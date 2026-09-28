@@ -4,14 +4,16 @@ import type { ServiceFeature } from "./serviceGroups";
 import { usePreferences } from "../../../preferences/PreferencesProvider";
 
 interface Props {
+  id: string;
   subsections: ServiceFeature[];
   open: boolean;
 }
 
-export default function ServiceFeatureList({ subsections, open }: Props) {
+export default function ServiceFeatureList({ id, subsections, open }: Props) {
   const { reduceMotion } = usePreferences();
   return (
     <Box
+      id={id}
       aria-hidden={!open}
       sx={{
         display: "grid",

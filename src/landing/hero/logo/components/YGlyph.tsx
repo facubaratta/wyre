@@ -35,12 +35,13 @@ export function YGlyph({ id, accent, onAccentChange, showAccentHint = false }: Y
       </svg>
       {onAccentChange && <AccentColorHint visible={showAccentHint} />}
       {onAccentChange && (
-        <button
+        <Box component="button"
           type="button"
           aria-label="Change accent color"
           title="Change accent color"
           onClick={() => onAccentChange(nextColor)}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', padding: 0, border: 0 }}
+          sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', background: 'transparent', cursor: 'pointer', padding: 0, border: 0,
+            '&:focus-visible': { outline: '2px solid var(--accent-light)', outlineOffset: '4px', borderRadius: '3px' } }}
         />
       )}
     </Box>

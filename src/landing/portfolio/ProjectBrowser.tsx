@@ -8,9 +8,10 @@ interface Props {
   projects: Project[];
   projectIndex: number;
   closingProgress: number;
+  loadImages: boolean;
 }
 
-export default function ProjectBrowser({ project, projects, projectIndex, closingProgress }: Props) {
+export default function ProjectBrowser({ project, projects, projectIndex, closingProgress, loadImages }: Props) {
   const showClosing = closingProgress >= 0.5;
 
   return (
@@ -18,7 +19,7 @@ export default function ProjectBrowser({ project, projects, projectIndex, closin
       <BrowserToolbar project={project} closing={showClosing} />
       <div className="portfolio__display">
         <div className="portfolio__screenshots" style={{ opacity: 1 - closingProgress }}>
-          <ProjectScreenshots projects={projects} projectIndex={projectIndex} closing={showClosing} />
+          <ProjectScreenshots projects={projects} projectIndex={projectIndex} closing={showClosing} enabled={loadImages} />
         </div>
         <ClosingScreen progress={closingProgress} />
       </div>

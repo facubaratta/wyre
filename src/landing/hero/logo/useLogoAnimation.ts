@@ -1,6 +1,6 @@
 import { useEffect, type RefObject } from 'react';
 import { BRANCHES, CYCLE_SECONDS, ROUTES, SERVICE_STRIPS, SIDE_PORTS, TEST_POINTS, VIEWBOX_WIDTH } from './geometry';
-import { usePreferences } from '../../../preferences/PreferencesProvider';
+import useReducedMotion from '../../../hooks/useReducedMotion';
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ageSince = (time: number, launches: readonly number[]) => Math.min(...launches.map(launch => ((time - launch) % CYCLE_SECONDS + CYCLE_SECONDS) % CYCLE_SECONDS));
@@ -23,11 +23,11 @@ function position(element: SVGCircleElement, point: { x: number; y: number }) {
 }
 
 /** Updates only animated SVG attributes; React owns the layer structure and geometry. */
-export function useLogoAnimation(rootRef: RefObject<HTMLDivElement | null>) {
-  const { reduceMotion } = usePreferences();
+export function useLogoAnimation(rootRef: RefObject<HTMLDivElement | null>, active = true) {
+  const reduceMotion = useReducedMotion();
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    if (!root || !active) return;
     const find = <T extends Element>(selector: string): T => {
       const element = root.querySelector<T>(selector);
       if (!element) throw new Error(`Wyre logo element missing: ${selector}`);
@@ -172,5 +172,5 @@ export function useLogoAnimation(rootRef: RefObject<HTMLDivElement | null>) {
       document.removeEventListener('visibilitychange', sync);
       letters.forEach(letter => { letter.style.backgroundImage = ''; });
     };
-  }, [rootRef, reduceMotion]);
+  }, [rootRef, reduceMotion, active]);
 }

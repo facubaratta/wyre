@@ -16,6 +16,8 @@ export function LandingPage() {
 
 The animation uses browser APIs and runs in the client-side React application.
 
+The logo works without `PreferencesProvider`. Its `accent` prop supplies a local palette (default `#c2a27b`), and it reads the system reduced-motion preference directly. Set `animationActive={false}` while hiding the logo to stop animation work; restore it to resume.
+
 ## Files
 
 | File | Responsibility |

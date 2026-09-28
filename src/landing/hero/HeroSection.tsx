@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { useLayoutEffect, useRef } from "react";
 import ServiceHighlights from "./services/ServiceHighlights";
 import HeroWordmark from "./HeroWordmark";
 import HeroContact from "./HeroContact";
@@ -8,7 +9,7 @@ const heroSx = {
   position: "relative",
   zIndex: 1,
   display: "flex",
-  alignItems: "center",
+  alignItems: "safe center",
   justifyContent: "space-between",
   gap: "5vw",
   minHeight: "100svh",
@@ -18,8 +19,8 @@ const heroSx = {
   ".hero-contact": { marginTop: "3vh" },
   "@media (max-width:640px)": {
     display: "flex",
-    flexDirection: "column-reverse",
-    justifyContent: "center",
+    flexDirection: "column",
+    justifyContent: "safe center",
     gap: "clamp(20px, 4svh, 36px)",
     px: "8vw",
     pt: "calc(122px + 6svh)",
@@ -33,20 +34,52 @@ const heroSx = {
 
 interface HeroSectionProps {
   activeIndex: number;
+  onSelectService: (index: number) => void;
+  scrollProgress: number;
   showAccentHint: boolean;
   exitProgress: number;
 }
 
-export default function HeroSection({ activeIndex, showAccentHint, exitProgress }: HeroSectionProps) {
+export default function HeroSection({ activeIndex, onSelectService, scrollProgress, showAccentHint, exitProgress }: HeroSectionProps) {
   const { reduceMotion } = usePreferences();
+  const root = useRef<HTMLDivElement>(null);
+  const progress = useRef(scrollProgress);
+
+  useLayoutEffect(() => {
+    progress.current = scrollProgress;
+    const hero = root.current;
+    if (hero && !reduceMotion) {
+      hero.scrollTop = Math.max(0, hero.scrollHeight - hero.clientHeight) * scrollProgress;
+    }
+  }, [scrollProgress, reduceMotion]);
+
+  useLayoutEffect(() => {
+    const hero = root.current;
+    if (!hero || reduceMotion) {
+      if (hero) hero.scrollTop = 0;
+      return;
+    }
+    const sync = () => {
+      hero.scrollTop = Math.max(0, hero.scrollHeight - hero.clientHeight) * progress.current;
+    };
+    // Expansion animations and viewport changes can change the overflow between page scroll events.
+    const observer = new ResizeObserver(sync);
+    observer.observe(hero);
+    Array.from(hero.children).forEach(child => observer.observe(child));
+    sync();
+    return () => observer.disconnect();
+  }, [reduceMotion]);
+
   return (
-    <Box inert={!reduceMotion && exitProgress >= .5} aria-hidden={!reduceMotion && exitProgress >= .5}
-      sx={{ ...heroSx, opacity: reduceMotion ? 1 : 1 - exitProgress,
+    <Box ref={root} inert={!reduceMotion && exitProgress >= .5} aria-hidden={!reduceMotion && exitProgress >= .5}
+      sx={{ ...heroSx, height: reduceMotion ? "auto" : "100svh",
+        overflow: reduceMotion ? "visible" : "hidden",
+        opacity: reduceMotion ? 1 : 1 - exitProgress,
         visibility: !reduceMotion && exitProgress === 1 ? "hidden" : "visible",
         transform: reduceMotion ? undefined : `translateY(${-exitProgress * 8}svh)` }}>
       <HeroContact />
-      <ServiceHighlights activeIndex={activeIndex} />
-      <HeroWordmark showAccentHint={showAccentHint} />
+      <ServiceHighlights activeIndex={activeIndex} onSelect={onSelectService} />
+      <HeroWordmark showAccentHint={showAccentHint} animationActive={reduceMotion || exitProgress < 1} />
     </Box>
   );
 }
