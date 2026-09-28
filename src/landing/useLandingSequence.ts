@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { usePreferences } from '../preferences/PreferencesProvider';
 
-const SCROLL_STEP = .62;
+const SCROLL_STEP = 1;
 const SEQUENCE_START = .25;
 const CLOSING_SCROLL = .08;
 const HINT_HOLD = .8;
