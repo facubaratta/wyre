@@ -1,7 +1,64 @@
 import Box from '@mui/material/Box';
 import type { SVGProps } from 'react';
+import type { SxProps, Theme } from '@mui/material/styles';
 import type { Project } from './projects';
-import { hiddenToolbarPart, styles } from './styles';
+
+const hiddenToolbarPart = { visibility: 'hidden' } satisfies SxProps<Theme>;
+
+const styles = {
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    p: '12px',
+    borderBottom: '1px solid #454840',
+    '@media (max-width:640px)': { p: '0 4px 8px', gap: 0 },
+    '@media (min-width:641px) and (max-height:500px)': { py: '4px' },
+  },
+  address: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    flex: 1,
+    minWidth: 0,
+    height: '40px',
+    px: '14px',
+    border: '1px solid #454840',
+    borderRadius: '7px',
+    background: '#181a19',
+    color: '#a4a69d',
+    '@media (max-width:640px)': {
+      height: '34px',
+      px: '8px',
+      gap: '6px',
+      borderRadius: '8px',
+      '& svg': { width: '12px' },
+    },
+  },
+  url: {
+    fontFamily: 'Arial, sans-serif',
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: '#ebe8de',
+    fontSize: 'clamp(14px, 1.25vw, 18px)',
+    letterSpacing: '.015em',
+    '@media (max-width:640px)': { fontSize: '11px' },
+  },
+  visit: {
+    display: 'grid',
+    placeItems: 'center',
+    width: '44px',
+    height: '44px',
+    flexShrink: 0,
+    color: 'var(--accent)',
+    fontSize: '28px',
+    textDecoration: 'none',
+    '@media (max-width:640px)': { width: '36px', fontSize: '24px' },
+    '&:hover': { color: '#ebe8de' },
+  },
+} satisfies Record<string, SxProps<Theme>>;
 
 const iconSx: Pick<SVGProps<SVGSVGElement>, 'aria-hidden' | 'viewBox' | 'fill' | 'stroke'> = {
   'aria-hidden': 'true',

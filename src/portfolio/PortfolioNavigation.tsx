@@ -1,6 +1,25 @@
 import Box from '@mui/material/Box';
+import type { SxProps, Theme } from '@mui/material/styles';
 import { projects } from './projects';
-import { styles } from './styles';
+
+const navigationSx = {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '24px',
+  mt: '22px',
+  '& button': {
+    font: 'inherit',
+    fontSize: '24px',
+    width: '44px',
+    height: '44px',
+    p: 0,
+    color: 'var(--accent)',
+    background: 'transparent',
+    border: 0,
+    cursor: 'pointer',
+    '&:disabled': { opacity: 0.25, cursor: 'default' },
+  },
+} satisfies SxProps<Theme>;
 
 interface Props {
   selectedIndex: number;
@@ -14,7 +33,7 @@ export default function PortfolioNavigation({
   onSelect,
 }: Props) {
   return (
-    <Box component="nav" sx={styles.navigation} aria-label="Portfolio projects">
+    <Box component="nav" sx={navigationSx} aria-label="Portfolio projects">
       <button
         onClick={() => onSelect(Math.max(0, selectedIndex - 1))}
         disabled={selectedIndex === 0}

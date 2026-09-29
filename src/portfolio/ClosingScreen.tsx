@@ -1,7 +1,32 @@
 import ContactButtons from '../contact/ContactButtons';
 import Box from '@mui/material/Box';
-import { styles } from './styles';
+import type { SxProps, Theme } from '@mui/material/styles';
 import { usePreferences } from '../PreferencesProvider';
+
+const closingSx = {
+  position: 'absolute',
+  zIndex: 3,
+  inset: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  gap: '16px',
+  p: '10%',
+  color: '#ebe8de',
+  background: '#181a19',
+  '& h1': {
+    m: 0,
+    py: '5%',
+    borderTop: '1px solid rgba(235,232,222,.22)',
+    fontSize: 'clamp(20px, 7cqw, 76px)',
+    fontWeight: 400,
+    lineHeight: 1.18,
+    letterSpacing: '-.05em',
+    '& span': { display: 'block' },
+    '& em': { color: 'var(--accent)', fontStyle: 'normal' },
+  },
+} satisfies SxProps<Theme>;
 
 export default function ClosingScreen({ progress }: { progress: number }) {
   const { reduceMotion } = usePreferences();
@@ -9,7 +34,7 @@ export default function ClosingScreen({ progress }: { progress: number }) {
   return (
     <Box
       component="section"
-      sx={styles.closing}
+      sx={closingSx}
       aria-labelledby="closing-heading"
       aria-hidden={progress < 0.5}
       inert={progress < 0.5}
