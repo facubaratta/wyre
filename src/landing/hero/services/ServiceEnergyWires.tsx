@@ -1,4 +1,6 @@
 import Box from "@mui/material/Box";
+import type { SxProps, Theme } from '@mui/material/styles';
+import { keyframes } from '@emotion/react';
 import { useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { usePreferences } from "../../../preferences/PreferencesProvider";
 
@@ -13,6 +15,9 @@ interface WireLayout {
   source: { x: number; y: number };
   paths: string[];
 }
+
+const serviceWirePulse = keyframes`to { stroke-dashoffset: -1; }`;
+const styles = { overlay: { position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' } satisfies SxProps<Theme> };
 
 /** Routes in CSS pixels, measured from the title and the rendered icon boundaries. */
 export default function ServiceEnergyWires({ sectionRef, open }: Props) {
@@ -78,24 +83,23 @@ export default function ServiceEnergyWires({ sectionRef, open }: Props) {
   }, [open, reduceMotion, sectionRef]);
 
   return (
-    <Box ref={overlayRef} aria-hidden="true" sx={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
+    <Box ref={overlayRef} aria-hidden="true" sx={styles.overlay}>
       {open && layout && (
         <svg width="100%" height="100%" viewBox={`0 0 ${layout.width} ${layout.height}`}>
           {layout.paths.map((path, index) => (
             <g key={index}>
               <path d={path} fill="none" stroke="var(--accent)" strokeOpacity=".65" strokeWidth="1.4" strokeLinejoin="round" />
               {!reduceMotion && (
-                <path className="service-energy-wire__pulse" d={path} pathLength="1" fill="none"
+                <path d={path} pathLength="1" fill="none"
                   stroke="var(--accent-bright)" strokeWidth="2.8" strokeLinecap="round"
                   strokeDasharray=".075 .925" strokeDashoffset=".075"
-                  style={{ animation: `service-wire-pulse 2.4s linear ${index * .45}s infinite`, filter: "drop-shadow(0 0 3px var(--accent))" }} />
+                  style={{ animation: `${serviceWirePulse} 2.4s linear ${index * .45}s infinite`, filter: "drop-shadow(0 0 3px var(--accent))" }} />
               )}
             </g>
           ))}
           <circle cx={layout.source.x} cy={layout.source.y} r="2.5" fill="var(--accent-light)" />
         </svg>
       )}
-      <style>{`@keyframes service-wire-pulse { to { stroke-dashoffset: -1; } }`}</style>
     </Box>
   );
 }
