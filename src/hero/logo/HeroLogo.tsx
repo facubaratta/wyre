@@ -4,7 +4,7 @@ import { useId, useRef, type CSSProperties } from 'react';
 import { LitLetter } from './components/LitLetter';
 import { YGlyph } from './components/YGlyph';
 import { useLogoAnimation } from './useLogoAnimation';
-import { DEFAULT_ACCENT, getAccentVariables } from '../../../theme/useAccentColor';
+import { DEFAULT_ACCENT, getAccentVariables } from '../../useAccentColor';
 
 export interface HeroLogoProps {
   accent?: string;

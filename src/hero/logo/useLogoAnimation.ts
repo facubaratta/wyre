@@ -1,6 +1,6 @@
 import { useEffect, type RefObject } from 'react';
 import { BRANCHES, CYCLE_SECONDS, ROUTES, SERVICE_STRIPS, SIDE_PORTS, TEST_POINTS, VIEWBOX_WIDTH } from './geometry';
-import useReducedMotion from '../../../hooks/useReducedMotion';
+import useReducedMotion from '../../useReducedMotion';
 
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const ageSince = (time: number, launches: readonly number[]) => Math.min(...launches.map(launch => ((time - launch) % CYCLE_SECONDS + CYCLE_SECONDS) % CYCLE_SECONDS));

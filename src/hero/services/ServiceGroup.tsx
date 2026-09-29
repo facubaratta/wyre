@@ -4,7 +4,7 @@ import ServiceEnergyWires from "./ServiceEnergyWires";
 import type { ServiceGroupData } from "./serviceGroups";
 import ServiceGroupHeading from "./ServiceGroupHeading";
 import ServiceFeatureList from "./ServiceFeatureList";
-import { usePreferences } from "../../../preferences/PreferencesProvider";
+import { usePreferences } from "../../PreferencesProvider";
 
 export const sectionSx = {
   "--section-padding": "clamp(.08rem, .25vw, .25rem)",

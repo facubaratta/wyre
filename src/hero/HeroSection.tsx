@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef } from "react";
 import ServiceHighlights from "./services/ServiceHighlights";
 import HeroWordmark from "./HeroWordmark";
 import HeroContact from "./HeroContact";
-import { usePreferences } from "../../preferences/PreferencesProvider";
+import { usePreferences } from "../PreferencesProvider";
 
 const heroSx = {
   position: "relative",

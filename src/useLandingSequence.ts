@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { usePreferences } from '../preferences/PreferencesProvider';
+import { usePreferences } from './PreferencesProvider';
 
 const SCROLL_STEP = 1;
 const SEQUENCE_START = .25;

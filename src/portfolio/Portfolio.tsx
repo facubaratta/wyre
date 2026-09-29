@@ -3,7 +3,7 @@ import { projects } from "./projects";
 import ProjectBrowser from "./ProjectBrowser";
 import PortfolioNavigation from "./PortfolioNavigation";
 import { hiddenOnSmallOrShort, styles } from "./styles";
-import { usePreferences } from "../../preferences/PreferencesProvider";
+import { usePreferences } from "../PreferencesProvider";
 
 interface Props {
   progress: number;

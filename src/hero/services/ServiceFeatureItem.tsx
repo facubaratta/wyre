@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import ServiceIcon from "./ServiceIcon";
 import type { ServiceFeature } from "./serviceGroups";
-import { usePreferences } from "../../../preferences/PreferencesProvider";
+import { usePreferences } from "../../PreferencesProvider";
 
 const transition =
   "opacity 500ms ease, transform 650ms cubic-bezier(.2,.7,.2,1)";

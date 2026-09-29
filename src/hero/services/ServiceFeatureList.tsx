@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import ServiceFeatureItem from "./ServiceFeatureItem";
 import type { ServiceFeature } from "./serviceGroups";
-import { usePreferences } from "../../../preferences/PreferencesProvider";
+import { usePreferences } from "../../PreferencesProvider";
 
 interface Props {
   id: string;

@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import { usePreferences } from "../../../preferences/PreferencesProvider";
+import { usePreferences } from "../../PreferencesProvider";
 
 interface Props {
   wireTarget?: boolean;
