@@ -23,8 +23,10 @@ function useIsAtTop(): boolean {
 
 export default function ServiceHighlights({
   activeIndex,
+  onSelect,
 }: {
   activeIndex: number;
+  onSelect: (index: number) => void;
 }) {
   const isAtTop: boolean = useIsAtTop();
 
@@ -52,6 +54,7 @@ export default function ServiceHighlights({
           section={section}
           index={index}
           active={activeIndex === index}
+          onSelect={onSelect}
         />
       ))}
     </Box>

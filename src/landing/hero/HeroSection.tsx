@@ -37,9 +37,10 @@ interface HeroSectionProps {
   scrollProgress: number;
   showAccentHint: boolean;
   exitProgress: number;
+  onSelectService: (index: number) => void;
 }
 
-export default function HeroSection({ activeIndex, scrollProgress, showAccentHint, exitProgress }: HeroSectionProps) {
+export default function HeroSection({ activeIndex, scrollProgress, showAccentHint, exitProgress, onSelectService }: HeroSectionProps) {
   const { reduceMotion } = usePreferences();
   const root = useRef<HTMLDivElement>(null);
   const progress = useRef(scrollProgress);
@@ -77,7 +78,7 @@ export default function HeroSection({ activeIndex, scrollProgress, showAccentHin
         visibility: !reduceMotion && exitProgress === 1 ? "hidden" : "visible",
         transform: reduceMotion ? undefined : `translateY(${-exitProgress * 8}svh)` }}>
       <HeroContact />
-      <ServiceHighlights activeIndex={activeIndex} />
+      <ServiceHighlights activeIndex={activeIndex} onSelect={onSelectService} />
       <HeroWordmark showAccentHint={showAccentHint} animationActive={reduceMotion || exitProgress < 1} />
     </Box>
   );

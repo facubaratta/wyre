@@ -45,9 +45,10 @@ interface Props {
   section: ServiceGroupData;
   index: number;
   active: boolean;
+  onSelect: (index: number) => void;
 }
 
-export default function ServiceGroup({ section, index, active }: Props) {
+export default function ServiceGroup({ section, index, active, onSelect }: Props) {
   const { reduceMotion } = usePreferences();
   const sectionRef = useRef<HTMLElement>(null);
   const open = active;
@@ -59,6 +60,18 @@ export default function ServiceGroup({ section, index, active }: Props) {
       component="section"
       ref={sectionRef}
       aria-labelledby={headingId}
+      onClick={() => onSelect(index)}
+      onKeyDown={(event) => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect(index);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-expanded={open}
+      aria-controls={panelId}
       sx={{
         ...sectionSx,
         "&::before": {
@@ -71,6 +84,7 @@ export default function ServiceGroup({ section, index, active }: Props) {
           transition: reduceMotion ? "none" : "color 450ms ease",
         },
         "&:hover h2": { color: "text.primary" },
+        cursor: "pointer",
         py: open ? "var(--open-padding)" : "var(--section-padding)",
       }}
     >

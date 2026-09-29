@@ -20,6 +20,7 @@ export default function LandingPage() {
     selectProject,
     scrollShadowOpacity,
     nextCheckpoint,
+    selectService,
   } = useLandingSequence(serviceGroups.length, projects.length);
 
   return (
@@ -37,6 +38,7 @@ export default function LandingPage() {
           scrollProgress={heroScrollProgress}
           showAccentHint={showAccentHint}
           exitProgress={portfolioProgress}
+          onSelectService={selectService}
         />
         <Portfolio
           progress={portfolioProgress}
