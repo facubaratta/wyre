@@ -41,11 +41,7 @@ export default function ServiceGroupHeading({
   onClick,
 }: Props) {
   return (
-    <Typography
-      id={id}
-      component="h2"
-      sx={{ m: 0 }}
-    >
+    <Typography id={id} component="h2" sx={{ m: 0 }}>
       <Box
         component="button"
         type="button"

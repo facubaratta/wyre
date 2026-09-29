@@ -1,6 +1,5 @@
 import { Box, IconButton } from '@mui/material';
 import { usePreferences } from './PreferencesProvider';
-import { progressBetween } from './scrollTimeline';
 import type { SequenceTimeline } from './scrollTimeline';
 import type { WindowScroll } from './useWindowScroll';
 import useScrollCheckpoints from './useScrollCheckpoints';
@@ -25,13 +24,7 @@ const Shadow = ({ scrollShadowOpacity }: { scrollShadowOpacity: number }) => (
   />
 );
 
-const Arrow = ({
-  atEnd,
-  onClick,
-}: {
-  atEnd: boolean;
-  onClick: () => void;
-}) => (
+const Arrow = ({ atEnd, onClick }: { atEnd: boolean; onClick: () => void }) => (
   <IconButton
     aria-label={atEnd ? 'Scroll to top' : 'Scroll to the next section'}
     onClick={onClick}

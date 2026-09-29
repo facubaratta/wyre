@@ -52,46 +52,46 @@ function LandingPage() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
-          <GridBackground />
+        <GridBackground />
+        <Box
+          component="main"
+          sx={{
+            minHeight: reduceMotion
+              ? undefined
+              : `${(timeline.closingEnd + 1) * scroll.viewport}px`,
+            position: 'relative',
+          }}
+        >
           <Box
-            component="main"
             sx={{
-              minHeight: reduceMotion
-                ? undefined
-                : `${(timeline.closingEnd + 1) * scroll.viewport}px`,
-              position: 'relative',
+              position: reduceMotion ? 'relative' : 'sticky',
+              top: 0,
+              height: reduceMotion ? 'auto' : '100svh',
             }}
           >
-            <Box
-              sx={{
-                position: reduceMotion ? 'relative' : 'sticky',
-                top: 0,
-                height: reduceMotion ? 'auto' : '100svh',
-              }}
-            >
-              <ScrollHelp
-                scrollShadowOpacity={portfolio.scrollShadowOpacity}
-                scroll={scroll}
-                timeline={timeline}
-                serviceCount={serviceGroups.length}
-                projectCount={projects.length}
-                onNextReducedMotion={nextReducedMotion}
-              />
-              <HeroSection
-                activeIndex={service.activeIndex}
-                scrollProgress={service.heroScrollProgress}
-                showAccentHint={service.showAccentHint}
-                exitProgress={portfolio.progress}
-                onSelectService={service.selectService}
-              />
-              <Portfolio
-                progress={portfolio.progress}
-                closingProgress={portfolio.closingProgress}
-                projectIndex={portfolio.projectIndex}
-                onSelect={portfolio.selectProject}
-              />
-            </Box>
+            <ScrollHelp
+              scrollShadowOpacity={portfolio.scrollShadowOpacity}
+              scroll={scroll}
+              timeline={timeline}
+              serviceCount={serviceGroups.length}
+              projectCount={projects.length}
+              onNextReducedMotion={nextReducedMotion}
+            />
+            <HeroSection
+              activeIndex={service.activeIndex}
+              scrollProgress={service.heroScrollProgress}
+              showAccentHint={service.showAccentHint}
+              exitProgress={portfolio.progress}
+              onSelectService={service.selectService}
+            />
+            <Portfolio
+              progress={portfolio.progress}
+              closingProgress={portfolio.closingProgress}
+              projectIndex={portfolio.projectIndex}
+              onSelect={portfolio.selectProject}
+            />
           </Box>
+        </Box>
       </Box>
     </ThemeProvider>
   );

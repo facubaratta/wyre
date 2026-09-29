@@ -33,7 +33,8 @@ export default function useServiceSequence(
           ? clamp((progress - 0.08) / 0.84)
           : 0,
     showAccentHint:
-      reduceMotion || position >= SERVICE_START + serviceCount * SERVICE_DISTANCE,
+      reduceMotion ||
+      position >= SERVICE_START + serviceCount * SERVICE_DISTANCE,
     selectService: (serviceIndex: number) => {
       if (serviceIndex < 0 || serviceIndex >= serviceCount) return;
       if (reduceMotion) {

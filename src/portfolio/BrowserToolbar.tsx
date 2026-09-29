@@ -60,7 +60,10 @@ const styles = {
   },
 } satisfies Record<string, SxProps<Theme>>;
 
-const iconSx: Pick<SVGProps<SVGSVGElement>, 'aria-hidden' | 'viewBox' | 'fill' | 'stroke'> = {
+const iconSx: Pick<
+  SVGProps<SVGSVGElement>,
+  'aria-hidden' | 'viewBox' | 'fill' | 'stroke'
+> = {
   'aria-hidden': 'true',
   viewBox: '0 0 20 20',
   fill: 'none',
@@ -68,12 +71,7 @@ const iconSx: Pick<SVGProps<SVGSVGElement>, 'aria-hidden' | 'viewBox' | 'fill' |
 };
 
 const LockIcon = () => (
-  <svg
-    {...iconSx}
-    width="18"
-    height="18"
-    strokeWidth="1.4"
-  >
+  <svg {...iconSx} width="18" height="18" strokeWidth="1.4">
     <rect x="4.5" y="8.5" width="11" height="8" rx="2" />
     <path d="M7 8.5V6a3 3 0 0 1 6 0v2.5" />
   </svg>

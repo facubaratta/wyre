@@ -40,7 +40,7 @@ export default function useScrollCheckpoints({
     // Keep the target while smooth scrolling toward it. If the user interrupts
     // that motion, discard the stale target so the next click uses their position.
     const distance = Math.abs(scroll.y - pending);
-    if (distance < 2 || distance > 2 && scroll.y < pending - 2) {
+    if (distance < 2 || (distance > 2 && scroll.y < pending - 2)) {
       pendingPosition.current = null;
     }
   }, [scroll.y]);
