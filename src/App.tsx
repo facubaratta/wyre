@@ -27,7 +27,7 @@ const theme = createTheme({
   },
 });
 
-export default function App() {
+function LandingPage() {
   const { reduceMotion } = usePreferences();
   const {
     activeIndex,
@@ -46,8 +46,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <PreferencesProvider>
-        <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
+      <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
           <GridBackground />
           <Box component="main" sx={{ minHeight, position: 'relative' }}>
             <Box
@@ -76,8 +75,15 @@ export default function App() {
               />
             </Box>
           </Box>
-        </Box>
-      </PreferencesProvider>
+      </Box>
     </ThemeProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <PreferencesProvider>
+      <LandingPage />
+    </PreferencesProvider>
   );
 }
