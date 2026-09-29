@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePreferences } from '../preferences/PreferencesProvider';
 
 const SCROLL_STEP = 1;
@@ -15,6 +15,7 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
   const [scroll, setScroll] = useState(() => ({ y: window.scrollY, viewport: Math.max(window.innerHeight, 1) }));
   const [manualProject, setManualProject] = useState(0);
   const [manualService, setManualService] = useState(0);
+  const checkpointRef = useRef<number | null>(null);
   const hintStart = SEQUENCE_START + sectionCount * SCROLL_STEP + CLOSING_SCROLL;
   const portfolioStart = hintStart + HINT_HOLD;
   const projectsStart = portfolioStart + TRANSITION_SCROLL;
@@ -23,6 +24,9 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
   useEffect(() => {
     const update = () => {
       setScroll({ y: window.scrollY, viewport: Math.max(window.innerHeight, 1) });
+      if (checkpointRef.current !== null && Math.abs(window.scrollY - checkpointRef.current) < 2) {
+        checkpointRef.current = null;
+      }
     };
     update();
     window.addEventListener('scroll', update, { passive: true });
@@ -64,6 +68,26 @@ export default function useLandingSequence(sectionCount: number, projectCount: n
     selectProject: (index: number) => {
       if (reduceMotion) setManualProject(index);
       else window.scrollTo({ top: (projectsStart + index * PROJECT_SCROLL + .05) * scroll.viewport, behavior: 'instant' });
+    },
+    nextCheckpoint: () => {
+      if (reduceMotion) {
+        if (manualService < sectionCount - 1) setManualService((index) => index + 1);
+        else if (manualProject < projectCount) setManualProject((index) => index + 1);
+        return;
+      }
+
+      const currentPosition = (checkpointRef.current ?? window.scrollY) / Math.max(window.innerHeight, 1);
+      const checkpoints = [
+        ...Array.from({ length: sectionCount }, (_, index) => SEQUENCE_START + index * SCROLL_STEP + .05),
+        hintStart + .05,
+        projectsStart + .05,
+        ...Array.from({ length: projectCount }, (_, index) => projectsStart + index * PROJECT_SCROLL + .05),
+        sequenceEnd,
+      ];
+      const checkpoint = checkpoints.find((point) => point > currentPosition + .02);
+      if (checkpoint === undefined) return;
+      checkpointRef.current = checkpoint * Math.max(window.innerHeight, 1);
+      window.scrollTo({ top: checkpointRef.current, behavior: 'smooth' });
     },
   };
 }
