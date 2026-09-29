@@ -12,7 +12,7 @@ export function LandingPage() {
 }
 ```
 
-`HeroLogo.tsx` uses inline layout styles, imports scoped artwork CSS, and exposes `className`, `style`, and accessible `label` props. It has a transparent background and sizes naturally to the wordmark. It inherits font size from its parent, or accepts `style.fontSize` (for example `24px`, `96px`, or a responsive `clamp(...)`). It has no viewport sizing, container queries, fixed width, or page positioning. The parent controls page layout. React 18 and 19 are supported.
+`HeroLogo.tsx` uses inline layout styles and exposes `style` and accessible `label` props. It has a transparent background and sizes naturally to the wordmark. It inherits font size from its parent, or accepts `style.fontSize` (for example `24px`, `96px`, or a responsive `clamp(...)`). It has no viewport sizing, container queries, fixed width, or page positioning. The parent controls page layout. React 18 and 19 are supported.
 
 The animation uses browser APIs and runs in the client-side React application.
 
@@ -23,7 +23,7 @@ The logo works without `PreferencesProvider`. Its `accent` prop supplies a local
 | File | Responsibility |
 | --- | --- |
 | `HeroLogo.tsx` | Public component, instance ID, accessible wordmark, animation hook |
-| `HeroLogo.css` | Scoped hero layout, typography, cyan traces, reduced motion |
+| `HeroLogo.tsx` | Inline layout and typography |
 | `geometry.ts` | Primary paths, branches, departure ports, schedules, contact fields |
 | `useLogoAnimation.ts` | SVG measurements, packet movement, light reflection, lifecycle cleanup |
 | `components/` | Letter surfaces, Y glyph, SVG definitions, traces, details, and packet lights |

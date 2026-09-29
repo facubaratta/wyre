@@ -33,7 +33,7 @@ There are four origins on each top arm, two side departures per arm, and four lo
 - Branches: `BRANCHES` specifies path, endpoint, parent route, and prominence. Keep branch paths in the spaces between the main tracks.
 - Contacts and ports: update the named arrays in `geometry.ts`; keep them clipped to the original glyph.
 - Timing: each primary route has a physical `speed` in glyph units per second and launch times in an eight-second cycle. Branch timing is derived from the measured distance to its parent route.
-- Palette and typography: `HeroLogo.css` and `SvgDefinitions.tsx` define the static surfaces and light falloff.
+- Palette and typography: `HeroLogo.tsx` and `SvgDefinitions.tsx` define the static surfaces and light falloff.
 
 Light inside the Y is clipped to its glyph. The separate spill layer is intentionally outside that clip, illuminating the dark background. The letter surfaces receive per-letter radial reflections from the same packet coordinates.
 
