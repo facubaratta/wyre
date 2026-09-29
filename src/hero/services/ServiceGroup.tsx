@@ -65,18 +65,6 @@ export default function ServiceGroup({
       component="section"
       ref={sectionRef}
       aria-labelledby={headingId}
-      onClick={() => onSelect(index)}
-      onKeyDown={(event) => {
-        if (event.target !== event.currentTarget) return;
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          onSelect(index);
-        }
-      }}
-      tabIndex={0}
-      role="button"
-      aria-expanded={open}
-      aria-controls={panelId}
       sx={{
         ...sectionSx,
         '&::before': {
@@ -89,7 +77,6 @@ export default function ServiceGroup({
           transition: reduceMotion ? 'none' : 'color 450ms ease',
         },
         '&:hover h2': { color: 'text.primary' },
-        cursor: 'pointer',
         py: open ? 'var(--open-padding)' : 'var(--section-padding)',
       }}
     >
@@ -99,6 +86,8 @@ export default function ServiceGroup({
         title={section.title}
         subsections={section.subsections}
         open={open}
+        panelId={panelId}
+        onClick={() => onSelect(index)}
       />
       <ServiceFeatureList
         id={panelId}
