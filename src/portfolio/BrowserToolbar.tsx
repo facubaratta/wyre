@@ -25,8 +25,8 @@ const LockIcon = () => (
 const ArrowIcon = () => (
   <svg
     {...iconSx}
-    width="40"
-    height="40"
+    width="30"
+    height="30"
     strokeWidth="1.6"
     strokeLinecap="round"
     strokeLinejoin="round"
