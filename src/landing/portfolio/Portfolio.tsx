@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { projects } from "./projects";
 import ProjectBrowser from "./ProjectBrowser";
 import PortfolioNavigation from "./PortfolioNavigation";
-import "./portfolio.css";
+import { hiddenOnSmallOrShort, styles } from "./styles";
 import { usePreferences } from "../../preferences/PreferencesProvider";
 
 interface Props {
@@ -30,7 +30,7 @@ export default function Portfolio({
       aria-label="Portfolio"
       inert={!interactive}
       aria-hidden={!interactive}
-      className={`portfolio${reduceMotion ? " portfolio--static" : ""}`}
+      sx={{ ...styles.portfolio, ...(reduceMotion ? { position: 'relative', minHeight: '100svh' } : {}), ...styles.focusable }}
       style={{
         pointerEvents: interactive ? "auto" : "none",
         opacity: reduceMotion ? 1 : progress,
@@ -40,16 +40,16 @@ export default function Portfolio({
           : `translateY(${(1 - progress) * 12}svh)`,
       }}
     >
-      <div className="portfolio__assembly">
-        <div className="portfolio__monitor">
+      <Box sx={styles.assembly}>
+        <Box sx={styles.monitor}>
           <ProjectBrowser project={project} projects={projects} projectIndex={projectIndex} closingProgress={closingProgress} loadImages={visible} />
-        </div>
-        <div className="portfolio__stand" aria-hidden="true" />
-        <div className="portfolio__foot" aria-hidden="true" />
+        </Box>
+        <Box aria-hidden="true" sx={{ ...styles.stand, ...hiddenOnSmallOrShort }} />
+        <Box aria-hidden="true" sx={{ ...styles.foot, ...hiddenOnSmallOrShort }} />
         {reduceMotion && (
           <PortfolioNavigation selectedIndex={selectedIndex} projectIndex={projectIndex} onSelect={onSelect} />
         )}
-      </div>
+      </Box>
     </Box>
   );
 }

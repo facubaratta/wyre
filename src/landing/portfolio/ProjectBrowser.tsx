@@ -2,6 +2,7 @@ import ClosingScreen from './ClosingScreen';
 import BrowserToolbar from './BrowserToolbar';
 import ProjectScreenshots from './ProjectScreenshots';
 import type { Project } from './projects';
+import { styles } from './styles';
 
 interface Props {
   project: Project;
@@ -17,13 +18,14 @@ export default function ProjectBrowser({ project, projects, projectIndex, closin
   return (
     <>
       <BrowserToolbar project={project} closing={showClosing} />
-      <div className="portfolio__display">
-        <div className="portfolio__screenshots" style={{ opacity: 1 - closingProgress }}>
+      <Box sx={styles.display}>
+        <Box sx={{ ...styles.screenshots, opacity: 1 - closingProgress }}>
           <ProjectScreenshots projects={projects} projectIndex={projectIndex} closing={showClosing} enabled={loadImages} />
-        </div>
+        </Box>
         <ClosingScreen progress={closingProgress} />
-      </div>
-      <div className="portfolio__chin"><span /></div>
+      </Box>
+      <Box sx={styles.chin}><span /></Box>
     </>
   );
 }
+import Box from '@mui/material/Box';
