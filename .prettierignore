@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+package-lock.json
+*.md
+index.html
+vite.config.ts
+src/**/*.svg
+src/**/*.jpg
+src/**/*.png
