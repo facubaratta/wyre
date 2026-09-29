@@ -9,6 +9,9 @@
 .hero-contact .contact-buttons { justify-content: center; gap: 16px; }
 .hero-contact .contact-buttons__link { min-height: 72px; padding: 18px 30px; gap: 16px; font-size: clamp(20px, 1.8vw, 27px); }
 .hero-contact .contact-buttons__icon { width: 30px; height: 30px; }
+.closing-screen .contact-buttons { gap: 14px; }
+.closing-screen .contact-buttons__link { min-height: 64px; padding: 16px 26px; gap: 14px; font-size: 18px; }
+.closing-screen .contact-buttons__icon { width: 26px; height: 26px; }
 @media (max-width: 640px) {
   .hero-contact { top: 3svh; left: 8vw; right: 8vw; }
   .hero-contact .contact-buttons { gap: 10px; }
