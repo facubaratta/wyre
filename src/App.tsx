@@ -7,7 +7,10 @@ import { serviceGroups } from './hero/services/serviceGroups';
 import Portfolio from './portfolio/Portfolio';
 import { projects } from './portfolio/projects';
 import ScrollHelp from './ScrollHelp';
-import useLandingSequence from './useLandingSequence';
+import useServiceSequence from './hero/useServiceSequence';
+import usePortfolioSequence from './portfolio/usePortfolioSequence';
+import useWindowScroll from './useWindowScroll';
+import { createTimeline } from './scrollTimeline';
 
 const theme = createTheme({
   palette: {
@@ -29,26 +32,36 @@ const theme = createTheme({
 
 function LandingPage() {
   const { reduceMotion } = usePreferences();
-  const {
-    activeIndex,
-    heroScrollProgress,
-    showAccentHint,
-    minHeight,
-    portfolioProgress,
-    closingProgress,
-    projectIndex,
-    selectProject,
-    scrollShadowOpacity,
-    nextCheckpoint,
-    selectService,
-  } = useLandingSequence(serviceGroups.length, projects.length);
+  const scroll = useWindowScroll();
+  const service = useServiceSequence(scroll, serviceGroups.length);
+  const portfolio = usePortfolioSequence(
+    scroll,
+    serviceGroups.length,
+    projects.length,
+  );
+  const timeline = createTimeline(serviceGroups.length, projects.length);
+  const nextReducedMotion = () => {
+    if (service.manualIndex < serviceGroups.length - 1) {
+      service.nextManualService();
+    } else if (portfolio.manualIndex < projects.length) {
+      portfolio.nextManualProject();
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
           <GridBackground />
-          <Box component="main" sx={{ minHeight, position: 'relative' }}>
+          <Box
+            component="main"
+            sx={{
+              minHeight: reduceMotion
+                ? undefined
+                : `${(timeline.closingEnd + 1) * scroll.viewport}px`,
+              position: 'relative',
+            }}
+          >
             <Box
               sx={{
                 position: reduceMotion ? 'relative' : 'sticky',
@@ -57,21 +70,25 @@ function LandingPage() {
               }}
             >
               <ScrollHelp
-                scrollShadowOpacity={scrollShadowOpacity}
-                onNext={nextCheckpoint}
+                scrollShadowOpacity={portfolio.scrollShadowOpacity}
+                scroll={scroll}
+                timeline={timeline}
+                serviceCount={serviceGroups.length}
+                projectCount={projects.length}
+                onNextReducedMotion={nextReducedMotion}
               />
               <HeroSection
-                activeIndex={activeIndex}
-                scrollProgress={heroScrollProgress}
-                showAccentHint={showAccentHint}
-                exitProgress={portfolioProgress}
-                onSelectService={selectService}
+                activeIndex={service.activeIndex}
+                scrollProgress={service.heroScrollProgress}
+                showAccentHint={service.showAccentHint}
+                exitProgress={portfolio.progress}
+                onSelectService={service.selectService}
               />
               <Portfolio
-                progress={portfolioProgress}
-                closingProgress={closingProgress}
-                projectIndex={projectIndex}
-                onSelect={selectProject}
+                progress={portfolio.progress}
+                closingProgress={portfolio.closingProgress}
+                projectIndex={portfolio.projectIndex}
+                onSelect={portfolio.selectProject}
               />
             </Box>
           </Box>
