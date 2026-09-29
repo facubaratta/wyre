@@ -19,7 +19,7 @@ const theme = createTheme({
     text: { primary: '#ebe8de', secondary: '#a4a69d' },
     primary: { main: '#c2a27b' },
   },
-  typography: { fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' },
+  typography: { fontFamily: 'Manrope, Arial, sans-serif' },
   components: {
     MuiCssBaseline: {
       styleOverrides: {

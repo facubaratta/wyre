@@ -71,6 +71,7 @@ export const styles = {
     },
   },
   url: {
+    fontFamily: 'Arial, sans-serif',
     minWidth: 0,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
