@@ -19,16 +19,48 @@ export interface HeroLogoProps {
 }
 
 /** Animated wordmark that inherits its size and participates in its parent's layout. */
-export function HeroLogo({ style, label = 'Wyre', accent = DEFAULT_ACCENT, onAccentChange, showAccentHint = false, animationActive = true }: HeroLogoProps) {
+export function HeroLogo({
+  style,
+  label = 'Wyre',
+  accent = DEFAULT_ACCENT,
+  onAccentChange,
+  showAccentHint = false,
+  animationActive = true,
+}: HeroLogoProps) {
   const root = useRef<HTMLDivElement>(null);
   const id = `wyre-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   useLogoAnimation(root, animationActive);
 
   return (
-    <div ref={root} style={{ ...getAccentVariables(accent), display: 'inline-flex', verticalAlign: 'middle', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 700, lineHeight: 1, ...style }}>
-      <div role="group" aria-label={label} style={{ display: 'flex', alignItems: 'baseline', letterSpacing: '-.02em', userSelect: 'none' }}>
+    <div
+      ref={root}
+      style={{
+        ...getAccentVariables(accent),
+        display: 'inline-flex',
+        verticalAlign: 'middle',
+        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontWeight: 700,
+        lineHeight: 1,
+        ...style,
+      }}
+    >
+      <div
+        role="group"
+        aria-label={label}
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          letterSpacing: '-.02em',
+          userSelect: 'none',
+        }}
+      >
         <LitLetter letter="w" />
-        <YGlyph id={id} accent={accent} onAccentChange={onAccentChange} showAccentHint={showAccentHint} />
+        <YGlyph
+          id={id}
+          accent={accent}
+          onAccentChange={onAccentChange}
+          showAccentHint={showAccentHint}
+        />
         <LitLetter letter="r" />
         <LitLetter letter="e" />
       </div>

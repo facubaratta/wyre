@@ -53,21 +53,29 @@ export default function ContactLink({
         color: emphasized ? '#181a19' : '#ebe8de',
         fontSize: isHero
           ? { xs: 'clamp(16px, 4.4vw, 20px)', sm: 'clamp(20px, 1.8vw, 27px)' }
-          : isClosing ? { xs: 13, sm: 18 } : 14,
+          : isClosing
+            ? { xs: 13, sm: 18 }
+            : 14,
         lineHeight: 1.2,
         textDecoration: 'none',
         '&:hover': {
           borderColor: emphasized ? '#ebe8de' : 'var(--accent)',
           color: emphasized ? '#181a19' : 'var(--accent)',
         },
-        '&:focus-visible': { outline: '2px solid var(--accent)', outlineOffset: 4 },
+        '&:focus-visible': {
+          outline: '2px solid var(--accent)',
+          outlineOffset: 4,
+        },
       }}
     >
-      <Box component="span" sx={{
-        width: isHero ? { xs: 26, sm: 30 } : isClosing ? 26 : 22,
-        height: isHero ? { xs: 26, sm: 30 } : isClosing ? 26 : 22,
-        flexShrink: 0,
-      }}>
+      <Box
+        component="span"
+        sx={{
+          width: isHero ? { xs: 26, sm: 30 } : isClosing ? 26 : 22,
+          height: isHero ? { xs: 26, sm: 30 } : isClosing ? 26 : 22,
+          flexShrink: 0,
+        }}
+      >
         {children}
       </Box>
       <span>{title}</span>

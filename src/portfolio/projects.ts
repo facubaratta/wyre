@@ -11,11 +11,36 @@ import zurichMobile from './screenshots/Zurich mobile.jpg';
 import timeMobile from './screenshots/Time Magnitude mobile.jpg';
 
 export const projects = [
-  { name: 'Health & Harmony', url: 'https://hnhinsure.com/es', image: harmony, mobileImage: harmonyMobile },
-  { name: 'Finca Don Clemente', url: 'https://fincadonclemente.com', image: finca, mobileImage: fincaMobile },
-  { name: 'ProTennisSquash', url: 'https://protennis.com.ar', image: tennis, mobileImage: tennisMobile },
-  { name: 'Club Zurich', url: 'https://www.zurich.com.ar/clubzurich', image: zurich, mobileImage: zurichMobile },
-  { name: 'Time Magnitude', url: 'https://facubaratta.github.io/time/', image: time, mobileImage: timeMobile },
+  {
+    name: 'Health & Harmony',
+    url: 'https://hnhinsure.com/es',
+    image: harmony,
+    mobileImage: harmonyMobile,
+  },
+  {
+    name: 'Finca Don Clemente',
+    url: 'https://fincadonclemente.com',
+    image: finca,
+    mobileImage: fincaMobile,
+  },
+  {
+    name: 'ProTennisSquash',
+    url: 'https://protennis.com.ar',
+    image: tennis,
+    mobileImage: tennisMobile,
+  },
+  {
+    name: 'Club Zurich',
+    url: 'https://www.zurich.com.ar/clubzurich',
+    image: zurich,
+    mobileImage: zurichMobile,
+  },
+  {
+    name: 'Time Magnitude',
+    url: 'https://facubaratta.github.io/time/',
+    image: time,
+    mobileImage: timeMobile,
+  },
 ];
 
 export type Project = (typeof projects)[number];

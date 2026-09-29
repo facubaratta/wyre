@@ -7,7 +7,7 @@ import {
 import useAccentColor from './useAccentColor';
 import { useEffect, useState } from 'react';
 
-export default function useReducedMotion() {
+function useReducedMotion() {
   const [reduceMotion, setReduceMotion] = useState(
     () =>
       typeof window !== 'undefined' &&

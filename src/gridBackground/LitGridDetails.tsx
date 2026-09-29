@@ -1,5 +1,11 @@
 import { useMemo } from 'react';
-import { animationPhase, BASE_GRID_SIZE, GRID_ROWS, litCells, litNodes } from './gridConfig';
+import {
+  animationPhase,
+  BASE_GRID_SIZE,
+  GRID_ROWS,
+  litCells,
+  litNodes,
+} from './gridConfig';
 import { GlowGroup } from './GridLayers';
 
 type Props = {
@@ -10,14 +16,24 @@ type Props = {
   height: number;
 };
 
-export function LitGridDetails({ id, time, reducedMotion, cellSize, height }: Props) {
+export function LitGridDetails({
+  id,
+  time,
+  reducedMotion,
+  cellSize,
+  height,
+}: Props) {
   const scale = cellSize / BASE_GRID_SIZE;
   const visibleRows = Math.ceil(height / cellSize);
   const { cells, nodes } = useMemo(() => {
     const repeat = (points: readonly (readonly [number, number])[]) =>
       Array.from({ length: Math.ceil(visibleRows / GRID_ROWS) }, (_, tile) =>
-        points.map(([x, y]) => [x, y + tile * GRID_ROWS * BASE_GRID_SIZE] as const),
-      ).flat().filter(([, y]) => y / BASE_GRID_SIZE < visibleRows);
+        points.map(
+          ([x, y]) => [x, y + tile * GRID_ROWS * BASE_GRID_SIZE] as const,
+        ),
+      )
+        .flat()
+        .filter(([, y]) => y / BASE_GRID_SIZE < visibleRows);
     return { cells: repeat(litCells), nodes: repeat(litNodes) };
   }, [visibleRows]);
 
@@ -29,7 +45,7 @@ export function LitGridDetails({ id, time, reducedMotion, cellSize, height }: Pr
         const delay = animationPhase(column, row);
         const opacity = reducedMotion
           ? 0.08
-          : 0.18 + 0.18 * Math.sin((time - delay) * (2 * Math.PI / 7.4));
+          : 0.18 + 0.18 * Math.sin((time - delay) * ((2 * Math.PI) / 7.4));
 
         return (
           <rect
@@ -51,7 +67,7 @@ export function LitGridDetails({ id, time, reducedMotion, cellSize, height }: Pr
         const delay = animationPhase(column, row);
         const opacity = reducedMotion
           ? 0.36
-          : 0.57 + 0.43 * Math.sin((time - delay) * (2 * Math.PI / 7.4));
+          : 0.57 + 0.43 * Math.sin((time - delay) * ((2 * Math.PI) / 7.4));
 
         return (
           <circle

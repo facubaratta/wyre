@@ -28,7 +28,12 @@ type GridLinesProps = IdProps & { cellSize: number };
 
 export function GridLines({ id, cellSize }: GridLinesProps) {
   return (
-    <pattern id={`${id}-grid`} width={cellSize} height={cellSize} patternUnits="userSpaceOnUse">
+    <pattern
+      id={`${id}-grid`}
+      width={cellSize}
+      height={cellSize}
+      patternUnits="userSpaceOnUse"
+    >
       <path
         d={`M${cellSize} 0H0V${cellSize}`}
         fill="none"

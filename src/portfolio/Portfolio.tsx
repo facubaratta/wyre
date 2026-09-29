@@ -1,9 +1,9 @@
-import Box from "@mui/material/Box";
-import { projects } from "./projects";
-import ProjectBrowser from "./ProjectBrowser";
-import PortfolioNavigation from "./PortfolioNavigation";
-import { hiddenOnSmallOrShort, styles } from "./styles";
-import { usePreferences } from "../PreferencesProvider";
+import Box from '@mui/material/Box';
+import { projects } from './projects';
+import ProjectBrowser from './ProjectBrowser';
+import PortfolioNavigation from './PortfolioNavigation';
+import { hiddenOnSmallOrShort, styles } from './styles';
+import { usePreferences } from '../PreferencesProvider';
 
 interface Props {
   progress: number;
@@ -30,11 +30,15 @@ export default function Portfolio({
       aria-label="Portfolio"
       inert={!interactive}
       aria-hidden={!interactive}
-      sx={{ ...styles.portfolio, ...(reduceMotion ? { position: 'relative', minHeight: '100svh' } : {}), ...styles.focusable }}
+      sx={{
+        ...styles.portfolio,
+        ...(reduceMotion ? { position: 'relative', minHeight: '100svh' } : {}),
+        ...styles.focusable,
+      }}
       style={{
-        pointerEvents: interactive ? "auto" : "none",
+        pointerEvents: interactive ? 'auto' : 'none',
         opacity: reduceMotion ? 1 : progress,
-        visibility: visible ? "visible" : "hidden",
+        visibility: visible ? 'visible' : 'hidden',
         transform: reduceMotion
           ? undefined
           : `translateY(${(1 - progress) * 12}svh)`,
@@ -42,12 +46,28 @@ export default function Portfolio({
     >
       <Box sx={styles.assembly}>
         <Box sx={styles.monitor}>
-          <ProjectBrowser project={project} projects={projects} projectIndex={projectIndex} closingProgress={closingProgress} loadImages={visible} />
+          <ProjectBrowser
+            project={project}
+            projects={projects}
+            projectIndex={projectIndex}
+            closingProgress={closingProgress}
+            loadImages={visible}
+          />
         </Box>
-        <Box aria-hidden="true" sx={{ ...styles.stand, ...hiddenOnSmallOrShort }} />
-        <Box aria-hidden="true" sx={{ ...styles.foot, ...hiddenOnSmallOrShort }} />
+        <Box
+          aria-hidden="true"
+          sx={{ ...styles.stand, ...hiddenOnSmallOrShort }}
+        />
+        <Box
+          aria-hidden="true"
+          sx={{ ...styles.foot, ...hiddenOnSmallOrShort }}
+        />
         {reduceMotion && (
-          <PortfolioNavigation selectedIndex={selectedIndex} projectIndex={projectIndex} onSelect={onSelect} />
+          <PortfolioNavigation
+            selectedIndex={selectedIndex}
+            projectIndex={projectIndex}
+            onSelect={onSelect}
+          />
         )}
       </Box>
     </Box>

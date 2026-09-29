@@ -1,7 +1,6 @@
-import Box from "@mui/material/Box";
-import ServiceIcon from "./ServiceIcon";
-import type { ServiceFeature } from "./serviceGroups";
-import { usePreferences } from "../../PreferencesProvider";
+import Box from '@mui/material/Box';
+import ServiceIcon from './ServiceIcon';
+import type { ServiceFeature } from './serviceGroups';
 
 interface Props {
   subsections: ServiceFeature[];
@@ -9,17 +8,25 @@ interface Props {
 }
 
 const railSx = {
-  display: "flex",
-  alignItems: "center",
-  gap: "var(--section-icon-gap)",
-  ml: "auto",
+  display: 'flex',
+  alignItems: 'center',
+  gap: 'var(--section-icon-gap)',
+  ml: 'auto',
   flexShrink: 0,
 };
 
 export default function ServiceIconRail({ subsections, open }: Props) {
-  const { reduceMotion } = usePreferences();
   return (
-    <Box component="span" sx={{ ...railSx, ...(open ? { width: 0, overflow: "hidden", ml: 0 } : {}), "--section-icon-size": open ? "var(--open-icon-size)" : "var(--closed-icon-size)" }}>
+    <Box
+      component="span"
+      sx={{
+        ...railSx,
+        ...(open ? { width: 0, overflow: 'hidden', ml: 0 } : {}),
+        '--section-icon-size': open
+          ? 'var(--open-icon-size)'
+          : 'var(--closed-icon-size)',
+      }}
+    >
       {subsections.map((subsection, index) => (
         <ServiceIcon
           key={subsection.title}

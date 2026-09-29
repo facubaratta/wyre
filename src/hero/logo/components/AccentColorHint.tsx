@@ -1,23 +1,23 @@
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
 
 const sx = (visible: boolean) => ({
-  position: "absolute",
-  top: "calc(30% - 76px)",
-  left: "45%",
-  width: "100px",
-  height: "76px",
-  pointerEvents: "none",
+  position: 'absolute',
+  top: 'calc(30% - 76px)',
+  left: '45%',
+  width: '100px',
+  height: '76px',
+  pointerEvents: 'none',
   opacity: visible ? 1 : 0,
-  transform: visible ? "translateY(0)" : "translateY(5px)",
-  transition: "opacity 500ms ease, transform 650ms cubic-bezier(.22,1,.36,1)",
-  "@media (prefers-reduced-motion: reduce)": { transition: "none" },
-  color: "var(--accent-light)",
+  transform: visible ? 'translateY(0)' : 'translateY(5px)',
+  transition: 'opacity 500ms ease, transform 650ms cubic-bezier(.22,1,.36,1)',
+  '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+  color: 'var(--accent-light)',
   fontFamily: '\"Bradley Hand\", \"Segoe Print\", \"Chalkboard SE\", cursive',
   fontWeight: 400,
-  fontSize: "clamp(18px, 1.5vw, 24px)",
+  fontSize: 'clamp(18px, 1.5vw, 24px)',
   letterSpacing: 0,
   lineHeight: 1.2,
-  whiteSpace: "nowrap",
+  whiteSpace: 'nowrap',
 });
 
 const Arrow = () => (
@@ -27,10 +27,10 @@ const Arrow = () => (
     viewBox="0 0 76 58"
     focusable="false"
     style={{
-      position: "absolute",
-      top: "24px",
-      left: "-34px",
-      overflow: "visible",
+      position: 'absolute',
+      top: '24px',
+      left: '-34px',
+      overflow: 'visible',
     }}
   >
     <path
@@ -49,7 +49,7 @@ export function AccentColorHint({ visible }: { visible: boolean }) {
     <Box component="span" aria-hidden="true" sx={sx(visible)}>
       <Box
         component="span"
-        sx={{ display: "block", transform: "rotate(-9deg)" }}
+        sx={{ display: 'block', transform: 'rotate(-9deg)' }}
       >
         click me
       </Box>

@@ -4,14 +4,37 @@ export function SvgDefinitions({ id }: { id: string }) {
   return (
     <defs>
       <clipPath id={`${id}-glyph`}>
-        <text x="0" y="846.5" fontFamily="Arial,Helvetica,sans-serif" fontSize="1000" fontWeight="700">y</text>
+        <text
+          x="0"
+          y="846.5"
+          fontFamily="Arial,Helvetica,sans-serif"
+          fontSize="1000"
+          fontWeight="700"
+        >
+          y
+        </text>
       </clipPath>
-      <filter id={`${id}-diffusion`} x="-30%" y="-30%" width="160%" height="160%">
+      <filter
+        id={`${id}-diffusion`}
+        x="-30%"
+        y="-30%"
+        width="160%"
+        height="160%"
+      >
         <feGaussianBlur stdDeviation="3.8" />
       </filter>
-      <filter id={`${id}-point-glow`} x="-400%" y="-400%" width="900%" height="900%">
+      <filter
+        id={`${id}-point-glow`}
+        x="-400%"
+        y="-400%"
+        width="900%"
+        height="900%"
+      >
         <feGaussianBlur stdDeviation="6" result="halo" />
-        <feMerge><feMergeNode in="halo" /><feMergeNode in="SourceGraphic" /></feMerge>
+        <feMerge>
+          <feMergeNode in="halo" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
       </filter>
       <radialGradient id={`${id}-packet-light`}>
         <stop stopColor="var(--accent-light)" stopOpacity=".9" />
@@ -28,7 +51,13 @@ export function SvgDefinitions({ id }: { id: string }) {
         <stop offset="1" stopColor="var(--accent-dark)" stopOpacity="0" />
       </radialGradient>
       {ROUTES.map((route, i) => (
-        <path key={i} id={`${id}-route-${i}`} data-route={i} d={route.d} pathLength="1" />
+        <path
+          key={i}
+          id={`${id}-route-${i}`}
+          data-route={i}
+          d={route.d}
+          pathLength="1"
+        />
       ))}
     </defs>
   );

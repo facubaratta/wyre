@@ -12,7 +12,13 @@ interface Props {
   loadImages: boolean;
 }
 
-export default function ProjectBrowser({ project, projects, projectIndex, closingProgress, loadImages }: Props) {
+export default function ProjectBrowser({
+  project,
+  projects,
+  projectIndex,
+  closingProgress,
+  loadImages,
+}: Props) {
   const showClosing = closingProgress >= 0.5;
 
   return (
@@ -20,11 +26,18 @@ export default function ProjectBrowser({ project, projects, projectIndex, closin
       <BrowserToolbar project={project} closing={showClosing} />
       <Box sx={styles.display}>
         <Box sx={{ ...styles.screenshots, opacity: 1 - closingProgress }}>
-          <ProjectScreenshots projects={projects} projectIndex={projectIndex} closing={showClosing} enabled={loadImages} />
+          <ProjectScreenshots
+            projects={projects}
+            projectIndex={projectIndex}
+            closing={showClosing}
+            enabled={loadImages}
+          />
         </Box>
         <ClosingScreen progress={closingProgress} />
       </Box>
-      <Box sx={styles.chin}><span /></Box>
+      <Box sx={styles.chin}>
+        <span />
+      </Box>
     </>
   );
 }

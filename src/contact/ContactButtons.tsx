@@ -15,7 +15,14 @@ const iconProps = {
 
 function EmailIcon() {
   return (
-    <svg {...iconProps} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      {...iconProps}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="m3 6 9 7 9-7" />
     </svg>
@@ -51,18 +58,27 @@ const containerSx = (placement: Placement) => ({
   mt: 5,
   display: 'flex',
   flexWrap: 'wrap',
-  gap: placement === 'hero'
-    ? { xs: '10px', sm: '16px' }
-    : placement === 'closing'
-      ? { xs: '8px', sm: '14px' }
-      : '10px',
+  gap:
+    placement === 'hero'
+      ? { xs: '10px', sm: '16px' }
+      : placement === 'closing'
+        ? { xs: '8px', sm: '14px' }
+        : '10px',
   ...(placement === 'hero' ? { justifyContent: 'center' } : {}),
   ...(placement === 'closing' ? { width: { xs: '100%', sm: 'auto' } } : {}),
 });
 
-export default function ContactButtons({ placement = 'default' }: { placement?: Placement }) {
+export default function ContactButtons({
+  placement = 'default',
+}: {
+  placement?: Placement;
+}) {
   return (
-    <Box component="nav" aria-label="Contactar a Wyre" sx={containerSx(placement)}>
+    <Box
+      component="nav"
+      aria-label="Contactar a Wyre"
+      sx={containerSx(placement)}
+    >
       {contactLinks.map(({ icon, emphasized = false, ...link }) => (
         <ContactLink
           key={link.href}

@@ -22,24 +22,25 @@ export default function GridBackground() {
         backgroundColor: '#181a19',
         '--grid-cell': '10vw',
         '@keyframes grid-tide': {
-          '0%, 100%': { opacity: .65 },
+          '0%, 100%': { opacity: 0.65 },
           '50%': { opacity: 1 },
         },
         '@keyframes horizontal-current': {
           '0%': { transform: 'translateX(-30vw)', opacity: 0 },
-          '12%, 78%': { opacity: .55 },
+          '12%, 78%': { opacity: 0.55 },
           '100%': { transform: 'translateX(110vw)', opacity: 0 },
         },
         '@keyframes vertical-current': {
           '0%': { transform: 'translateY(-30svh)', opacity: 0 },
-          '12%, 78%': { opacity: .45 },
+          '12%, 78%': { opacity: 0.45 },
           '100%': { transform: 'translateY(110svh)', opacity: 0 },
         },
         '&::before': {
           content: '""',
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'linear-gradient(rgba(235,232,222,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(235,232,222,.045) 1px, transparent 1px)',
+          backgroundImage:
+            'linear-gradient(rgba(235,232,222,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(235,232,222,.045) 1px, transparent 1px)',
           backgroundSize: 'var(--grid-cell) var(--grid-cell)',
           animation: 'grid-tide 18s ease-in-out infinite',
         },
