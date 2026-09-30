@@ -13,7 +13,7 @@ const heroSx = {
   justifyContent: 'space-between',
   gap: '5vw',
   minHeight: '100svh',
-  px: '7vw',
+  px: '6.5vw',
   py: '8vh',
   color: 'text.primary',
   '.hero-contact': { marginTop: '3vh' },
