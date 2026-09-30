@@ -7,6 +7,9 @@ import {
 } from './scrollTimeline';
 import type { WindowScroll } from './useWindowScroll';
 
+const createCheckpoints = (length: number, start: number, distance: number) =>
+  Array.from({ length }, (_, index) => start + index * distance);
+
 interface Options {
   scroll: WindowScroll;
   serviceCount: number;
@@ -45,23 +48,25 @@ export default function useScrollCheckpoints({
     }
   }, [scroll.y]);
 
+  const serviceCheckpoints = createCheckpoints(
+    serviceCount,
+    SERVICE_START + CHECKPOINT_OFFSET,
+    SERVICE_DISTANCE,
+  );
+
+  const projectCheckpoints = createCheckpoints(
+    projectCount,
+    projectsStart + CHECKPOINT_OFFSET,
+    PROJECT_DISTANCE,
+  );
+
   const checkpoints = [
-    ...Array.from(
-      { length: serviceCount },
-      (_, index) =>
-        SERVICE_START + index * SERVICE_DISTANCE + CHECKPOINT_OFFSET,
-    ),
+    ...serviceCheckpoints,
     hintStart + CHECKPOINT_OFFSET,
     projectsStart + CHECKPOINT_OFFSET,
-    ...Array.from(
-      { length: projectCount },
-      (_, index) =>
-        projectsStart + index * PROJECT_DISTANCE + CHECKPOINT_OFFSET,
-    ),
+    ...projectCheckpoints,
     pageBottom / scroll.viewport,
-  ].filter(
-    (point, index, points) => index === 0 || point !== points[index - 1],
-  );
+  ];
 
   const nextCheckpoint = () => {
     if (reduceMotion) {
