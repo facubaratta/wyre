@@ -57,14 +57,22 @@ export default function useScrollCheckpoints({
       if (
         event.key === ' ' &&
         event.target instanceof Element &&
-        event.target.closest('button, input, textarea, select, [contenteditable]')
+        event.target.closest(
+          'button, input, textarea, select, [contenteditable]',
+        )
       ) {
         return;
       }
       if (
-        ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(
-          event.key,
-        )
+        [
+          'ArrowUp',
+          'ArrowDown',
+          'PageUp',
+          'PageDown',
+          'Home',
+          'End',
+          ' ',
+        ].includes(event.key)
       ) {
         clearPending();
       }
