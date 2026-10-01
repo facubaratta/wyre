@@ -52,9 +52,9 @@ export default function ContactLink({
         background: emphasized ? 'var(--accent)' : '#181a19',
         color: emphasized ? '#181a19' : '#ebe8de',
         fontSize: isHero
-          ? { xs: 'clamp(16px, 4.4vw, 20px)', sm: 'clamp(20px, 1.8vw, 27px)' }
+          ? { xs: 'clamp(16px, 5vw, 20px)', sm: 'clamp(20px, 1.8vw, 27px)' }
           : isClosing
-            ? { xs: 13, sm: 18 }
+            ? { xs: 16, sm: 18 }
             : 14,
         lineHeight: 1.2,
         textDecoration: 'none',
