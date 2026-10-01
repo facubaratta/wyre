@@ -32,21 +32,55 @@ export default function useScrollCheckpoints({
   onNextReducedMotion,
 }: Options) {
   const pendingPosition = useRef<number | null>(null);
+  const previousY = useRef(scroll.y);
   const pageBottom = Math.max(
     document.documentElement.scrollHeight - scroll.viewport,
     0,
   );
   useEffect(() => {
+    const movingUp = scroll.y < previousY.current;
+    previousY.current = scroll.y;
     const pending = pendingPosition.current;
     if (pending === null) return;
 
-    // Keep the target while smooth scrolling toward it. If the user interrupts
-    // that motion, discard the stale target so the next click uses their position.
-    const distance = Math.abs(scroll.y - pending);
-    if (distance < 2 || (distance > 2 && scroll.y < pending - 2)) {
+    // Downward animation keeps its target until arrival or a reversal.
+    if (scroll.y >= pending - 2 || movingUp) {
       pendingPosition.current = null;
     }
   }, [scroll.y]);
+
+  useEffect(() => {
+    const clearPending = () => {
+      pendingPosition.current = null;
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === ' ' &&
+        event.target instanceof Element &&
+        event.target.closest('button, input, textarea, select, [contenteditable]')
+      ) {
+        return;
+      }
+      if (
+        ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(
+          event.key,
+        )
+      ) {
+        clearPending();
+      }
+    };
+
+    window.addEventListener('wheel', clearPending, { passive: true });
+    window.addEventListener('touchstart', clearPending, { passive: true });
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('resize', clearPending);
+    return () => {
+      window.removeEventListener('wheel', clearPending);
+      window.removeEventListener('touchstart', clearPending);
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('resize', clearPending);
+    };
+  }, []);
 
   const serviceCheckpoints = createCheckpoints(
     serviceCount,
@@ -75,6 +109,7 @@ export default function useScrollCheckpoints({
     }
 
     if (atEnd) {
+      pendingPosition.current = null;
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -82,9 +117,8 @@ export default function useScrollCheckpoints({
     const current =
       (pendingPosition.current ?? window.scrollY) / scroll.viewport;
     const next = checkpoints.find((point) => point > current + 0.02);
-    if (next === undefined) return;
-
-    pendingPosition.current = next * scroll.viewport;
+    pendingPosition.current =
+      next === undefined ? pageBottom : next * scroll.viewport;
     window.scrollTo({ top: pendingPosition.current, behavior: 'smooth' });
   };
 
