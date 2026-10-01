@@ -29,22 +29,20 @@ const styles = {
     height: '30px',
     display: 'grid',
     placeItems: 'center',
-    '& span': {
-      width: '4px',
-      height: '4px',
-      background: 'var(--accent)',
-      borderRadius: '50%',
-    },
-    '@media (max-width:640px)': {
-      height: '26px',
-      '& span': {
-        width: '32%',
-        height: '3px',
-        borderRadius: '8px',
-        background: '#a4a69d',
-      },
-    },
+    '@media (max-width:640px)': { height: '26px' },
     '@media (min-width:641px) and (max-height:500px)': { height: '12px' },
+  },
+  indicator: {
+    width: '4px',
+    height: '4px',
+    background: 'var(--accent)',
+    borderRadius: '50%',
+    '@media (max-width:640px)': {
+      width: '32%',
+      height: '3px',
+      borderRadius: '8px',
+      background: '#a4a69d',
+    },
   },
 } satisfies Record<string, SxProps<Theme>>;
 
@@ -80,7 +78,7 @@ export default function ProjectBrowser({
         <ClosingScreen progress={closingProgress} />
       </Box>
       <Box sx={styles.chin}>
-        <span />
+        <Box component="span" sx={styles.indicator} />
       </Box>
     </>
   );

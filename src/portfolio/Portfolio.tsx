@@ -40,16 +40,6 @@ const styles = {
       borderRadius: '36px',
       p: '10px 6px 0',
       borderColor: '#74766d',
-      '&::before': {
-        content: '""',
-        display: 'block',
-        width: '27%',
-        height: '9px',
-        mx: 'auto',
-        mb: '12px',
-        borderRadius: '20px',
-        background: '#0e100f',
-      },
     },
   },
   stand: {
@@ -67,11 +57,15 @@ const styles = {
     borderRadius: '3px',
     background: '#202321',
   },
-  focusable: {
-    '& a:focus-visible, & button:focus-visible': {
-      outline: '2px solid var(--accent)',
-      outlineOffset: '4px',
-    },
+  notch: {
+    display: 'none',
+    width: '27%',
+    height: '9px',
+    mx: 'auto',
+    mb: '12px',
+    borderRadius: '20px',
+    background: '#0e100f',
+    '@media (max-width:640px)': { display: 'block' },
   },
 } satisfies Record<string, SxProps<Theme>>;
 
@@ -98,7 +92,6 @@ export default function Portfolio() {
       sx={{
         ...styles.portfolio,
         ...(reduceMotion ? { position: 'relative', minHeight: '100svh' } : {}),
-        ...styles.focusable,
       }}
       style={{
         pointerEvents: interactive ? 'auto' : 'none',
@@ -111,6 +104,7 @@ export default function Portfolio() {
     >
       <Box sx={styles.assembly}>
         <Box sx={styles.monitor}>
+          <Box aria-hidden="true" sx={styles.notch} />
           <ProjectBrowser
             project={project}
             projects={projects}

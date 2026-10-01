@@ -15,17 +15,16 @@ const closingSx = {
   p: '5%',
   color: '#ebe8de',
   background: '#181a19',
-  '& h1': {
-    m: 0,
-    py: '5%',
-    borderTop: '1px solid rgba(235,232,222,.22)',
-    fontSize: 'clamp(20px, 12cqw, 65px)',
-    fontWeight: 400,
-    lineHeight: 1.18,
-    letterSpacing: '-.05em',
-    '& span': { display: 'block' },
-    '& em': { color: 'var(--accent)', fontStyle: 'normal' },
-  },
+} satisfies SxProps<Theme>;
+
+const headingSx = {
+  m: 0,
+  py: '5%',
+  borderTop: '1px solid rgba(235,232,222,.22)',
+  fontSize: 'clamp(20px, 12cqw, 65px)',
+  fontWeight: 400,
+  lineHeight: 1.18,
+  letterSpacing: '-.05em',
 } satisfies SxProps<Theme>;
 
 export default function ClosingScreen({ progress }: { progress: number }) {
@@ -47,13 +46,41 @@ export default function ClosingScreen({ progress }: { progress: number }) {
           : `translateY(${(1 - progress) * 6}%)`,
       }}
     >
-      <h1
+      <Box
+        component="h1"
+        sx={headingSx}
         id="closing-heading"
         aria-label="Tu próxima web, app o perfil en redes sociales"
       >
-        Tu próxima <em>web</em>, <em>app</em> o <em>perfil</em> en{' '}
-        <em>redes sociales</em>
-      </h1>
+        Tu próxima{' '}
+        <Box
+          component="em"
+          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
+        >
+          web
+        </Box>
+        ,{' '}
+        <Box
+          component="em"
+          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
+        >
+          app
+        </Box>{' '}
+        o{' '}
+        <Box
+          component="em"
+          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
+        >
+          perfil
+        </Box>{' '}
+        en{' '}
+        <Box
+          component="em"
+          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
+        >
+          redes sociales
+        </Box>
+      </Box>
       <ContactButtons placement="closing" />
     </Box>
   );
