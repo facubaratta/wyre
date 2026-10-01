@@ -6,7 +6,7 @@ import HeroContact from './HeroContact';
 import { usePreferences } from '../PreferencesProvider';
 import { useLandingSequence } from '../LandingSequenceProvider';
 
-const heroSx = {
+const heroSx = (reduceMotion: boolean, exitProgress: number) => ({
   position: 'relative',
   zIndex: 1,
   display: 'flex',
@@ -17,7 +17,6 @@ const heroSx = {
   px: '6.5vw',
   py: '8vh',
   color: 'text.primary',
-  '.hero-contact': { marginTop: '3vh' },
   '@media (max-width:640px)': {
     display: 'flex',
     flexDirection: 'column',
@@ -26,12 +25,13 @@ const heroSx = {
     px: '8vw',
     pt: 'calc(122px + 6svh)',
     pb: '3svh',
-    '.hero-contact': {
-      alignSelf: 'stretch',
-      marginTop: 'clamp(12px, 2svh, 22px)',
-    },
   },
-} as const;
+  height: reduceMotion ? 'auto' : '100svh',
+  overflow: reduceMotion ? 'visible' : 'hidden',
+  opacity: reduceMotion ? 1 : 1 - exitProgress,
+  visibility: !reduceMotion && exitProgress === 1 ? 'hidden' : 'visible',
+  transform: reduceMotion ? 'none' : `translateY(${-exitProgress * 8}svh)`,
+});
 
 export default function HeroSection() {
   const { service, portfolio } = useLandingSequence();
@@ -78,16 +78,7 @@ export default function HeroSection() {
       ref={root}
       inert={!reduceMotion && exitProgress >= 0.5}
       aria-hidden={!reduceMotion && exitProgress >= 0.5}
-      sx={{
-        ...heroSx,
-        height: reduceMotion ? 'auto' : '100svh',
-        overflow: reduceMotion ? 'visible' : 'hidden',
-        opacity: reduceMotion ? 1 : 1 - exitProgress,
-        visibility: !reduceMotion && exitProgress === 1 ? 'hidden' : 'visible',
-        transform: reduceMotion
-          ? undefined
-          : `translateY(${-exitProgress * 8}svh)`,
-      }}
+      sx={heroSx(reduceMotion, exitProgress)}
     >
       <HeroContact />
       <ServiceHighlights activeIndex={activeIndex} onSelect={onSelectService} />

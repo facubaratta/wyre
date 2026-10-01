@@ -6,6 +6,14 @@ import { YGlyph } from './components/YGlyph';
 import { useLogoAnimation } from './useLogoAnimation';
 import { DEFAULT_ACCENT, getAccentVariables } from '../../useAccentColor';
 
+const logoStyle = {
+  display: 'inline-flex',
+  verticalAlign: 'middle',
+  fontFamily: 'Arial, Helvetica, sans-serif',
+  fontWeight: 700,
+  lineHeight: 1,
+} satisfies CSSProperties;
+
 export interface HeroLogoProps {
   accent?: string;
   showAccentHint?: boolean;
@@ -34,15 +42,7 @@ export function HeroLogo({
   return (
     <div
       ref={root}
-      style={{
-        ...getAccentVariables(accent),
-        display: 'inline-flex',
-        verticalAlign: 'middle',
-        fontFamily: 'Arial, Helvetica, sans-serif',
-        fontWeight: 700,
-        lineHeight: 1,
-        ...style,
-      }}
+      style={{ ...logoStyle, ...getAccentVariables(accent), ...style }}
     >
       <div
         role="group"
