@@ -79,12 +79,13 @@ export default function useScrollCheckpoints({
     };
 
     window.addEventListener('wheel', clearPending, { passive: true });
-    window.addEventListener('touchstart', clearPending, { passive: true });
+    // A tap can request the next checkpoint; only a drag interrupts scrolling.
+    window.addEventListener('touchmove', clearPending, { passive: true });
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('resize', clearPending);
     return () => {
       window.removeEventListener('wheel', clearPending);
-      window.removeEventListener('touchstart', clearPending);
+      window.removeEventListener('touchmove', clearPending);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('resize', clearPending);
     };
