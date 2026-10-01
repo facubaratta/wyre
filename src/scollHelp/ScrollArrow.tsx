@@ -115,9 +115,10 @@ const ScrollArrow = () => {
         bottom: ARROW_BOTTOM_OFFSET,
         width: 0,
         height: 0,
-        animation: !atEnd
-          ? 'scroll-help-bounce 1.4s ease-in-out infinite'
-          : 'none',
+        animation:
+          !reduceMotion && !atEnd
+            ? 'scroll-help-bounce 1.4s ease-in-out infinite'
+            : 'none',
       }}
     >
       <IconButton
