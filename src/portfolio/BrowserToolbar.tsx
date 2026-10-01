@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import useControlState from '../useControlState';
 import type { SVGProps } from 'react';
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { Project } from './projects';
@@ -32,7 +33,6 @@ const styles = {
       px: '8px',
       gap: '6px',
       borderRadius: '8px',
-      '& svg': { width: '12px' },
     },
   },
   url: {
@@ -56,9 +56,20 @@ const styles = {
     fontSize: '28px',
     textDecoration: 'none',
     '@media (max-width:640px)': { width: '36px', fontSize: '24px' },
-    '&:hover': { color: '#ebe8de' },
   },
 } satisfies Record<string, SxProps<Theme>>;
+
+const visitSx = (
+  closing: boolean,
+  hovered: boolean,
+  focusVisible: boolean,
+) => ({
+  ...styles.visit,
+  ...(closing ? hiddenToolbarPart : {}),
+  color: hovered ? '#ebe8de' : 'var(--accent)',
+  outline: focusVisible ? '2px solid var(--accent)' : 'none',
+  outlineOffset: '4px',
+});
 
 const iconSx: Pick<
   SVGProps<SVGSVGElement>,
@@ -71,10 +82,16 @@ const iconSx: Pick<
 };
 
 const LockIcon = () => (
-  <svg {...iconSx} width="18" height="18" strokeWidth="1.4">
+  <Box
+    component="svg"
+    {...iconSx}
+    height="18"
+    strokeWidth="1.4"
+    sx={{ width: '18px', '@media (max-width:640px)': { width: '12px' } }}
+  >
     <rect x="4.5" y="8.5" width="11" height="8" rx="2" />
     <path d="M7 8.5V6a3 3 0 0 1 6 0v2.5" />
-  </svg>
+  </Box>
 );
 
 const ArrowIcon = () => (
@@ -98,6 +115,7 @@ export default function BrowserToolbar({
   project: Project;
   closing: boolean;
 }) {
+  const { hovered, focusVisible, events } = useControlState();
   return (
     <Box sx={styles.toolbar} aria-hidden={closing} inert={closing}>
       <Box sx={styles.address}>
@@ -114,7 +132,8 @@ export default function BrowserToolbar({
         href={project.url}
         target="_blank"
         rel="noopener noreferrer"
-        sx={{ ...styles.visit, ...(closing ? hiddenToolbarPart : {}) }}
+        {...events}
+        sx={visitSx(closing, hovered, focusVisible)}
         aria-label={`Open ${project.name} in a new tab`}
         title="Open website in a new tab"
       >

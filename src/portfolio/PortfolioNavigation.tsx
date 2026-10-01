@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
+import PortfolioNavigationButton from './PortfolioNavigationButton';
 import { projects } from './projects';
 
 const navigationSx = {
@@ -7,18 +8,6 @@ const navigationSx = {
   justifyContent: 'center',
   gap: '24px',
   mt: '22px',
-  '& button': {
-    font: 'inherit',
-    fontSize: '24px',
-    width: '44px',
-    height: '44px',
-    p: 0,
-    color: 'var(--accent)',
-    background: 'transparent',
-    border: 0,
-    cursor: 'pointer',
-    '&:disabled': { opacity: 0.25, cursor: 'default' },
-  },
 } satisfies SxProps<Theme>;
 
 interface Props {
@@ -34,14 +23,14 @@ export default function PortfolioNavigation({
 }: Props) {
   return (
     <Box component="nav" sx={navigationSx} aria-label="Portfolio projects">
-      <button
+      <PortfolioNavigationButton
         onClick={() => onSelect(Math.max(0, selectedIndex - 1))}
         disabled={selectedIndex === 0}
         aria-label="Previous project"
       >
         ←
-      </button>
-      <button
+      </PortfolioNavigationButton>
+      <PortfolioNavigationButton
         onClick={() => onSelect(Math.min(projects.length, selectedIndex + 1))}
         disabled={selectedIndex === projects.length}
         aria-label={
@@ -51,7 +40,7 @@ export default function PortfolioNavigation({
         }
       >
         →
-      </button>
+      </PortfolioNavigationButton>
     </Box>
   );
 }
