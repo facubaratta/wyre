@@ -21,7 +21,6 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         '::selection': { background: 'var(--accent)', color: '#181a19' },
-        body: { overscrollBehavior: 'none' },
       },
     },
   },
