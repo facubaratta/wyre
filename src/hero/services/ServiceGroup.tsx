@@ -88,24 +88,26 @@ export default function ServiceGroup({
       component="section"
       ref={sectionRef}
       aria-labelledby={headingId}
-      sx={{
-        ...sectionSx,
-        '&::before': {
-          ...beforeSx,
-          transform: open ? 'scaleX(1)' : 'scaleX(0)',
-          transition: reduceMotion ? 'none' : beforeTransition,
+      sx={[
+        sectionSx,
+        {
+          '&::before': {
+            ...beforeSx,
+            transform: open ? 'scaleX(1)' : 'scaleX(0)',
+            transition: reduceMotion ? 'none' : beforeTransition,
+          },
+          '& h2': {
+            color: 'text.primary',
+            transition: reduceMotion ? 'none' : 'color 450ms ease',
+          },
+          '&:hover h2': { color: 'text.primary' },
+          py: open ? groupStyle.openPadding : undefined,
+          mb: open ? 0 : groupStyle.closedOverlap,
+          '@media (max-width:640px)': {
+            py: open ? groupStyle.mobile.openPadding : 0,
+          },
         },
-        '& h2': {
-          color: 'text.primary',
-          transition: reduceMotion ? 'none' : 'color 450ms ease',
-        },
-        '&:hover h2': { color: 'text.primary' },
-        py: open ? groupStyle.openPadding : undefined,
-        mb: open ? 0 : groupStyle.closedOverlap,
-        '@media (max-width:640px)': {
-          py: open ? groupStyle.mobile.openPadding : 0,
-        },
-      }}
+      ]}
     >
       <ServiceEnergyWires sectionRef={sectionRef} open={open} />
       <ServiceGroupHeading
