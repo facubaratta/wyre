@@ -4,7 +4,7 @@ import GridBackground from './gridBackground/GridBackground';
 import { PreferencesProvider, usePreferences } from './PreferencesProvider';
 import HeroSection from './hero/HeroSection';
 import Portfolio from './portfolio/Portfolio';
-import ScrollArrow from './scollHelp/Arrow';
+import ScrollArrow from './scollHelp/ScrollArrow';
 import ScrollShadow from './scollHelp/ScrollShadow';
 import { LandingSequenceProvider } from './LandingSequenceProvider';
 import { useLandingSequence } from './LandingSequenceProvider';

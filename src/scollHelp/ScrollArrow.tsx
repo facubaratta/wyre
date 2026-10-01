@@ -5,19 +5,25 @@ import { useLandingSequence } from '../LandingSequenceProvider';
 import { serviceGroups } from '../hero/services/serviceGroups';
 import { projects } from '../portfolio/projects';
 
+const ARROW_SIZE = 'clamp(50px, 20vw, 100px)';
+const ARROW_BOTTOM_OFFSET = '6.5vh';
+const ARROW_CIRCLE_RADIUS = 15;
+
+const ARROW_CIRCLE_DIAMETER = `${(ARROW_CIRCLE_RADIUS / 24) * 100}%`;
+const ARROW_CIRCLE_CIRCUMFERENCE = 2 * Math.PI * ARROW_CIRCLE_RADIUS;
 const Circle = ({ atEnd }: { atEnd: boolean }) => (
   <Box
     component="circle"
     cx="24"
     cy="24"
-    r="20"
+    r={ARROW_CIRCLE_RADIUS}
     fill="none"
     stroke="currentColor"
     strokeWidth="1.5"
-    strokeDasharray="126"
+    strokeDasharray={ARROW_CIRCLE_CIRCUMFERENCE}
     sx={{
       opacity: atEnd ? 1 : 0,
-      strokeDashoffset: atEnd ? 0 : 126,
+      strokeDashoffset: atEnd ? 0 : ARROW_CIRCLE_CIRCUMFERENCE,
       transform: 'rotate(-90deg)',
       transformOrigin: 'center',
       animation: atEnd ? 'scroll-help-draw-circle 650ms linear both' : 'none',
@@ -28,7 +34,7 @@ const Circle = ({ atEnd }: { atEnd: boolean }) => (
 const DirectionArrow = ({ atEnd }: { atEnd: boolean }) => (
   <Box
     component="path"
-    d={atEnd ? 'M18 24h12m-5-5 5 5-5 5' : 'M18 20l6 6 6-6'}
+    d="M18 21l6 6 6-6"
     fill="none"
     stroke="currentColor"
     strokeWidth="3.5"
@@ -54,7 +60,7 @@ const ArrowIcon = ({ atEnd }: { atEnd: boolean }) => (
       overflow: 'visible',
       color: 'rgba(var(--accent-rgb), .85)',
       '@keyframes scroll-help-draw-circle': {
-        from: { strokeDashoffset: 126 },
+        from: { strokeDashoffset: ARROW_CIRCLE_CIRCUMFERENCE },
         to: { strokeDashoffset: 0 },
       },
     }}
@@ -88,13 +94,16 @@ const ScrollArrow = () => {
   });
 
   const onClick = () => {
-    reduceMotion ? onNextReducedMotion() : nextCheckpoint();
+    if (reduceMotion) {
+      onNextReducedMotion();
+      return;
+    }
+
+    nextCheckpoint();
   };
 
   return (
-    <IconButton
-      aria-label={atEnd ? 'Scroll to top' : 'Scroll to the next section'}
-      onClick={onClick}
+    <Box
       sx={{
         '@keyframes scroll-help-bounce': {
           '0%, 100%': { translate: '0 0' },
@@ -103,17 +112,54 @@ const ScrollArrow = () => {
         position: 'fixed',
         zIndex: 1300,
         left: '50%',
-        bottom: 'clamp(25px, 4.5vh, 48px)',
-        width: 'clamp(40px, 6vw, 64px)',
-        height: 'clamp(40px, 6vw, 64px)',
-        transform: 'translateX(-50%)',
+        bottom: ARROW_BOTTOM_OFFSET,
+        width: 0,
+        height: 0,
         animation: !atEnd
           ? 'scroll-help-bounce 1.4s ease-in-out infinite'
           : 'none',
       }}
     >
-      <ArrowIcon atEnd={atEnd} />
-    </IconButton>
+      <IconButton
+        aria-label={atEnd ? 'Scroll to top' : 'Scroll to the next section'}
+        disableRipple
+        onClick={onClick}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: ARROW_SIZE,
+          height: ARROW_SIZE,
+          p: 0,
+          transform: 'translate(-50%, -50%)',
+          '&:focus-visible': {
+            outline: '2px solid var(--accent)',
+            outlineOffset: 4,
+          },
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            width: ARROW_CIRCLE_DIAMETER,
+            height: ARROW_CIRCLE_DIAMETER,
+            borderRadius: '50%',
+            backgroundColor: 'rgba(var(--accent-rgb), 1)',
+            opacity: 0,
+            transition: 'opacity 150ms ease',
+          },
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+          '&:hover::before': {
+            opacity: 0.08,
+          },
+          '&:active::before': {
+            opacity: 0.16,
+          },
+        }}
+      >
+        <ArrowIcon atEnd={atEnd} />
+      </IconButton>
+    </Box>
   );
 };
 
