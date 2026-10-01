@@ -29,6 +29,7 @@ export function YGlyph({
       component="span"
       style={{
         position: 'relative',
+        transform: 'translateY(-2px)',
         marginLeft: '.045em',
         marginRight: '-.045em',
         letterSpacing: 0,
