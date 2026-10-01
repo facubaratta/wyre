@@ -10,9 +10,10 @@ interface Props {
 const railSx = {
   display: 'flex',
   alignItems: 'center',
-  gap: 'var(--section-icon-gap)',
+  gap: 'clamp(.5rem, .9vw, .95rem)',
   ml: 'auto',
   flexShrink: 0,
+  '@media (max-width:640px)': { gap: '6px' },
 };
 
 export default function ServiceIconRail({ subsections, open }: Props) {
@@ -22,16 +23,14 @@ export default function ServiceIconRail({ subsections, open }: Props) {
       sx={{
         ...railSx,
         ...(open ? { width: 0, overflow: 'hidden', ml: 0 } : {}),
-        '--section-icon-size': open
-          ? 'var(--open-icon-size)'
-          : 'var(--closed-icon-size)',
       }}
     >
       {subsections.map((subsection, index) => (
         <ServiceIcon
           key={subsection.title}
           svg={subsection.icon}
-          size="var(--section-icon-size)"
+          size="clamp(22px, 1.9vw, 30px)"
+          sx={{ '@media (max-width:640px)': { width: '18px', height: '18px' } }}
           visible={!open}
           delay={index * 70}
         />

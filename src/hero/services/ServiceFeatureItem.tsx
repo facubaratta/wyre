@@ -15,22 +15,30 @@ interface Props {
   open: boolean;
 }
 
-const itemSx = {
+const itemSx = (open: boolean, delay: number, reduceMotion: boolean) => ({
   display: 'grid',
-  gridTemplateColumns: 'var(--bullet-icon-size) minmax(0, 1fr)',
+  gridTemplateColumns: 'clamp(28px, 2.2vw, 36px) minmax(0, 1fr)',
   alignItems: 'start',
   gap: 'clamp(.8rem, 1.1vw, 1.1rem)',
   color: '#ebe8de',
   fontSize: 'clamp(1.5rem, 1.9vw, 1.8rem)',
   lineHeight: 1.55,
   fontWeight: 400,
-  '& > span:first-of-type': { mt: '.2em' },
   '@media (max-width:640px)': {
     fontSize: 'clamp(1.125rem, 4.6vw, 1.25rem)',
     lineHeight: 1.45,
     gap: '10px',
-    '& > span:first-of-type': { mt: '.16em' },
+    gridTemplateColumns: '20px minmax(0, 1fr)',
   },
+  transform: open ? 'translateY(0)' : 'translateY(12px)',
+  opacity: open ? 1 : 0,
+  transition: reduceMotion ? 'none' : transition,
+  transitionDelay: open && !reduceMotion ? `${delay}ms` : '0ms',
+});
+
+const iconSx = {
+  mt: '.2em',
+  '@media (max-width:640px)': { width: '20px', height: '20px', mt: '.16em' },
 };
 
 export default function ServiceFeatureItem({ subsection, index, open }: Props) {
@@ -38,20 +46,12 @@ export default function ServiceFeatureItem({ subsection, index, open }: Props) {
   const delay = getStaggerDelay(index);
 
   return (
-    <Box
-      component="li"
-      sx={{
-        ...itemSx,
-        transform: open ? 'translateY(0)' : 'translateY(12px)',
-        opacity: open ? 1 : 0,
-        transition: reduceMotion ? 'none' : transition,
-        transitionDelay: open && !reduceMotion ? `${delay}ms` : '0ms',
-      }}
-    >
+    <Box component="li" sx={itemSx(open, delay, reduceMotion)}>
       <ServiceIcon
         wireTarget
         svg={subsection.icon}
-        size="var(--bullet-icon-size)"
+        size="clamp(28px, 2.2vw, 36px)"
+        sx={iconSx}
         visible={open}
         delay={delay}
         direction="up"

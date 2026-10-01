@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import { keyframes } from '@emotion/react';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { usePreferences } from '../../PreferencesProvider';
@@ -14,6 +15,12 @@ interface WireLayout {
   source: { x: number; y: number };
   paths: string[];
 }
+
+const pulse = keyframes({ to: { strokeDashoffset: -1 } });
+const pulseSx = (index: number) => ({
+  animation: `${pulse} 2.4s linear ${index * 0.45}s infinite`,
+  filter: 'drop-shadow(0 0 3px var(--accent))',
+});
 
 const styles = {
   overlay: {
@@ -118,7 +125,8 @@ export default function ServiceEnergyWires({ sectionRef, open }: Props) {
                 strokeLinejoin="round"
               />
               {!reduceMotion && (
-                <path
+                <Box
+                  component="path"
                   d={path}
                   pathLength="1"
                   fill="none"
@@ -127,10 +135,7 @@ export default function ServiceEnergyWires({ sectionRef, open }: Props) {
                   strokeLinecap="round"
                   strokeDasharray=".075 .925"
                   strokeDashoffset=".075"
-                  style={{
-                    animation: `service-wire-pulse 2.4s linear ${index * 0.45}s infinite`,
-                    filter: 'drop-shadow(0 0 3px var(--accent))',
-                  }}
+                  sx={pulseSx(index)}
                 />
               )}
             </g>
@@ -143,7 +148,6 @@ export default function ServiceEnergyWires({ sectionRef, open }: Props) {
           />
         </svg>
       )}
-      <style>{`@keyframes service-wire-pulse { to { stroke-dashoffset: -1; } }`}</style>
     </Box>
   );
 }

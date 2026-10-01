@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import useControlState from '../../useControlState';
 import Typography from '@mui/material/Typography';
 import ServiceIconRail from './ServiceIconRail';
 import type { ServiceFeature } from './serviceGroups';
@@ -12,24 +13,30 @@ interface Props {
   onClick: () => void;
 }
 
-const rowSx = {
+const buttonSx = {
   display: 'flex',
   alignItems: 'center',
   gap: 'clamp(.5rem, 1vw, 1rem)',
   width: '100%',
   minHeight: '44px',
-  padding: 0,
-  color: 'inherit',
-};
-
-const titleSx = {
+  p: 0,
+  color: 'text.primary',
   flex: '1 1 auto',
   minWidth: 0,
   m: 0,
-  fontSize: 'var(--section-title-size)',
   fontWeight: 500,
   lineHeight: 1.3,
   letterSpacing: '-.015em',
+  fontFamily: 'inherit',
+  fontSize: 'clamp(1.75rem, 2.5vw, 2.7rem)',
+  border: 0,
+  background: 'transparent',
+  textAlign: 'left',
+  cursor: 'pointer',
+  outlineOffset: '4px',
+  '@media (max-width:640px)': {
+    fontSize: 'clamp(1.125rem, 5.1vw, 1.5rem)',
+  },
 };
 
 export default function ServiceGroupHeading({
@@ -40,6 +47,7 @@ export default function ServiceGroupHeading({
   panelId,
   onClick,
 }: Props) {
+  const { focusVisible, events } = useControlState();
   return (
     <Typography id={id} component="h2" sx={{ m: 0 }}>
       <Box
@@ -48,21 +56,10 @@ export default function ServiceGroupHeading({
         aria-expanded={open}
         aria-controls={panelId}
         onClick={onClick}
+        {...events}
         sx={{
-          ...rowSx,
-          ...titleSx,
-          fontFamily: 'inherit',
-          fontSize: open
-            ? 'var(--open-title-size)'
-            : 'var(--closed-title-size)',
-          border: 0,
-          background: 'transparent',
-          textAlign: 'left',
-          cursor: 'pointer',
-          '&:focus-visible': {
-            outline: '2px solid var(--accent)',
-            outlineOffset: 4,
-          },
+          ...buttonSx,
+          outline: focusVisible ? '2px solid var(--accent)' : 'none',
         }}
       >
         <Box component="span" sx={{ flex: '1 1 auto', minWidth: 0 }}>

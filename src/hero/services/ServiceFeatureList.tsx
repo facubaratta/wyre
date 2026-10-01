@@ -9,6 +9,26 @@ interface Props {
   open: boolean;
 }
 
+const contentSx = {
+  position: 'relative',
+  pt: 1.5,
+  pl: 'clamp(28px, 2.8vw, 40px)',
+  '@media (max-width:640px)': {
+    pt: '8px',
+    pl: '24px',
+  },
+};
+
+const listSx = {
+  position: 'relative',
+  listStyle: 'none',
+  p: 0,
+  m: 0,
+  display: 'grid',
+  rowGap: 'clamp(.9rem, 1.25vw, 1.25rem)',
+  '@media (max-width:640px)': { rowGap: '16px' },
+};
+
 export default function ServiceFeatureList({ id, subsections, open }: Props) {
   const { reduceMotion } = usePreferences();
   return (
@@ -25,32 +45,8 @@ export default function ServiceFeatureList({ id, subsections, open }: Props) {
       }}
     >
       <Box sx={{ minHeight: 0, overflow: 'hidden' }}>
-        <Box
-          component="div"
-          sx={{
-            position: 'relative',
-            '--feature-row-height': 'clamp(2.7rem, 4vw, 3.5rem)',
-            '--feature-row-gap': 'clamp(.9rem, 1.25vw, 1.25rem)',
-            pt: 1.5,
-            pl: 'clamp(28px, 2.8vw, 40px)',
-            '@media (max-width:640px)': {
-              pt: '8px',
-              pl: '24px',
-              '--feature-row-gap': '16px',
-            },
-          }}
-        >
-          <Box
-            component="ul"
-            sx={{
-              position: 'relative',
-              listStyle: 'none',
-              p: 0,
-              m: 0,
-              display: 'grid',
-              rowGap: 'var(--feature-row-gap)',
-            }}
-          >
+        <Box component="div" sx={contentSx}>
+          <Box component="ul" sx={listSx}>
             {subsections.map((subsection, index) => (
               <ServiceFeatureItem
                 key={subsection.title}
