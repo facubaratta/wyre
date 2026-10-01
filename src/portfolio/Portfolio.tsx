@@ -4,6 +4,7 @@ import { projects } from './projects';
 import ProjectBrowser from './ProjectBrowser';
 import PortfolioNavigation from './PortfolioNavigation';
 import { usePreferences } from '../PreferencesProvider';
+import { useLandingSequence } from '../LandingSequenceProvider';
 
 const hiddenOnSmallOrShort = {
   '@media (max-width:640px)': { display: 'none' },
@@ -74,19 +75,14 @@ const styles = {
   },
 } satisfies Record<string, SxProps<Theme>>;
 
-interface Props {
-  progress: number;
-  projectIndex: number;
-  closingProgress: number;
-  onSelect: (index: number) => void;
-}
-
-export default function Portfolio({
-  progress,
-  closingProgress,
-  projectIndex,
-  onSelect,
-}: Props) {
+export default function Portfolio() {
+  const { portfolio } = useLandingSequence();
+  const {
+    progress,
+    closingProgress,
+    projectIndex,
+    selectProject: onSelect,
+  } = portfolio;
   const { reduceMotion } = usePreferences();
   const project = projects[projectIndex];
   const visible = reduceMotion || progress > 0;

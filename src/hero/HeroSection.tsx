@@ -4,6 +4,7 @@ import ServiceHighlights from './services/ServiceHighlights';
 import HeroWordmark from './HeroWordmark';
 import HeroContact from './HeroContact';
 import { usePreferences } from '../PreferencesProvider';
+import { useLandingSequence } from '../LandingSequenceProvider';
 
 const heroSx = {
   position: 'relative',
@@ -32,21 +33,15 @@ const heroSx = {
   },
 } as const;
 
-interface HeroSectionProps {
-  activeIndex: number;
-  scrollProgress: number;
-  showAccentHint: boolean;
-  exitProgress: number;
-  onSelectService: (index: number) => void;
-}
-
-export default function HeroSection({
-  activeIndex,
-  scrollProgress,
-  showAccentHint,
-  exitProgress,
-  onSelectService,
-}: HeroSectionProps) {
+export default function HeroSection() {
+  const { service, portfolio } = useLandingSequence();
+  const {
+    activeIndex,
+    heroScrollProgress: scrollProgress,
+    showAccentHint,
+    selectService: onSelectService,
+  } = service;
+  const exitProgress = portfolio.progress;
   const { reduceMotion } = usePreferences();
   const root = useRef<HTMLDivElement>(null);
   const progress = useRef(scrollProgress);

@@ -3,14 +3,11 @@ import Box from '@mui/material/Box';
 import GridBackground from './gridBackground/GridBackground';
 import { PreferencesProvider, usePreferences } from './PreferencesProvider';
 import HeroSection from './hero/HeroSection';
-import { serviceGroups } from './hero/services/serviceGroups';
 import Portfolio from './portfolio/Portfolio';
-import { projects } from './portfolio/projects';
-import ScrollHelp from './ScrollHelp';
-import useServiceSequence from './hero/useServiceSequence';
-import usePortfolioSequence from './portfolio/usePortfolioSequence';
-import useWindowScroll from './useWindowScroll';
-import { createTimeline } from './scrollTimeline';
+import ScrollArrow from './scollHelp/Arrow';
+import ScrollShadow from './scollHelp/ScrollShadow';
+import { LandingSequenceProvider } from './LandingSequenceProvider';
+import { useLandingSequence } from './LandingSequenceProvider';
 
 const theme = createTheme({
   palette: {
@@ -32,21 +29,7 @@ const theme = createTheme({
 
 function LandingPage() {
   const { reduceMotion } = usePreferences();
-  const scroll = useWindowScroll();
-  const service = useServiceSequence(scroll, serviceGroups.length);
-  const portfolio = usePortfolioSequence(
-    scroll,
-    serviceGroups.length,
-    projects.length,
-  );
-  const timeline = createTimeline(serviceGroups.length, projects.length);
-  const nextReducedMotion = () => {
-    if (service.manualIndex < serviceGroups.length - 1) {
-      service.nextManualService();
-    } else if (portfolio.manualIndex < projects.length) {
-      portfolio.nextManualProject();
-    }
-  };
+  const { timeline, scroll } = useLandingSequence();
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,27 +52,10 @@ function LandingPage() {
               height: reduceMotion ? 'auto' : '100svh',
             }}
           >
-            <ScrollHelp
-              scrollShadowOpacity={portfolio.scrollShadowOpacity}
-              scroll={scroll}
-              timeline={timeline}
-              serviceCount={serviceGroups.length}
-              projectCount={projects.length}
-              onNextReducedMotion={nextReducedMotion}
-            />
-            <HeroSection
-              activeIndex={service.activeIndex}
-              scrollProgress={service.heroScrollProgress}
-              showAccentHint={service.showAccentHint}
-              exitProgress={portfolio.progress}
-              onSelectService={service.selectService}
-            />
-            <Portfolio
-              progress={portfolio.progress}
-              closingProgress={portfolio.closingProgress}
-              projectIndex={portfolio.projectIndex}
-              onSelect={portfolio.selectProject}
-            />
+            <ScrollArrow />
+            <ScrollShadow />
+            <HeroSection />
+            <Portfolio />
           </Box>
         </Box>
       </Box>
@@ -100,7 +66,9 @@ function LandingPage() {
 export default function App() {
   return (
     <PreferencesProvider>
-      <LandingPage />
+      <LandingSequenceProvider>
+        <LandingPage />
+      </LandingSequenceProvider>
     </PreferencesProvider>
   );
 }
