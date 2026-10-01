@@ -13,7 +13,7 @@ interface Props {
   onClick: () => void;
 }
 
-const buttonSx = {
+const buttonSx = (focusVisible: boolean) => ({
   display: 'flex',
   alignItems: 'center',
   gap: 'clamp(.5rem, 1vw, 1rem)',
@@ -33,11 +33,12 @@ const buttonSx = {
   background: 'transparent',
   textAlign: 'left',
   cursor: 'pointer',
+  outline: focusVisible ? '2px solid var(--accent)' : 'none',
   outlineOffset: '4px',
   '@media (max-width:640px)': {
     fontSize: 'clamp(1.125rem, 5.1vw, 1.5rem)',
   },
-};
+});
 
 export default function ServiceGroupHeading({
   id,
@@ -57,10 +58,7 @@ export default function ServiceGroupHeading({
         aria-controls={panelId}
         onClick={onClick}
         {...events}
-        sx={{
-          ...buttonSx,
-          outline: focusVisible ? '2px solid var(--accent)' : 'none',
-        }}
+        sx={buttonSx(focusVisible)}
       >
         <Box component="span" sx={{ flex: '1 1 auto', minWidth: 0 }}>
           <Box
