@@ -37,7 +37,6 @@ export default function ServiceHighlights({
     width: '48%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'rgba(24,26,25,.94)',
     '@media (max-width:640px)': {
       flex: '0 0 auto',
       width: '100%',
