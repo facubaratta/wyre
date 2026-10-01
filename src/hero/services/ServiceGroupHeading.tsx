@@ -13,7 +13,7 @@ interface Props {
   onClick: () => void;
 }
 
-const buttonSx = (focusVisible: boolean) => ({
+const buttonSx = (open: boolean, focusVisible: boolean) => ({
   display: 'flex',
   alignItems: 'center',
   gap: 'clamp(.5rem, 1vw, 1rem)',
@@ -37,6 +37,7 @@ const buttonSx = (focusVisible: boolean) => ({
   outlineOffset: '4px',
   '@media (max-width:640px)': {
     fontSize: 'clamp(1.125rem, 5.1vw, 1.5rem)',
+    minHeight: open ? '44px' : '32px',
   },
 });
 
@@ -58,7 +59,7 @@ export default function ServiceGroupHeading({
         aria-controls={panelId}
         onClick={onClick}
         {...events}
-        sx={buttonSx(focusVisible)}
+        sx={buttonSx(open, focusVisible)}
       >
         <Box component="span" sx={{ flex: '1 1 auto', minWidth: 0 }}>
           <Box
