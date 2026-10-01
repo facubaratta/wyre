@@ -38,11 +38,12 @@ export default function usePortfolioSequence(
           ),
         ),
     selectProject: (projectIndex: number) => {
-      if (projectIndex < 0 || projectIndex >= projectCount) return;
+      if (projectIndex < 0 || projectIndex > projectCount) return;
       if (reduceMotion) {
         setManualIndex(projectIndex);
         return;
       }
+      if (projectIndex === projectCount) return;
 
       window.scrollTo({
         top:
