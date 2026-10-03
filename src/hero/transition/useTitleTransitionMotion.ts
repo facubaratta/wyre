@@ -15,8 +15,7 @@ export default function useTitleTransitionMotion(
     let animationFrame = 0;
     let disposed = false;
     let previousProgress = -1;
-    let previousY = Math.max(0, window.scrollY);
-    let scrollingUp = false;
+    let completed = false;
     let returningToHero = false;
     let geometryChanged = true;
     let geometry: ReturnType<typeof measureTitleGeometry>;
@@ -25,18 +24,15 @@ export default function useTitleTransitionMotion(
       if (!geometry) geometry = measureTitleGeometry();
       if (!geometry) return;
       const y = Math.max(0, window.scrollY);
-      const wasScrollingUp = scrollingUp;
       const wasReturningToHero = returningToHero;
-      if (y !== previousY) scrollingUp = y < previousY;
-      if (scrollingUp) returningToHero = true;
-      if (y <= geometry.start) returningToHero = false;
-      previousY = y;
       const progress = clamp(
         (y - geometry.start) / (geometry.end - geometry.start),
       );
+      if (y <= geometry.start) completed = false;
+      else if (progress === 1) completed = true;
+      returningToHero = completed && progress < 1;
       if (
         progress === previousProgress &&
-        scrollingUp === wasScrollingUp &&
         returningToHero === wasReturningToHero &&
         !geometryChanged
       )
