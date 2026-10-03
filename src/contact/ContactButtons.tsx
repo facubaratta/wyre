@@ -55,7 +55,7 @@ const contactLinks = [
 ];
 
 const containerSx = (placement: Placement) => ({
-  mt: 5,
+  mt: placement === 'closing' ? { xs: 1, sm: 3 } : 5,
   display: 'flex',
   flexWrap: 'wrap',
   gap:

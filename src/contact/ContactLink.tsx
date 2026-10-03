@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Box from '@mui/material/Box';
-import useControlState from '../useControlState';
+import useControlState from '../controls/useControlState';
 
 export type ContactPlacement = 'default' | 'hero' | 'closing';
 
@@ -26,12 +26,20 @@ const linkSx = (
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: isHero ? { xs: '12px', sm: '16px' } : isClosing ? '14px' : '12px',
-    minHeight: isHero ? { xs: 56, sm: 72 } : isClosing ? 64 : 44,
+    gap: isHero
+      ? { xs: '12px', sm: '16px' }
+      : isClosing
+        ? { xs: '8px', sm: '14px' }
+        : '12px',
+    minHeight: isHero
+      ? { xs: 56, sm: 72 }
+      : isClosing
+        ? { xs: 48, sm: 64 }
+        : 44,
     padding: isHero
       ? { xs: '14px 12px', sm: '18px 30px' }
       : isClosing
-        ? { xs: '16px 12px', sm: '16px 26px' }
+        ? { xs: '12px 8px', sm: '16px 26px' }
         : '10px 18px',
     width: isHero || isClosing ? { xs: '100%', sm: 'auto' } : 'auto',
     border: '1px solid',
@@ -48,7 +56,7 @@ const linkSx = (
     fontSize: isHero
       ? { xs: 'clamp(16px, 5vw, 20px)', sm: 'clamp(20px, 1.8vw, 27px)' }
       : isClosing
-        ? { xs: 16, sm: 18 }
+        ? { xs: 14, sm: 18 }
         : 14,
     lineHeight: 1.2,
     textDecoration: 'none',
