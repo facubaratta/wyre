@@ -2,20 +2,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import SectionHeading from './SectionHeading';
 
-const principles = [
-  {
-    title: 'Las herramientas no piensan por nosotros',
-    paragraphs: [
-      'La estrategia de soluciones está planificada por profesionales con experiencia.',
-      'Utilizamos herramientas de inteligencia artificial para una implementación más rápida, pero nunca sacrificamos la intuición, planificación, gusto o tacto humano.',
-    ],
-  },
-  {
-    title: 'Diseñado para tu industria.',
-    paragraphs: [
-      'Cada industria tiene su propio estilo y su propio diseño. Por eso no utilizamos plantillas o moldes repetidos, sino que organizamos el diseño alrededor de tu marca.',
-    ],
-  },
+const steps = [
+  'Entendemos tu negocio',
+  'Diseñamos con intención',
+  'Construimos a medida',
 ];
 
 export default function HumanDecisions() {
@@ -35,47 +25,75 @@ export default function HumanDecisions() {
         <SectionHeading id="human-heading" icon="brain">
           Decisiones Humanas
         </SectionHeading>
-        <Box
-          sx={{
-            mt: { xs: 4, sm: 9 },
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-            gap: { xs: 4, md: 8 },
-          }}
-        >
-          {principles.map(({ title, paragraphs }) => (
+        <Box sx={{ mt: { xs: 4, sm: 6 }, mb: 4, maxWidth: 800 }}>
+          <Typography
+            component="h3"
+            sx={{
+              fontSize: { xs: 32, sm: 48 },
+              lineHeight: 1.12,
+              fontWeight: 500,
+              letterSpacing: '-.045em',
+            }}
+          >
+            La tecnología acelera.
             <Box
-              component="article"
-              key={title}
-              sx={{ pt: 3, borderTop: '1px solid rgba(235,232,222,.22)' }}
+              component="span"
+              sx={{ color: 'primary.main', display: 'block' }}
             >
-              <Typography
-                component="h3"
-                sx={{
-                  fontSize: { xs: 24, sm: 30 },
-                  fontWeight: 500,
-                  lineHeight: 1.3,
-                  letterSpacing: '-.025em',
-                }}
-              >
-                {title}
+              El criterio es humano.
+            </Box>
+          </Typography>
+          <Typography
+            sx={{
+              mt: 2,
+              fontSize: { xs: 16, sm: 19 },
+              color: 'text.secondary',
+              lineHeight: 1.6,
+            }}
+          >
+            Utilizamos inteligencia artificial para una implementación más
+            rápida, sin sacrificar la intuición, planificación, gusto o tacto
+            humano.
+          </Typography>
+        </Box>
+        <Box
+          component="ul"
+          sx={{ listStyle: 'none', m: 0, p: 0, mb: 5, maxWidth: 800 }}
+        >
+          {steps.map((step) => (
+            <Box
+              component="li"
+              key={step}
+              sx={{ py: 2, borderTop: '1px solid rgba(235,232,222,.22)' }}
+            >
+              <Typography sx={{ fontSize: { xs: 18, sm: 22 } }}>
+                {step}
               </Typography>
-              {paragraphs.map((paragraph) => (
-                <Typography
-                  component="p"
-                  key={paragraph}
-                  sx={{
-                    mt: 2,
-                    fontSize: { xs: 16, sm: 20 },
-                    lineHeight: 1.65,
-                    color: 'text.secondary',
-                  }}
-                >
-                  {paragraph}
-                </Typography>
-              ))}
             </Box>
           ))}
+        </Box>
+        <Box sx={{ mb: 4, maxWidth: 800 }}>
+          <Typography
+            component="h3"
+            sx={{
+              fontSize: { xs: 24, sm: 30 },
+              fontWeight: 500,
+              letterSpacing: '-.025em',
+            }}
+          >
+            Diseñado para tu industria.
+          </Typography>
+          <Typography
+            sx={{
+              mt: 2,
+              fontSize: { xs: 16, sm: 19 },
+              color: 'text.secondary',
+              lineHeight: 1.6,
+            }}
+          >
+            Cada industria tiene su propio estilo. Organizamos el diseño
+            alrededor de tu marca, sin plantillas o moldes repetidos.
+          </Typography>
         </Box>
       </Box>
     </Box>
