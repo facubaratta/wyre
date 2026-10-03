@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import SectionHeading from './SectionHeading';
+import AiComparison from './comparison/AiComparison';
 
 const steps = [
   'Entendemos tu negocio',
@@ -95,6 +96,7 @@ export default function HumanDecisions() {
             alrededor de tu marca, sin plantillas o moldes repetidos.
           </Typography>
         </Box>
+        <AiComparison />
       </Box>
     </Box>
   );
