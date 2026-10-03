@@ -154,6 +154,117 @@ test('title and globe reach measured endpoints, restore the hero on reversal, an
   assert.equal(end.frame.reveal, 1);
 });
 
+test('title transition reverses before completion and resets only at its start after completion', async () => {
+  const source = await readFile(
+    new URL(
+      '../src/hero/transition/useTitleTransitionMotion.ts',
+      import.meta.url,
+    ),
+    'utf8',
+  );
+  const handlers = new Map();
+  let scheduled;
+  let motion;
+  let cleanup;
+  globalThis.__titleMotionTest = {
+    useState: () => [
+      null,
+      (value) => {
+        motion = value;
+      },
+    ],
+    useLayoutEffect: (effect) => {
+      cleanup = effect();
+    },
+    measureTitleGeometry: () => ({ start: 100, end: 1100 }),
+  };
+  globalThis.window = {
+    scrollY: 0,
+    addEventListener: (name, handler) => handlers.set(name, handler),
+    removeEventListener: (name) => handlers.delete(name),
+  };
+  globalThis.document = {
+    body: {},
+    getElementById: () => null,
+    fonts: { ready: Promise.resolve() },
+  };
+  globalThis.ResizeObserver = class {
+    observe() {}
+    disconnect() {}
+  };
+  globalThis.requestAnimationFrame = (callback) => {
+    scheduled = callback;
+    return 1;
+  };
+  globalThis.cancelAnimationFrame = () => {
+    scheduled = undefined;
+  };
+  try {
+    let code = ts
+      .transpileModule(source, {
+        compilerOptions: {
+          target: ts.ScriptTarget.ES2022,
+          module: ts.ModuleKind.ESNext,
+        },
+      })
+      .outputText.replace(
+        /import .* from 'react';/,
+        'const { useLayoutEffect, useState } = globalThis.__titleMotionTest;',
+      )
+      .replace(
+        /import .* from '.\/titleTransitionGeometry';/,
+        'const { measureTitleGeometry } = globalThis.__titleMotionTest;',
+      );
+    for (const match of [...code.matchAll(/from ['"](\.[^'"]+)['"]/g)]) {
+      const dependency = new URL(
+        `${match[1]}.ts`,
+        new URL(
+          '../src/hero/transition/useTitleTransitionMotion.ts',
+          import.meta.url,
+        ),
+      );
+      await importSource(dependency.href);
+      code = code.replace(match[0], `from '${modules.get(dependency.href)}'`);
+    }
+    const { default: useMotion } = await import(
+      `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`
+    );
+    useMotion(false);
+    const scrollTo = (y) => {
+      window.scrollY = y;
+      handlers.get('scroll')();
+      const callback = scheduled;
+      scheduled = undefined;
+      callback();
+      return motion;
+    };
+    scrollTo(600);
+    const reversed = scrollTo(400);
+    assert.equal(reversed.moving, true);
+    assert.equal(reversed.frame.complete, false);
+    assert.equal(reversed.frame.progress, 0.3);
+    assert.equal(scrollTo(800).moving, true);
+    assert.equal(scrollTo(1100).frame.complete, true);
+    assert.equal(scrollTo(600).moving, false);
+    assert.equal(scrollTo(800).moving, false);
+    assert.equal(scrollTo(101).moving, false);
+    scrollTo(99);
+    assert.equal(scrollTo(400).moving, true);
+    assert.equal(scrollTo(200).moving, true);
+  } finally {
+    cleanup?.();
+    for (const key of [
+      '__titleMotionTest',
+      'window',
+      'document',
+      'ResizeObserver',
+      'requestAnimationFrame',
+      'cancelAnimationFrame',
+    ])
+      delete globalThis[key];
+  }
+});
+
 test('scroll store shares listeners, batches events, preserves unchanged snapshots, and cleans up', async () => {
   const handlers = new Map(),
     frames = new Map();
