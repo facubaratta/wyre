@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import type { ButtonHTMLAttributes } from 'react';
-import useControlState from '../useControlState';
+import useControlState from '../controls/useControlState';
 
 const buttonSx = {
   font: 'inherit',

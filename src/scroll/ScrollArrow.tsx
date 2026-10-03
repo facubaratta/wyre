@@ -1,11 +1,12 @@
 import Box from '@mui/material/Box';
 import { keyframes } from '@emotion/react';
-import useControlState from '../useControlState';
+import useControlState from '../controls/useControlState';
 import ScrollArrowIcon from './ScrollArrowIcon';
-import { usePreferences } from '../PreferencesProvider';
-import useScrollCheckpoints from '../useScrollCheckpoints';
-import { useLandingSequence } from '../LandingSequenceProvider';
-import { serviceGroups } from '../hero/services/serviceGroups';
+import { usePreferences } from '../preferences/PreferencesContext';
+import useScrollCheckpoints from './useScrollCheckpoints';
+import { useLandingLayout } from './LandingLayoutContext';
+import { usePortfolioSequenceState } from '../portfolio/PortfolioSequenceContext';
+import useWindowScroll from './useWindowScroll';
 import { projects } from '../portfolio/projects';
 
 const bounce = keyframes({
@@ -16,7 +17,7 @@ const rootSx = {
   position: 'fixed',
   zIndex: 1300,
   left: '50%',
-  bottom: '6.5vh',
+  bottom: { xs: 'calc(36px + env(safe-area-inset-bottom))', md: '6.5vh' },
   width: 0,
   height: 0,
 };
@@ -27,12 +28,12 @@ const buttonSx = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: 'clamp(50px, 20vw, 100px)',
-  height: 'clamp(50px, 20vw, 100px)',
+  width: { xs: '56px', md: 'clamp(50px, 20vw, 100px)' },
+  height: { xs: '56px', md: 'clamp(50px, 20vw, 100px)' },
   p: 0,
   border: 0,
   borderRadius: '50%',
-  background: 'transparent',
+  background: { xs: 'rgba(24,26,25,.92)', md: 'transparent' },
   cursor: 'pointer',
   userSelect: 'none',
   WebkitTapHighlightColor: 'transparent',
@@ -51,12 +52,10 @@ const highlightSx = {
 
 const ScrollArrow = () => {
   const { hovered, pressed, focusVisible, events } = useControlState();
-  const {
-    scroll,
-    timeline,
-    nextReducedMotion: onNextReducedMotion,
-  } = useLandingSequence();
-  const serviceCount = serviceGroups.length;
+  const scroll = useWindowScroll();
+  const { timeline } = useLandingLayout();
+  const { nextManualProject: onNextReducedMotion } =
+    usePortfolioSequenceState();
   const projectCount = projects.length;
   const { reduceMotion } = usePreferences();
   const atEnd =
@@ -64,32 +63,25 @@ const ScrollArrow = () => {
     scroll.y / scroll.viewport >= timeline.closingEnd - 2 / scroll.viewport;
   const nextCheckpoint = useScrollCheckpoints({
     scroll,
-    serviceCount,
     projectCount,
-    hintStart: timeline.hintStart,
     projectsStart: timeline.projectsStart,
     atEnd,
     reduceMotion,
     onNextReducedMotion,
   });
 
-  const onClick = () => {
-    if (reduceMotion) {
-      onNextReducedMotion();
-      return;
-    }
-
-    nextCheckpoint();
-  };
-
   return (
     <Box
       sx={{
         ...rootSx,
         animation:
-          !reduceMotion && !atEnd
+          !reduceMotion &&
+          !atEnd &&
+          (scroll.y < 4 ||
+            scroll.y / scroll.viewport >= timeline.portfolioStart)
             ? `${bounce} 1.4s ease-in-out infinite`
             : 'none',
+        outline: focusVisible ? '2px solid var(--accent)' : 'none',
       }}
     >
       <Box
@@ -97,11 +89,8 @@ const ScrollArrow = () => {
         type="button"
         aria-label={atEnd ? 'Scroll to top' : 'Scroll to the next section'}
         {...events}
-        onClick={onClick}
-        sx={{
-          ...buttonSx,
-          outline: focusVisible ? '2px solid var(--accent)' : 'none',
-        }}
+        onClick={nextCheckpoint}
+        sx={buttonSx}
       >
         <Box
           component="span"

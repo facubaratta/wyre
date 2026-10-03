@@ -1,12 +1,8 @@
-export const SERVICE_START = 0.5;
-export const SERVICE_DISTANCE = 0.75;
-export const HINT_PAUSE = 1;
 export const TRANSITION_DISTANCE = 1;
 export const PROJECT_DISTANCE = 1;
 export const CHECKPOINT_OFFSET = 0.05;
 
 export interface SequenceTimeline {
-  hintStart: number;
   portfolioStart: number;
   projectsStart: number;
   closingStart: number;
@@ -14,16 +10,14 @@ export interface SequenceTimeline {
 }
 
 export function createTimeline(
-  serviceCount: number,
   projectCount: number,
+  introScreens: number,
 ): SequenceTimeline {
-  const hintStart = SERVICE_START + serviceCount * SERVICE_DISTANCE;
-  const portfolioStart = hintStart + HINT_PAUSE;
+  const portfolioStart = Math.max(0, introScreens - TRANSITION_DISTANCE);
   const projectsStart = portfolioStart + TRANSITION_DISTANCE;
   const closingStart = projectsStart + projectCount * PROJECT_DISTANCE;
 
   return {
-    hintStart,
     portfolioStart,
     projectsStart,
     closingStart,

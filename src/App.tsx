@@ -1,13 +1,18 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Box from '@mui/material/Box';
-import GridBackground from './gridBackground/GridBackground';
-import { PreferencesProvider, usePreferences } from './PreferencesProvider';
-import HeroSection from './hero/HeroSection';
-import Portfolio from './portfolio/Portfolio';
-import ScrollArrow from './scollHelp/ScrollArrow';
-import ScrollShadow from './scollHelp/ScrollShadow';
-import { LandingSequenceProvider } from './LandingSequenceProvider';
-import { useLandingSequence } from './LandingSequenceProvider';
+import Navbar from './navigation/Navbar';
+import MeshBackground from './background/MeshBackground';
+import { PreferencesProvider } from './preferences/PreferencesProvider';
+import HeroTransitionScene from './hero/HeroTransitionScene';
+import PortfolioScene from './portfolio/PortfolioScene';
+import WebPresence from './sections/WebPresence';
+import TitleTransitionProvider from './hero/transition/TitleTransitionProvider';
+import HumanDecisions from './sections/HumanDecisions';
+import ScrollArrow from './scroll/ScrollArrow';
+import ScrollShadow from './scroll/ScrollShadow';
+import { LandingLayoutProvider } from './scroll/LandingLayoutProvider';
+import { useLandingLayout } from './scroll/LandingLayoutContext';
+import PortfolioSequenceProvider from './portfolio/PortfolioSequenceProvider';
 
 const theme = createTheme({
   palette: {
@@ -27,37 +32,27 @@ const theme = createTheme({
 });
 
 function LandingPage() {
-  const { reduceMotion } = usePreferences();
-  const { timeline, scroll } = useLandingSequence();
+  const { introRef } = useLandingLayout();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
-        <GridBackground />
-        <Box
-          component="main"
-          sx={{
-            minHeight: reduceMotion
-              ? undefined
-              : `${(timeline.closingEnd + 1) * scroll.viewport}px`,
-            position: 'relative',
-          }}
-        >
-          <Box
-            sx={{
-              position: reduceMotion ? 'relative' : 'sticky',
-              top: 0,
-              height: reduceMotion ? 'auto' : '100svh',
-            }}
-          >
-            <ScrollArrow />
-            <ScrollShadow />
-            <HeroSection />
-            <Portfolio />
+      <TitleTransitionProvider>
+        <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
+          <MeshBackground />
+          <Navbar />
+          <ScrollArrow />
+          <ScrollShadow />
+          <Box component="main" sx={{ position: 'relative' }}>
+            <Box ref={introRef}>
+              <HeroTransitionScene />
+              <WebPresence />
+              <HumanDecisions />
+            </Box>
+            <PortfolioScene />
           </Box>
         </Box>
-      </Box>
+      </TitleTransitionProvider>
     </ThemeProvider>
   );
 }
@@ -65,9 +60,11 @@ function LandingPage() {
 export default function App() {
   return (
     <PreferencesProvider>
-      <LandingSequenceProvider>
-        <LandingPage />
-      </LandingSequenceProvider>
+      <LandingLayoutProvider>
+        <PortfolioSequenceProvider>
+          <LandingPage />
+        </PortfolioSequenceProvider>
+      </LandingLayoutProvider>
     </PreferencesProvider>
   );
 }

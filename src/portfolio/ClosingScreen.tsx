@@ -1,7 +1,6 @@
 import ContactButtons from '../contact/ContactButtons';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
-import { usePreferences } from '../PreferencesProvider';
 
 const closingSx = {
   position: 'absolute',
@@ -21,14 +20,13 @@ const headingSx = {
   m: 0,
   py: '5%',
   borderTop: '1px solid rgba(235,232,222,.22)',
-  fontSize: 'clamp(20px, 12cqw, 65px)',
+  fontSize: 'clamp(20px, 12cqw, 30px)',
   fontWeight: 400,
   lineHeight: 1.18,
   letterSpacing: '-.05em',
 } satisfies SxProps<Theme>;
 
 export default function ClosingScreen({ progress }: { progress: number }) {
-  const { reduceMotion } = usePreferences();
   const visible = progress > 0;
   return (
     <Box
@@ -41,13 +39,10 @@ export default function ClosingScreen({ progress }: { progress: number }) {
         pointerEvents: progress >= 0.5 ? 'auto' : 'none',
         opacity: progress,
         visibility: visible ? 'visible' : 'hidden',
-        transform: reduceMotion
-          ? undefined
-          : `translateY(${(1 - progress) * 6}%)`,
       }}
     >
       <Box
-        component="h1"
+        component="h2"
         sx={headingSx}
         id="closing-heading"
         aria-label="Tu próxima web, app o perfil en redes sociales"
@@ -80,6 +75,18 @@ export default function ClosingScreen({ progress }: { progress: number }) {
         >
           redes sociales
         </Box>
+      </Box>
+      <Box
+        component="p"
+        sx={{
+          m: 0,
+          color: 'text.secondary',
+          fontSize: 'clamp(14px, 3cqw, 19px)',
+          lineHeight: 1.6,
+          maxWidth: 540,
+        }}
+      >
+        Contanos qué tenés en mente. Definimos juntos el próximo paso.
       </Box>
       <ContactButtons placement="closing" />
     </Box>

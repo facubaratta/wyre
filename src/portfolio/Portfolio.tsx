@@ -3,8 +3,9 @@ import type { SxProps, Theme } from '@mui/material/styles';
 import { projects } from './projects';
 import ProjectBrowser from './ProjectBrowser';
 import PortfolioNavigation from './PortfolioNavigation';
-import { usePreferences } from '../PreferencesProvider';
-import { useLandingSequence } from '../LandingSequenceProvider';
+import SectionHeading from '../sections/SectionHeading';
+import { usePreferences } from '../preferences/PreferencesContext';
+import { usePortfolioSequenceState } from './PortfolioSequenceContext';
 
 const hiddenOnSmallOrShort = {
   '@media (max-width:640px)': { display: 'none' },
@@ -17,18 +18,34 @@ const styles = {
     zIndex: 2,
     inset: 0,
     display: 'flex',
+    flexDirection: 'column',
+    gap: '4svh',
     alignItems: 'center',
     justifyContent: 'center',
-    p: '6svh 7vw',
+    px: '7vw',
+    pt: 'calc(var(--header-height, 100px) + 24px)',
+    pb: '80px',
     color: '#ebe8de',
-    '@media (max-width:640px)': { p: '4svh 5vw' },
-    '@media (min-width:641px) and (max-height:500px)': { py: '2svh' },
+    '@media (max-width:640px)': {
+      px: '6vw',
+      pt: 'max(24px, env(safe-area-inset-top))',
+      pb: 'calc(84px + env(safe-area-inset-bottom))',
+    },
+    '@media (max-height:500px)': {
+      pt: 'calc(var(--header-height, 100px) + 12px)',
+      pb: '64px',
+    },
   },
   assembly: {
-    width: 'min(100%, 1100px, 100svh)',
-    '@media (max-width:640px)': { width: 'min(82vw, 320px, 38svh)' },
+    width:
+      'min(100%, 1100px, 82svh, calc((100dvh - var(--header-height, 100px) - 310px) * 1.7778))',
+    '@media (max-width:640px)': {
+      width:
+        'min(100%, calc((100dvh - 280px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * .5625))',
+    },
     '@media (min-width:641px) and (max-height:500px)': {
-      width: 'min(100%, calc((100svh - 140px) * 1.7778))',
+      width:
+        'min(100%, calc((100dvh - var(--header-height, 100px) - 190px) * 1.7778))',
     },
   },
   monitor: {
@@ -70,64 +87,63 @@ const styles = {
 } satisfies Record<string, SxProps<Theme>>;
 
 export default function Portfolio() {
-  const { portfolio } = useLandingSequence();
   const {
-    progress,
     closingProgress,
     projectIndex,
     selectProject: onSelect,
-  } = portfolio;
+  } = usePortfolioSequenceState();
   const { reduceMotion } = usePreferences();
   const project = projects[projectIndex];
-  const visible = reduceMotion || progress > 0;
-  const interactive = reduceMotion || progress >= 0.5;
   const showClosing = closingProgress >= 0.5;
   const selectedIndex = showClosing ? projects.length : projectIndex;
   return (
     <Box
       component="section"
-      aria-label="Portfolio"
-      inert={!interactive}
-      aria-hidden={!interactive}
+      aria-labelledby="growth-heading"
       sx={{
         ...styles.portfolio,
         ...(reduceMotion ? { position: 'relative', minHeight: '100svh' } : {}),
       }}
-      style={{
-        pointerEvents: interactive ? 'auto' : 'none',
-        opacity: reduceMotion ? 1 : progress,
-        visibility: visible ? 'visible' : 'hidden',
-        transform: reduceMotion
-          ? undefined
-          : `translateY(${(1 - progress) * 12}svh)`,
-      }}
     >
-      <Box sx={styles.assembly}>
-        <Box sx={styles.monitor}>
-          <Box aria-hidden="true" sx={styles.notch} />
-          <ProjectBrowser
-            project={project}
-            projects={projects}
-            projectIndex={projectIndex}
-            closingProgress={closingProgress}
-            loadImages={visible}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: { xs: '20px', sm: '3svh' },
+          width: '100%',
+          '@media (max-height:500px)': { gap: '12px' },
+        }}
+      >
+        <SectionHeading id="growth-heading" icon="growth">
+          Crecimiento real
+        </SectionHeading>
+        <Box sx={styles.assembly}>
+          <Box sx={styles.monitor}>
+            <Box aria-hidden="true" sx={styles.notch} />
+            <ProjectBrowser
+              project={project}
+              projects={projects}
+              projectIndex={projectIndex}
+              closingProgress={closingProgress}
+            />
+          </Box>
+          <Box
+            aria-hidden="true"
+            sx={{ ...styles.stand, ...hiddenOnSmallOrShort }}
           />
+          <Box
+            aria-hidden="true"
+            sx={{ ...styles.foot, ...hiddenOnSmallOrShort }}
+          />
+          {reduceMotion && (
+            <PortfolioNavigation
+              selectedIndex={selectedIndex}
+              projectIndex={projectIndex}
+              onSelect={onSelect}
+            />
+          )}
         </Box>
-        <Box
-          aria-hidden="true"
-          sx={{ ...styles.stand, ...hiddenOnSmallOrShort }}
-        />
-        <Box
-          aria-hidden="true"
-          sx={{ ...styles.foot, ...hiddenOnSmallOrShort }}
-        />
-        {reduceMotion && (
-          <PortfolioNavigation
-            selectedIndex={selectedIndex}
-            projectIndex={projectIndex}
-            onSelect={onSelect}
-          />
-        )}
       </Box>
     </Box>
   );

@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import useControlState from '../useControlState';
+import useControlState from '../controls/useControlState';
 import type { SVGProps } from 'react';
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { Project } from './projects';
@@ -55,7 +55,7 @@ const styles = {
     color: 'var(--accent)',
     fontSize: '28px',
     textDecoration: 'none',
-    '@media (max-width:640px)': { width: '36px', fontSize: '24px' },
+    '@media (max-width:640px)': { fontSize: '24px' },
   },
 } satisfies Record<string, SxProps<Theme>>;
 

@@ -1,62 +1,55 @@
-import { useState } from 'react';
-import { usePreferences } from '../PreferencesProvider';
+import { useCallback, useMemo, useState } from 'react';
+import { usePreferences } from '../preferences/PreferencesContext';
 import {
+  CHECKPOINT_OFFSET,
   PROJECT_DISTANCE,
-  TRANSITION_DISTANCE,
-  createTimeline,
-  progressBetween,
-} from '../scrollTimeline';
-import type { WindowScroll } from '../useWindowScroll';
+  type SequenceTimeline,
+} from '../scroll/scrollTimeline';
+import { useScrollSnapshot } from '../scroll/useWindowScroll';
+import { getPortfolioStage } from './portfolioSequence';
 
 export default function usePortfolioSequence(
-  scroll: WindowScroll,
-  serviceCount: number,
+  viewport: number,
   projectCount: number,
+  timeline: SequenceTimeline,
 ) {
   const { reduceMotion } = usePreferences();
   const [manualIndex, setManualIndex] = useState(0);
-  const timeline = createTimeline(serviceCount, projectCount);
-  const position = scroll.y / scroll.viewport;
-
-  return {
-    manualIndex,
-    progress: progressBetween(
-      position,
-      timeline.portfolioStart,
-      TRANSITION_DISTANCE,
-    ),
-    closingProgress: reduceMotion
-      ? Number(manualIndex === projectCount)
-      : progressBetween(position, timeline.closingStart, TRANSITION_DISTANCE),
-    projectIndex: reduceMotion
-      ? Math.min(manualIndex, projectCount - 1)
-      : Math.max(
-          0,
-          Math.min(
-            projectCount - 1,
-            Math.floor((position - timeline.projectsStart) / PROJECT_DISTANCE),
-          ),
-        ),
-    selectProject: (projectIndex: number) => {
-      if (projectIndex < 0 || projectIndex > projectCount) return;
+  const stage = useScrollSnapshot((scroll) =>
+    reduceMotion
+      ? manualIndex
+      : getPortfolioStage(scroll.y / scroll.viewport, projectCount, timeline),
+  );
+  const selectProject = useCallback(
+    (index: number) => {
+      if (!Number.isInteger(index) || index < 0 || index > projectCount) return;
       if (reduceMotion) {
-        setManualIndex(projectIndex);
+        setManualIndex(index);
         return;
       }
-      if (projectIndex === projectCount) return;
-
+      if (index === projectCount) return;
       window.scrollTo({
         top:
-          (timeline.projectsStart + projectIndex * PROJECT_DISTANCE + 0.05) *
-          scroll.viewport,
+          (timeline.projectsStart +
+            index * PROJECT_DISTANCE +
+            CHECKPOINT_OFFSET) *
+          viewport,
         behavior: 'instant',
       });
     },
-    nextManualProject: () =>
-      setManualIndex((index) => Math.min(index + 1, projectCount)),
-    scrollShadowOpacity: reduceMotion
-      ? 1
-      : 1 - progressBetween(position, timeline.closingEnd - 0.3, 0.3),
-    timeline,
-  };
+    [reduceMotion, projectCount, timeline.projectsStart, viewport],
+  );
+  const nextManualProject = useCallback(
+    () => setManualIndex((index) => Math.min(index + 1, projectCount)),
+    [projectCount],
+  );
+  return useMemo(
+    () => ({
+      closingProgress: Number(stage === projectCount),
+      projectIndex: Math.min(stage, projectCount - 1),
+      selectProject,
+      nextManualProject,
+    }),
+    [stage, projectCount, selectProject, nextManualProject],
+  );
 }

@@ -6,8 +6,6 @@ const styles = {
   picture: {
     position: 'absolute',
     inset: 0,
-    transition: 'opacity 350ms ease',
-    '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
   },
   image: {
     width: '100%',
@@ -25,14 +23,11 @@ export default function ProjectScreenshots({
   projects,
   projectIndex,
   closing,
-  enabled,
 }: {
   projects: Project[];
   projectIndex: number;
   closing: boolean;
-  enabled: boolean;
 }) {
-  if (!enabled) return null;
   return (
     <>
       {projects.map(

@@ -22,8 +22,6 @@ const styles = {
   screenshots: {
     position: 'absolute',
     inset: 0,
-    transition: 'opacity 350ms ease',
-    '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
   },
   chin: {
     height: '30px',
@@ -51,7 +49,6 @@ interface Props {
   projects: Project[];
   projectIndex: number;
   closingProgress: number;
-  loadImages: boolean;
 }
 
 export default function ProjectBrowser({
@@ -59,7 +56,6 @@ export default function ProjectBrowser({
   projects,
   projectIndex,
   closingProgress,
-  loadImages,
 }: Props) {
   const showClosing = closingProgress >= 0.5;
 
@@ -72,7 +68,6 @@ export default function ProjectBrowser({
             projects={projects}
             projectIndex={projectIndex}
             closing={showClosing}
-            enabled={loadImages}
           />
         </Box>
         <ClosingScreen progress={closingProgress} />
