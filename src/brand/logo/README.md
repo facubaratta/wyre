@@ -1,6 +1,6 @@
 # Wyre hero logo
 
-Reusable animated React/TypeScript wordmark component. The blue Y is drawn as a continuous circuit path, with moving energy packets and restrained light spill over the neighboring letters.
+Reusable animated React/TypeScript wordmark component. The accent-colored Y is drawn as a continuous circuit path, with moving energy packets and restrained light spill over the neighboring letters.
 
 ## Use
 
@@ -16,16 +16,17 @@ export function LandingPage() {
 
 The animation uses browser APIs and runs in the client-side React application.
 
-The logo works without `PreferencesProvider`. Its `accent` prop supplies a local palette (default `#c2a27b`), and it reads the system reduced-motion preference directly. Set `animationActive={false}` while hiding the logo to stop animation work; restore it to resume.
+The logo works without `PreferencesProvider`. Its `accent` prop supplies a local palette (default `#c2a27b`), and it reads the system reduced-motion preference directly. Set `animationActive={false}` while hiding the logo to stop animation work; restore it to resume. The hook also pauses while the logo is outside the viewport or the document is hidden. Compact logos omit the circuit animation.
 
 ## Files
 
 | File | Responsibility |
 | --- | --- |
 | `HeroLogo.tsx` | Public component, instance ID, accessible wordmark, animation hook |
-| `HeroLogo.tsx` | Inline layout and typography |
 | `geometry.ts` | Primary paths, branches, departure ports, schedules, contact fields |
-| `useLogoAnimation.ts` | SVG measurements, packet movement, light reflection, lifecycle cleanup |
+| `createLogoScene.ts` | SVG measurement, fixed packet schedules, DOM bindings |
+| `renderLogoFrame.ts` | Packet movement and light reflection |
+| `useLogoAnimation.ts` | Visibility, reduced motion, animation scheduling, cleanup |
 | `components/` | Letter surfaces, Y glyph, SVG definitions, traces, details, and packet lights |
 | `index.ts` | Component and prop type exports |
 | `scripts/generate_geometry.py` | Reproducible primary route calculation and validation |

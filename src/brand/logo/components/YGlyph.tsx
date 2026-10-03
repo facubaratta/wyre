@@ -1,14 +1,13 @@
 import Box from '@mui/material/Box';
 import type { CSSProperties } from 'react';
-import useControlState from '../../../useControlState';
-import { AccentColorHint } from './AccentColorHint';
-import { SUBSTRATE } from '../geometry';
+import useControlState from '../../../controls/useControlState';
+import { SUBSTRATE, VIEWBOX_WIDTH } from '../geometry';
 import { SvgDefinitions } from './SvgDefinitions';
 import { CircuitTraces } from './CircuitTraces';
 import { CircuitDetails } from './CircuitDetails';
 import { PacketLights, SurfaceLights, SpillLights } from './PacketLights';
 
-const ACCENT_COLORS = ['#c2a27b', '#35d0ba', '#43a5ff', '#a77bff', '#ff6f91'];
+const ACCENT_COLORS = ['#2a2acb', '#35d0ba', '#43a5ff', '#a77bff', '#ff6f91'];
 
 const buttonSx = {
   position: 'absolute',
@@ -25,24 +24,25 @@ const buttonSx = {
 
 const glyphStyle = {
   position: 'relative',
-  transform: 'translateY(-2px)',
+  display: 'inline-block',
+  lineHeight: 0,
   marginLeft: '.045em',
   marginRight: '-.045em',
   letterSpacing: 0,
 } satisfies CSSProperties;
 
 const svgStyle = {
-  position: 'absolute',
-  inset: 0,
-  width: '100%',
-  height: '100%',
+  width: `${VIEWBOX_WIDTH / 1000}em`,
+  height: '1em',
+  // The SVG baseline is 846.5 of its 1000 units; expose it to inline layout.
+  verticalAlign: '-0.1535em',
   overflow: 'visible',
 } satisfies CSSProperties;
 
 interface YGlyphProps {
   id: string;
+  compact?: boolean;
   accent?: string;
-  showAccentHint?: boolean;
   onAccentChange?: (color: string) => void;
 }
 
@@ -50,7 +50,7 @@ export function YGlyph({
   id,
   accent,
   onAccentChange,
-  showAccentHint = false,
+  compact = false,
 }: YGlyphProps) {
   const { focusVisible, events } = useControlState();
   const currentColorIndex = ACCENT_COLORS.indexOf(accent ?? '');
@@ -58,19 +58,16 @@ export function YGlyph({
     ACCENT_COLORS[(currentColorIndex + 1) % ACCENT_COLORS.length];
   return (
     <Box component="span" style={glyphStyle}>
-      <span
-        aria-hidden="true"
-        style={{ display: 'block', visibility: 'hidden' }}
-      >
-        y
-      </span>
       <svg
         aria-hidden="true"
         data-logo-svg
         viewBox="0 0 556.152 1000"
         xmlns="http://www.w3.org/2000/svg"
         focusable="false"
-        style={svgStyle}
+        style={{
+          ...svgStyle,
+          transform: compact ? 'translateY(-0.04em)' : 'none',
+        }}
       >
         <SvgDefinitions id={id} />
         <g clipPath={`url(#${id}-glyph)`}>
@@ -80,7 +77,7 @@ export function YGlyph({
             fontFamily="Arial,Helvetica,sans-serif"
             fontSize="1000"
             fontWeight="700"
-            fill={SUBSTRATE}
+            fill={compact ? 'var(--accent-light)' : SUBSTRATE}
           >
             y
           </text>
@@ -91,20 +88,19 @@ export function YGlyph({
             fontSize="1000"
             fontWeight="700"
             fill="none"
-            stroke="var(--accent)"
+            stroke={compact ? 'var(--accent-bright)' : 'var(--accent)'}
             strokeWidth="1.5"
-            opacity=".65"
+            opacity={compact ? 1 : 0.65}
           >
             y
           </text>
-          <CircuitTraces id={id} />
-          <CircuitDetails id={id} />
-          <SurfaceLights id={id} />
-          <PacketLights id={id} />
+          {!compact && <CircuitTraces id={id} />}
+          {!compact && <CircuitDetails id={id} />}
+          {!compact && <SurfaceLights id={id} />}
+          {!compact && <PacketLights id={id} />}
         </g>
-        <SpillLights id={id} />
+        {!compact && <SpillLights id={id} />}
       </svg>
-      {onAccentChange && <AccentColorHint visible={showAccentHint} />}
       {onAccentChange && (
         <Box
           component="button"

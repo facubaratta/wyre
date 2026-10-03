@@ -2,7 +2,7 @@
 
 ## Visual direction
 
-One cyan conductor color (`#74e0f2`) on a bright blue Y substrate (`#174b9c`). Main traces have a fine core and restrained bloom. Details are PCB branches, vias, registration marks, and contacts rather than illustrated hardware or metallic housings.
+The conductors, substrate, and light spill share the selected accent palette through CSS variables. Main traces have a fine core and restrained bloom. Details are PCB branches, vias, registration marks, and contacts rather than illustrated hardware or metallic housings.
 
 The upper arms have compact PCB-style transitions. The four lower conductors use nested cubic curves that follow the glyph's rounded tail. The middle is a wide tapered fan, preserving the letter's visible width rather than gathering every conductor into a tight central bank.
 

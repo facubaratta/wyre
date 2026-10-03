@@ -1,10 +1,11 @@
-'use client';
-
 import { useId, useRef, type CSSProperties } from 'react';
 import { LitLetter } from './components/LitLetter';
 import { YGlyph } from './components/YGlyph';
 import { useLogoAnimation } from './useLogoAnimation';
-import { DEFAULT_ACCENT, getAccentVariables } from '../../useAccentColor';
+import {
+  DEFAULT_ACCENT,
+  getAccentVariables,
+} from '../../preferences/useAccentColor';
 
 const logoStyle = {
   display: 'inline-flex',
@@ -16,7 +17,7 @@ const logoStyle = {
 
 export interface HeroLogoProps {
   accent?: string;
-  showAccentHint?: boolean;
+  compact?: boolean;
   onAccentChange?: (color: string) => void;
   /** Suspend animation while the wordmark is hidden. */
   animationActive?: boolean;
@@ -29,15 +30,15 @@ export interface HeroLogoProps {
 /** Animated wordmark that inherits its size and participates in its parent's layout. */
 export function HeroLogo({
   style,
+  compact = false,
   label = 'Wyre',
   accent = DEFAULT_ACCENT,
   onAccentChange,
-  showAccentHint = false,
   animationActive = true,
 }: HeroLogoProps) {
   const root = useRef<HTMLDivElement>(null);
   const id = `wyre-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  useLogoAnimation(root, animationActive);
+  useLogoAnimation(root, animationActive && !compact);
 
   return (
     <div
@@ -56,10 +57,10 @@ export function HeroLogo({
       >
         <LitLetter letter="w" />
         <YGlyph
+          compact={compact}
           id={id}
           accent={accent}
           onAccentChange={onAccentChange}
-          showAccentHint={showAccentHint}
         />
         <LitLetter letter="r" />
         <LitLetter letter="e" />

@@ -52,6 +52,15 @@ def routes():
             for index, points in enumerate(CONTROL_POINTS)]
 
 
+
+def parse_routes(source):
+    """Read the generated data after TypeScript formatting by Prettier."""
+    source = re.sub(r'([\{,]\s*)([A-Za-z_]\w*)(\s*:)', r'\1"\2"\3', source)
+    source = re.sub(r"'([^']*)'", lambda match: json.dumps(match.group(1)), source)
+    source = re.sub(r',(\s*[}\]])', r'\1', source)
+    return json.loads(source)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group()
@@ -70,7 +79,7 @@ def main():
         source = source[:match.start(2)] + json.dumps(generated, indent=2) + source[match.end(2):]
         geometry.write_text(source)
         print(f'Updated {geometry.name}: 8 routes, 4 side exits, 4 lower-tail routes.')
-    elif json.loads(match.group(2)) != generated:
+    elif parse_routes(match.group(2)) != generated:
         raise SystemExit('geometry.ts differs from authored controls; use --write to regenerate.')
     else:
         print('Geometry matches: 4 left origins, 4 right origins, 4 side exits, 4 lower-tail routes.')
