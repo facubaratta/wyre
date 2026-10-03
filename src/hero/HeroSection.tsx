@@ -1,91 +1,59 @@
 import Box from '@mui/material/Box';
-import { useLayoutEffect, useRef } from 'react';
-import ServiceHighlights from './services/ServiceHighlights';
 import HeroWordmark from './HeroWordmark';
-import HeroContact from './HeroContact';
-import { usePreferences } from '../PreferencesProvider';
-import { useLandingSequence } from '../LandingSequenceProvider';
+import { usePreferences } from '../preferences/PreferencesContext';
+import BrandEquation from '../brand/BrandEquation';
+import NavigationActions from '../navigation/NavigationActions';
+import HeroCopy from './HeroCopy';
+import { useHeroExit } from './transition/TitleTransitionContext';
 
-const heroSx = (reduceMotion: boolean, exitProgress: number) => ({
+const heroSx = {
   position: 'relative',
   zIndex: 1,
   display: 'flex',
-  alignItems: 'safe center',
-  justifyContent: 'space-between',
-  gap: '5vw',
+  flexDirection: { xs: 'column', md: 'row-reverse' },
+  alignItems: 'center',
+  justifyContent: 'safe center',
+  gap: { xs: '16px', sm: '40px', md: '6vw' },
   minHeight: '100svh',
-  px: '6.5vw',
-  py: '8vh',
+  px: { xs: '6vw', sm: '6.5vw' },
+  pt: { xs: 'max(32px, env(safe-area-inset-top))', md: '100px' },
+  pb: { xs: '88px', md: '100px' },
   color: 'text.primary',
-  '@media (max-width:640px)': {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'safe center',
-    gap: 'clamp(20px, 4svh, 36px)',
-    px: '8vw',
-    pt: 'calc(122px + 6svh)',
-    pb: '3svh',
-  },
-  height: reduceMotion ? 'auto' : '100svh',
-  overflow: reduceMotion ? 'visible' : 'hidden',
-  opacity: reduceMotion ? 1 : 1 - exitProgress,
-  visibility: !reduceMotion && exitProgress === 1 ? 'hidden' : 'visible',
-  transform: reduceMotion ? 'none' : `translateY(${-exitProgress * 8}svh)`,
-});
+  textAlign: 'center',
+};
 
 export default function HeroSection() {
-  const { service, portfolio } = useLandingSequence();
-  const {
-    activeIndex,
-    heroScrollProgress: scrollProgress,
-    showAccentHint,
-    selectService: onSelectService,
-  } = service;
-  const exitProgress = portfolio.progress;
   const { reduceMotion } = usePreferences();
-  const root = useRef<HTMLDivElement>(null);
-  const progress = useRef(scrollProgress);
-
-  useLayoutEffect(() => {
-    progress.current = scrollProgress;
-    const hero = root.current;
-    if (hero && !reduceMotion) {
-      hero.scrollTop =
-        Math.max(0, hero.scrollHeight - hero.clientHeight) * scrollProgress;
-    }
-  }, [scrollProgress, reduceMotion]);
-
-  useLayoutEffect(() => {
-    const hero = root.current;
-    if (!hero || reduceMotion) {
-      if (hero) hero.scrollTop = 0;
-      return;
-    }
-    const sync = () => {
-      hero.scrollTop =
-        Math.max(0, hero.scrollHeight - hero.clientHeight) * progress.current;
-    };
-    // Expansion animations and viewport changes can change the overflow between page scroll events.
-    const observer = new ResizeObserver(sync);
-    observer.observe(hero);
-    Array.from(hero.children).forEach((child) => observer.observe(child));
-    sync();
-    return () => observer.disconnect();
-  }, [reduceMotion]);
+  const exit = useHeroExit();
 
   return (
     <Box
-      ref={root}
-      inert={!reduceMotion && exitProgress >= 0.5}
-      aria-hidden={!reduceMotion && exitProgress >= 0.5}
-      sx={heroSx(reduceMotion, exitProgress)}
+      component="section"
+      aria-labelledby="hero-headline"
+      id="hero"
+      inert={exit === 1}
+      sx={heroSx}
     >
-      <HeroContact />
-      <ServiceHighlights activeIndex={activeIndex} onSelect={onSelectService} />
-      <HeroWordmark
-        showAccentHint={showAccentHint}
-        animationActive={reduceMotion || exitProgress < 1}
-      />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: { xs: 2, sm: 0 },
+          width: { xs: '100%', md: 'auto' },
+          alignItems: 'center',
+        }}
+        inert={exit === 1}
+        style={{
+          opacity: 1 - exit,
+          visibility: exit === 1 ? 'hidden' : 'visible',
+        }}
+      >
+        <NavigationActions placement="hero" />
+        <HeroWordmark animationActive={reduceMotion || exit < 1} />
+        <BrandEquation />
+      </Box>
+
+      <HeroCopy />
     </Box>
   );
 }
