@@ -34,6 +34,20 @@ for (const viewport of [
     });
     await page.evaluate(() => document.fonts.ready);
     expect(
+      await page.evaluate(() => document.fonts.check('400 16px Manrope')),
+    ).toBe(true);
+    const openingRequests = await page.evaluate(() =>
+      performance.getEntriesByType('resource').map((entry) => entry.name),
+    );
+    expect(
+      openingRequests.some((url) =>
+        /fonts\.(googleapis|gstatic)\.com/.test(url),
+      ),
+    ).toBe(false);
+    expect(
+      openingRequests.filter((url) => /\/fonts\/.*\.woff2/.test(url)),
+    ).toEqual([expect.stringContaining('/fonts/manrope-latin-variable.woff2')]);
+    expect(
       await page.evaluate(() =>
         performance
           .getEntriesByType('resource')
@@ -60,6 +74,19 @@ for (const viewport of [
       )
       .toBe(true);
     await expect(page.locator('#ai-example figure')).toBeVisible();
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () =>
+            [...document.fonts].filter(
+              (face) =>
+                ['Instrument Serif', 'Roboto Mono'].includes(
+                  face.family.replaceAll('"', ''),
+                ) && face.status === 'loaded',
+            ).length,
+        ),
+      )
+      .toBe(3);
     const after = await page.locator('#decisiones-humanas').boundingBox();
     expect(Math.abs(before.height - after.height)).toBeLessThan(2);
     await page.screenshot({
