@@ -14,7 +14,8 @@ React, Vite, and MUI. Run `npm install` and `npm run dev` to start locally.
 | `contact/` | Contact links and buttons |
 | `hero/` | Hero copy, wordmark, and sticky scene |
 | `hero/transition/` | Hero-to-web title/globe measurement, interpolation, rendering, and scroll lifecycle |
-| `navigation/` | Navbar visibility, height, actions, and accent picker |
+| `navigation/` | Navbar visibility, height, actions, and combined language/accent picker |
+| `i18n/` | English/Spanish copy, language context, URL switching, and document metadata |
 | `portfolio/` | Sticky scene, project selection, screenshots, browser frame, and closing screen |
 | `preferences/` | Accent palette and system reduced-motion preference |
 | `scroll/` | Window-scroll store, dimension-based timeline, layout context, checkpoints, arrow, and shadow |
@@ -43,7 +44,7 @@ Checkpoint section bounds are read when the arrow is activated. Successive taps 
 
 ## Production delivery
 
-`npm run build` produces a static, prerendered page in `dist/`; no runtime server is required. `npm run build:pages -- --base=/own-landing-page/` uses the same pipeline with a deployment subpath. The temporary server bundle is removed after rendering. The client hydrates the existing HTML; the development server still mounts the app directly.
+`npm run build` produces static, prerendered pages at `/`, `/en/` and `/es/` in `dist/`; no runtime server is required. English is the default. A small React context selects typed English/Spanish copy without a translation or routing library. The EN/ES accent circle opens language links and color swatches; language changes update the URL, copy and metadata without resetting the accent. Browser back/forward restores the language, and direct locale URLs work without JavaScript. Service contact messages use the current language. `npm run build:pages -- --base=/own-landing-page/` uses the same pipeline with a deployment subpath. The temporary server bundle is removed after rendering. The client hydrates the existing HTML; the development server still mounts the app directly.
 
 The example component code loads when its section approaches within 1000px of the viewport. Its static HTML is present from the first response, and fallback markup preserves the layout during early hydration updates. The portfolio stays under live React ownership from the initial render so scroll/context updates and development hot reload cannot leave it displaying a static snapshot. Section containers stay mounted so dimensions and scroll checkpoints remain measurable. Fonts are unchanged.
 
