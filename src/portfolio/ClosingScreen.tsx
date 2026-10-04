@@ -22,6 +22,8 @@ const closingSx = {
 const headingSx = {
   m: 0,
   flexShrink: 0,
+  maxWidth: '100%',
+  overflowWrap: 'anywhere',
   py: '5%',
   borderTop: '1px solid rgba(235,232,222,.22)',
   fontSize: 'clamp(20px, 12cqw, 30px)',
@@ -57,9 +59,9 @@ export default function ClosingScreen({ progress }: { progress: number }) {
         id="closing-heading"
         aria-label="Tu próxima web o app mobile"
       >
-        Tu próxima&nbsp;
+        {'Tu próxima '}
         <Highlight>web</Highlight>
-        &nbsp;o&nbsp;
+        {' o '}
         <Highlight>app mobile</Highlight>
       </Box>
       <Box
