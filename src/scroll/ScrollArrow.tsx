@@ -6,7 +6,7 @@ import { usePreferences } from '../preferences/PreferencesContext';
 import useScrollCheckpoints from './useScrollCheckpoints';
 import { useLandingLayout } from './LandingLayoutContext';
 import { usePortfolioSequenceState } from '../portfolio/PortfolioSequenceContext';
-import useWindowScroll from './useWindowScroll';
+import { useScrollSnapshot } from './useWindowScroll';
 import { projects } from '../portfolio/projects';
 
 const bounce = keyframes({
@@ -52,17 +52,22 @@ const highlightSx = {
 
 const ScrollArrow = () => {
   const { hovered, pressed, focusVisible, events } = useControlState();
-  const scroll = useWindowScroll();
   const { timeline } = useLandingLayout();
   const { nextManualProject: onNextReducedMotion } =
     usePortfolioSequenceState();
   const projectCount = projects.length;
   const { reduceMotion } = usePreferences();
-  const atEnd =
-    !reduceMotion &&
-    scroll.y / scroll.viewport >= timeline.closingEnd - 2 / scroll.viewport;
+  const atEnd = useScrollSnapshot(
+    (scroll) =>
+      !reduceMotion && scroll.y >= timeline.closingEnd * scroll.viewport - 2,
+  );
+  const bouncing = useScrollSnapshot(
+    (scroll) =>
+      !reduceMotion &&
+      scroll.y < timeline.closingEnd * scroll.viewport - 2 &&
+      (scroll.y < 4 || scroll.y / scroll.viewport >= timeline.portfolioStart),
+  );
   const nextCheckpoint = useScrollCheckpoints({
-    scroll,
     projectCount,
     projectsStart: timeline.projectsStart,
     atEnd,
@@ -74,13 +79,7 @@ const ScrollArrow = () => {
     <Box
       sx={{
         ...rootSx,
-        animation:
-          !reduceMotion &&
-          !atEnd &&
-          (scroll.y < 4 ||
-            scroll.y / scroll.viewport >= timeline.portfolioStart)
-            ? `${bounce} 1.4s ease-in-out infinite`
-            : 'none',
+        animation: bouncing ? `${bounce} 1.4s ease-in-out infinite` : 'none',
         outline: focusVisible ? '2px solid var(--accent)' : 'none',
       }}
     >

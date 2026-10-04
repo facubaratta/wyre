@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { CHECKPOINT_OFFSET, PROJECT_DISTANCE } from './scrollTimeline';
-import type { WindowScroll } from './windowScrollStore';
+import { getWindowScroll, subscribeWindowScroll } from './windowScrollStore';
 
 const createCheckpoints = (length: number, start: number, distance: number) =>
   Array.from({ length }, (_, index) => start + index * distance);
 
 interface Options {
-  scroll: WindowScroll;
   projectCount: number;
   projectsStart: number;
   atEnd: boolean;
@@ -15,7 +14,6 @@ interface Options {
 }
 
 export default function useScrollCheckpoints({
-  scroll,
   projectCount,
   projectsStart,
   atEnd,
@@ -23,18 +21,17 @@ export default function useScrollCheckpoints({
   onNextReducedMotion,
 }: Options) {
   const pendingPosition = useRef<number | null>(null);
-  const previousY = useRef(scroll.y);
   useEffect(() => {
-    const movingUp = scroll.y < previousY.current;
-    previousY.current = scroll.y;
-    const pending = pendingPosition.current;
-    if (pending === null) return;
-
-    // Downward animation keeps its target until arrival or a reversal.
-    if (scroll.y >= pending - 2 || movingUp) {
-      pendingPosition.current = null;
-    }
-  }, [scroll.y]);
+    let previousY = getWindowScroll().y;
+    return subscribeWindowScroll(() => {
+      const { y } = getWindowScroll();
+      const movingUp = y < previousY;
+      previousY = y;
+      const pending = pendingPosition.current;
+      if (pending !== null && (y >= pending - 2 || movingUp))
+        pendingPosition.current = null;
+    });
+  }, []);
 
   useEffect(() => {
     const clearPending = () => {
@@ -79,6 +76,7 @@ export default function useScrollCheckpoints({
   }, []);
 
   const nextCheckpoint = () => {
+    const scroll = getWindowScroll();
     const pageBottom = Math.max(
       document.documentElement.scrollHeight - scroll.viewport,
       0,
