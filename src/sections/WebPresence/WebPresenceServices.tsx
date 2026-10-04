@@ -1,43 +1,46 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import ServiceReveal from './ServiceReveal';
+import ServiceCard from './ServiceCard';
 import { services } from './services';
+
+const rows = [
+  { indices: [0, 2, 3], columns: 'repeat(3, minmax(0, 1fr))' },
+  { indices: [1, 4], columns: 'minmax(0, 2fr) minmax(0, 1fr)' },
+];
 
 export default function WebPresenceServices() {
   return (
     <Box
-      sx={{
-        mt: { xs: 4, sm: 9 },
-        display: 'grid',
-        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-        columnGap: { md: 8 },
-        rowGap: { xs: 4, sm: 5 },
-      }}
+      sx={{ mt: { xs: 4, sm: 6 }, display: 'grid', gap: { xs: 2.5, sm: 3 } }}
     >
-      {services.map(({ title, description }, index) => (
-        <ServiceReveal key={title} index={index}>
-          <Typography
-            component="h3"
-            sx={{
-              fontSize: { xs: 24, sm: 30 },
-              fontWeight: 500,
-              letterSpacing: '-.025em',
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography
-            component="p"
-            sx={{
-              mt: 2,
-              fontSize: { xs: 16, sm: 20 },
-              lineHeight: 1.65,
-              color: 'text.secondary',
-            }}
-          >
-            {description}
-          </Typography>
-        </ServiceReveal>
+      {rows.map(({ indices, columns }) => (
+        <Box
+          key={indices.join('-')}
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, minmax(0, 1fr))',
+              lg: columns,
+            },
+            gap: { xs: 2.5, sm: 3 },
+          }}
+        >
+          {indices.map((index, offset) => (
+            <Box
+              key={services[index].title}
+              sx={{
+                minWidth: 0,
+                height: '100%',
+                gridColumn:
+                  indices.length === 3 && offset === 2
+                    ? { sm: 'span 2', lg: 'auto' }
+                    : 'auto',
+              }}
+            >
+              <ServiceCard service={services[index]} index={index} />
+            </Box>
+          ))}
+        </Box>
       ))}
     </Box>
   );

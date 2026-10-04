@@ -20,7 +20,7 @@ export default function ServiceReveal({
   return (
     <Box
       component="article"
-      sx={{ pt: 3, borderTop: '1px solid rgba(235,232,222,.22)' }}
+      sx={{ height: '100%' }}
       style={{
         opacity: reveal,
         transform: `translate3d(0, ${(1 - reveal) * 42}px, 0)`,
