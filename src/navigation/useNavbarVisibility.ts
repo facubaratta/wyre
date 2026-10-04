@@ -19,12 +19,17 @@ export default function useNavbarVisibility() {
         ),
       );
     let previousY = getScrollY();
-
     const update = () => {
       const y = getScrollY();
       const delta = y - previousY;
+      const heroBounds = document
+        .getElementById('hero')
+        ?.getBoundingClientRect();
+      const overlapsHero = heroBounds
+        ? heroBounds.bottom > 0 && heroBounds.top < getWindowScroll().viewport
+        : y <= getWindowScroll().viewport;
 
-      if (y <= SCROLL_THRESHOLD) {
+      if (y <= SCROLL_THRESHOLD || overlapsHero) {
         setVisible(false);
         previousY = y;
       } else if (Math.abs(delta) >= SCROLL_THRESHOLD) {
@@ -32,7 +37,9 @@ export default function useNavbarVisibility() {
         previousY = y;
       }
     };
-    return subscribeWindowScroll(update);
+    const unsubscribe = subscribeWindowScroll(update);
+    update();
+    return unsubscribe;
   }, []);
 
   return visible;

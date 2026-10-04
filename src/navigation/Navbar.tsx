@@ -6,7 +6,10 @@ import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from './NavigationActions';
 import useHeaderHeight from './useHeaderHeight';
 import useNavbarVisibility from './useNavbarVisibility';
-import { useTitleTransition } from '../hero/transition/TitleTransitionContext';
+import {
+  useTitleFrame,
+  useTitleTransition,
+} from '../hero/transition/TitleTransitionContext';
 
 export default function Navbar() {
   const scrolled = useScrollSnapshot((scroll) => scroll.y > 0);
@@ -14,8 +17,10 @@ export default function Navbar() {
   const headerRef = useHeaderHeight();
   const visible = useNavbarVisibility();
   const { moving, complete } = useTitleTransition();
+  const titleFrame = useTitleFrame();
   const animating = moving && !complete;
-  const show = scrolled && visible && !animating;
+  const pastHero = titleFrame === null || titleFrame.progress === 1;
+  const show = scrolled && visible && !animating && pastHero;
   return (
     <Box
       component="header"
@@ -28,7 +33,7 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 20,
-        opacity: scrolled && !animating ? 1 : 0,
+        opacity: show ? 1 : 0,
         pointerEvents: show ? 'auto' : 'none',
         transform: show ? 'translateY(0)' : 'translateY(-100%)',
         transition: reduceMotion ? 'none' : 'transform 200ms ease',
