@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import type { ReactNode } from 'react';
-import { useTitleFrame } from '../hero/transition/TitleTransitionContext';
-import { between, ease } from '../hero/transition/motion';
+import { useTitleFrame } from '../../hero/transition/TitleTransitionContext';
+import { between, ease } from '../../hero/transition/motion';
 
 export default function ServiceReveal({
   index,

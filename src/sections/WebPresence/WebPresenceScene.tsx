@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import type { ReactNode } from 'react';
-import { useTitleFrame } from '../hero/transition/TitleTransitionContext';
+import { useTitleFrame } from '../../hero/transition/TitleTransitionContext';
 
 export default function WebPresenceScene({
   id,
