@@ -2,16 +2,23 @@ import type { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ServiceInterestLink from './ServiceInterestLink';
+import ServiceDetailsReveal from './ServiceDetailsReveal';
 import type { WebService } from './services';
 
 export default function ServiceCardContent({
   service,
   featured,
   drawing,
+  showDetails,
+  detailsId,
+  onExpand,
 }: {
   service: WebService;
   featured: boolean;
   drawing?: ReactNode;
+  showDetails: boolean;
+  detailsId: string;
+  onExpand?: () => void;
 }) {
   const { title, description, interest, label } = service;
   return (
@@ -51,9 +58,14 @@ export default function ServiceCardContent({
         >
           {title}
         </Typography>
-        <ServiceInterestLink service={title} interest={interest} />
+        <ServiceInterestLink
+          service={title}
+          interest={interest}
+          onExpand={onExpand}
+          detailsId={detailsId}
+        />
       </Box>
-      <Box>
+      <ServiceDetailsReveal open={showDetails} id={detailsId}>
         <Box
           sx={{
             mt: 1.5,
@@ -81,13 +93,20 @@ export default function ServiceCardContent({
               sx={{
                 width: 90,
                 flexShrink: 0,
+                opacity: showDetails ? 1 : 0,
+                transform: showDetails ? 'translateY(0)' : 'translateY(12px)',
+                transition:
+                  'opacity 300ms ease 80ms, transform 420ms cubic-bezier(0.22, 1, 0.36, 1) 80ms',
+                '@media (prefers-reduced-motion: reduce)': {
+                  transition: 'none',
+                },
               }}
             >
               {drawing}
             </Box>
           )}
         </Box>
-      </Box>
+      </ServiceDetailsReveal>
     </Box>
   );
 }

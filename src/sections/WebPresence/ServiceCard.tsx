@@ -1,7 +1,11 @@
 import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import { useId, useState } from 'react';
 import ServiceReveal from './ServiceReveal';
 import WebPresencePreview from './WebPresencePreview';
 import ServiceCardContent from './ServiceCardContent';
+import ServiceDetailsReveal from './ServiceDetailsReveal';
 import type { WebService } from './services';
 
 export default function ServiceCard({
@@ -13,6 +17,11 @@ export default function ServiceCard({
 }) {
   const featured = index === 0;
   const horizontal = index === 1;
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [expanded, setExpanded] = useState(false);
+  const detailsId = useId();
+  const showDetails = !mobile || expanded;
   return (
     <Box
       sx={{
@@ -57,6 +66,9 @@ export default function ServiceCard({
             <ServiceCardContent
               service={service}
               featured={featured}
+              showDetails={showDetails}
+              detailsId={detailsId}
+              onExpand={!showDetails ? () => setExpanded(true) : undefined}
               drawing={
                 index === 4 ? <WebPresencePreview kind={index} /> : undefined
               }
@@ -69,11 +81,11 @@ export default function ServiceCard({
                   mt: horizontal ? { xs: 'auto', lg: 0 } : 'auto',
                 }}
               >
-                <Box>
+                <ServiceDetailsReveal open={showDetails} delay={80}>
                   <Box sx={{ pt: { xs: 2.5, sm: 0 } }}>
                     <WebPresencePreview kind={index} />
                   </Box>
-                </Box>
+                </ServiceDetailsReveal>
               </Box>
             )}
           </Box>

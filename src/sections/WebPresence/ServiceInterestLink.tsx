@@ -4,19 +4,35 @@ import useControlState from '../../controls/useControlState';
 export default function ServiceInterestLink({
   service,
   interest,
+  onExpand,
+  detailsId,
 }: {
   service: string;
   interest: string;
+  onExpand?: () => void;
+  detailsId: string;
 }) {
   const { hovered, pressed, focusVisible, events } = useControlState();
 
   return (
     <Box
-      component="a"
-      href={`https://wa.me/5491133610131?text=${encodeURIComponent(`Hola Wyre, me interesa ${interest}.`)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Me interesa: ${service}. Contactar por WhatsApp`}
+      component={onExpand ? 'button' : 'a'}
+      href={
+        onExpand
+          ? undefined
+          : `https://wa.me/5491133610131?text=${encodeURIComponent(`Hola Wyre, me interesa ${interest}.`)}`
+      }
+      target={onExpand ? undefined : '_blank'}
+      rel={onExpand ? undefined : 'noopener noreferrer'}
+      type={onExpand ? 'button' : undefined}
+      onClick={onExpand}
+      aria-expanded={onExpand ? false : undefined}
+      aria-controls={onExpand ? detailsId : undefined}
+      aria-label={
+        onExpand
+          ? `Ver más: ${service}`
+          : `Me interesa: ${service}. Contactar por WhatsApp`
+      }
       {...events}
       sx={{
         display: 'inline-flex',
@@ -40,7 +56,7 @@ export default function ServiceInterestLink({
         outlineOffset: 4,
       }}
     >
-      Me interesa
+      {onExpand ? 'Ver más' : 'Me interesa'}
       <Box
         component="svg"
         viewBox="0 0 20 20"
@@ -53,7 +69,7 @@ export default function ServiceInterestLink({
         focusable="false"
         sx={{ width: 14, height: 14 }}
       >
-        <path d="M5 15 15 5M5 5h10v10" />
+        <path d={onExpand ? 'm5 8 5 5 5-5' : 'M5 15 15 5M5 5h10v10'} />
       </Box>
     </Box>
   );
