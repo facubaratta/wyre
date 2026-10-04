@@ -13,7 +13,10 @@ test('reduced motion hydrates and keeps manual project navigation', async ({
   await page
     .locator('#crecimiento-real')
     .evaluate((element) =>
-      window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY),
+      window.scrollTo(
+        0,
+        Math.ceil(element.getBoundingClientRect().top + window.scrollY),
+      ),
     );
   await expect(page.locator('#crecimiento-real')).toBeVisible();
   await page
