@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import ContactLink from './ContactLink';
 import type { ContactPlacement } from './ContactLink';
+import { useContactInterest } from './ContactInterestContext';
 
 type Placement = ContactPlacement;
 
@@ -73,13 +74,23 @@ export default function ContactButtons({
 }: {
   placement?: Placement;
 }) {
+  const { interest } = useContactInterest();
+  const message = interest ? `Hola Wyre, me interesa ${interest}.` : null;
+  const links = contactLinks.map((link) => ({
+    ...link,
+    href: message
+      ? link.external
+        ? `https://wa.me/5491133610131?text=${encodeURIComponent(message)}`
+        : `mailto:contact@wyre.com.ar?subject=${encodeURIComponent('Consulta sobre servicios')}&body=${encodeURIComponent(message)}`
+      : link.href,
+  }));
   return (
     <Box
       component="nav"
       aria-label="Contactar a Wyre"
       sx={containerSx(placement)}
     >
-      {contactLinks.map(({ icon, emphasized = false, ...link }) => (
+      {links.map(({ icon, emphasized = false, ...link }) => (
         <ContactLink
           key={link.href}
           {...link}

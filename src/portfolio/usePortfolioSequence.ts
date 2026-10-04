@@ -27,17 +27,23 @@ export default function usePortfolioSequence(
         setManualIndex(index);
         return;
       }
-      if (index === projectCount) return;
       window.scrollTo({
         top:
-          (timeline.projectsStart +
-            index * PROJECT_DISTANCE +
-            CHECKPOINT_OFFSET) *
-          viewport,
+          (index === projectCount
+            ? timeline.closingEnd
+            : timeline.projectsStart +
+              index * PROJECT_DISTANCE +
+              CHECKPOINT_OFFSET) * viewport,
         behavior: 'instant',
       });
     },
-    [reduceMotion, projectCount, timeline.projectsStart, viewport],
+    [
+      reduceMotion,
+      projectCount,
+      timeline.projectsStart,
+      timeline.closingEnd,
+      viewport,
+    ],
   );
   const nextManualProject = useCallback(
     () => setManualIndex((index) => Math.min(index + 1, projectCount)),

@@ -13,6 +13,7 @@ import ScrollShadow from './scroll/ScrollShadow';
 import { LandingLayoutProvider } from './scroll/LandingLayoutProvider';
 import { useLandingLayout } from './scroll/LandingLayoutContext';
 import PortfolioSequenceProvider from './portfolio/PortfolioSequenceProvider';
+import ContactInterestProvider from './contact/ContactInterestProvider';
 
 const theme = createTheme({
   palette: {
@@ -62,7 +63,9 @@ export default function App() {
     <PreferencesProvider>
       <LandingLayoutProvider>
         <PortfolioSequenceProvider>
-          <LandingPage />
+          <ContactInterestProvider>
+            <LandingPage />
+          </ContactInterestProvider>
         </PortfolioSequenceProvider>
       </LandingLayoutProvider>
     </PreferencesProvider>

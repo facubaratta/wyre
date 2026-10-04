@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Box, Button } from '@mui/material';
 import AccentPicker from './AccentPicker';
+import useOpenContact from '../contact/useOpenContact';
 
 const fontSizes = {
   navigation: {
@@ -10,6 +11,8 @@ const fontSizes = {
 } as const;
 
 function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
+  const openContact = useOpenContact();
+
   return (
     <Box
       component="nav"
@@ -41,9 +44,11 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
       </Button>
       <Button
         component="a"
-        href="https://wa.me/5491133610131?text=Hola%2C%20quiero%20contarles%20sobre%20mi%20proyecto"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="#crecimiento-real"
+        onClick={(event) => {
+          event.preventDefault();
+          openContact();
+        }}
         variant="contained"
         sx={{
           minHeight: 44,

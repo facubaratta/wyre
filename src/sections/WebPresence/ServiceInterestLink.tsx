@@ -1,5 +1,7 @@
 import Box from '@mui/material/Box';
+import type { MouseEvent } from 'react';
 import useControlState from '../../controls/useControlState';
+import useOpenContact from '../../contact/useOpenContact';
 
 export default function ServiceInterestLink({
   service,
@@ -13,25 +15,27 @@ export default function ServiceInterestLink({
   detailsId: string;
 }) {
   const { hovered, pressed, focusVisible, events } = useControlState();
+  const openContact = useOpenContact();
 
   return (
     <Box
       component={onExpand ? 'button' : 'a'}
-      href={
-        onExpand
-          ? undefined
-          : `https://wa.me/5491133610131?text=${encodeURIComponent(`Hola Wyre, me interesa ${interest}.`)}`
-      }
-      target={onExpand ? undefined : '_blank'}
-      rel={onExpand ? undefined : 'noopener noreferrer'}
+      href={onExpand ? undefined : '#crecimiento-real'}
       type={onExpand ? 'button' : undefined}
-      onClick={onExpand}
+      onClick={(event: MouseEvent<HTMLElement>) => {
+        if (onExpand) {
+          onExpand();
+        } else {
+          event.preventDefault();
+          openContact(interest);
+        }
+      }}
       aria-expanded={onExpand ? false : undefined}
       aria-controls={onExpand ? detailsId : undefined}
       aria-label={
         onExpand
           ? `Ver más: ${service}`
-          : `Me interesa: ${service}. Contactar por WhatsApp`
+          : `Me interesa: ${service}. Ver opciones de contacto`
       }
       {...events}
       sx={{
