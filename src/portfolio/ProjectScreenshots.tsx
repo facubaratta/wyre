@@ -2,6 +2,11 @@ import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { Project } from './projects';
 
+type ImageSources = Project['images'];
+const srcSet = (images: ImageSources) =>
+  images.map(({ src, width }) => `${src} ${width}w`).join(', ');
+const sizes = '(max-width: 640px) 88vw, (max-width: 1200px) 80vw, 1100px';
+
 const styles = {
   picture: {
     position: 'absolute',
@@ -42,11 +47,18 @@ export default function ProjectScreenshots({
                 opacity: index === projectIndex ? 1 : 0,
               }}
             >
-              <source media="(max-width: 640px)" srcSet={project.mobileImage} />
+              <source
+                type="image/webp"
+                media="(max-width: 640px)"
+                srcSet={srcSet(project.mobileImages)}
+                sizes={sizes}
+              />
               <Box
                 component="img"
                 sx={styles.image}
-                src={project.image}
+                src={project.images.at(-1)!.src}
+                srcSet={srcSet(project.images)}
+                sizes={sizes}
                 alt={`${project.name} website screenshot`}
                 loading="lazy"
                 decoding="async"

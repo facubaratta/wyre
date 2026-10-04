@@ -1,45 +1,35 @@
-import harmony from './screenshots/Health & Harmony.jpg';
-import finca from './screenshots/Finca Don Clemente.jpg';
-import tennis from './screenshots/ProTennisSquash.jpg';
-import zurich from './screenshots/Zurich.jpg';
-import time from './screenshots/Time Magnitude.jpg';
-
-import harmonyMobile from './screenshots/Health & Harmony mobile.jpg';
-import fincaMobile from './screenshots/Finca Don Clemente mobile.jpg';
-import tennisMobile from './screenshots/ProTennisSquash mobile.jpg';
-import zurichMobile from './screenshots/Zurich mobile.jpg';
-import timeMobile from './screenshots/Time Magnitude mobile.jpg';
+import { screenshotSources } from './screenshotSources';
 
 export const projects = [
   {
     name: 'Health & Harmony',
     url: 'https://hnhinsure.com/es',
-    image: harmony,
-    mobileImage: harmonyMobile,
+    images: screenshotSources['Health & Harmony.jpg'],
+    mobileImages: screenshotSources['Health & Harmony mobile.jpg'],
   },
   {
     name: 'Finca Don Clemente',
     url: 'https://fincadonclemente.com',
-    image: finca,
-    mobileImage: fincaMobile,
+    images: screenshotSources['Finca Don Clemente.jpg'],
+    mobileImages: screenshotSources['Finca Don Clemente mobile.jpg'],
   },
   {
     name: 'ProTennisSquash',
     url: 'https://protennis.com.ar',
-    image: tennis,
-    mobileImage: tennisMobile,
+    images: screenshotSources['ProTennisSquash.jpg'],
+    mobileImages: screenshotSources['ProTennisSquash mobile.jpg'],
   },
   {
     name: 'Club Zurich',
     url: 'https://www.zurich.com.ar/clubzurich',
-    image: zurich,
-    mobileImage: zurichMobile,
+    images: screenshotSources['Zurich.jpg'],
+    mobileImages: screenshotSources['Zurich mobile.jpg'],
   },
   {
     name: 'Time Magnitude',
     url: 'https://facubaratta.github.io/time/',
-    image: time,
-    mobileImage: timeMobile,
+    images: screenshotSources['Time Magnitude.jpg'],
+    mobileImages: screenshotSources['Time Magnitude mobile.jpg'],
   },
 ];
 
