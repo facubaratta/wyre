@@ -41,4 +41,16 @@ Checkpoint section bounds are read when the arrow is activated. Successive taps 
 - `npm test` — mesh connection parity, portfolio boundaries, title/globe endpoints and reversal, scroll-store batching/cleanup, and source-module reachability.
 - `python3 src/brand/logo/scripts/generate_geometry.py --check` — authored routes, including Prettier-formatted TypeScript.
 
+## Production delivery
+
+`npm run build` produces a static, prerendered page in `dist/`; no runtime server is required. `npm run build:pages -- --base=/own-landing-page/` uses the same pipeline with a deployment subpath. The temporary server bundle is removed after rendering. The client hydrates the existing HTML; the development server still mounts the app directly.
+
+The example component code loads when its section approaches within 1000px of the viewport. Its static HTML is present from the first response, and fallback markup preserves the layout during early hydration updates. The portfolio stays under live React ownership from the initial render so scroll/context updates and development hot reload cannot leave it displaying a static snapshot. Section containers stay mounted so dimensions and scroll checkpoints remain measurable. Fonts are unchanged.
+
+Portfolio pictures select responsive WebP sources. The original JPEGs remain source assets; run `npm run images:generate` after changing them to regenerate optimized widths and the source manifest. The current and adjacent screenshots are explicitly decoded near the portfolio; distant projects are not prefetched.
+
+Navbar visibility caches the sticky hero's scene bounds, refreshing on resize/layout changes. The arrow selects discrete rendering state; its pending checkpoint tracking subscribes directly to the scroll store.
+
+`npx playwright install chromium` installs the browser for `npm run test:browser` after a production build. Tests infer its base path and cover desktop, narrow/tall mobile, deferred loading without section-height changes, image selection, scroll navigation, no-JavaScript content, and reduced motion. CI runs these checks alongside lint, behavior tests, and the build before publishing.
+
 Check rendered desktop/mobile behavior after changing section geometry or animation timing. Reduced motion uses manual portfolio navigation and the same closing-screen sentinel.
