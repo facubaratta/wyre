@@ -30,6 +30,12 @@ const headingSx = {
   letterSpacing: '-.05em',
 } satisfies SxProps<Theme>;
 
+const Highlight = ({ children }: { children: React.ReactNode }) => (
+  <Box component="em" sx={{ color: 'var(--accent)', fontStyle: 'normal' }}>
+    {children}
+  </Box>
+);
+
 export default function ClosingScreen({ progress }: { progress: number }) {
   const visible = progress > 0;
   return (
@@ -49,36 +55,12 @@ export default function ClosingScreen({ progress }: { progress: number }) {
         component="h2"
         sx={headingSx}
         id="closing-heading"
-        aria-label="Tu próxima web, app o perfil en redes sociales"
+        aria-label="Tu próxima web o app mobile"
       >
-        Tu próxima{' '}
-        <Box
-          component="em"
-          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
-        >
-          web
-        </Box>
-        ,{' '}
-        <Box
-          component="em"
-          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
-        >
-          app
-        </Box>{' '}
-        o{' '}
-        <Box
-          component="em"
-          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
-        >
-          perfil
-        </Box>{' '}
-        en{' '}
-        <Box
-          component="em"
-          sx={{ color: 'var(--accent)', fontStyle: 'normal' }}
-        >
-          redes sociales
-        </Box>
+        Tu próxima&nbsp;
+        <Highlight>web</Highlight>
+        &nbsp;o&nbsp;
+        <Highlight>app mobile</Highlight>
       </Box>
       <Box
         component="p"
@@ -91,7 +73,9 @@ export default function ClosingScreen({ progress }: { progress: number }) {
           maxWidth: 540,
         }}
       >
-        Contanos qué tenés en mente. Definimos juntos el próximo paso.
+        Contanos qué tenés en mente.
+        <br />
+        Definimos juntos el próximo paso.
       </Box>
       <ContactButtons placement="closing" />
     </Box>
