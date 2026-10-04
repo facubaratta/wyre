@@ -33,6 +33,7 @@ export function measureTitleGeometry() {
   const middleScale = Math.min(1.9, (width * 0.84) / from.width);
   const globeSize = Math.min(width * 0.66, height * 0.52, 460);
   return {
+    text: source.textContent ?? '',
     fromX: from.left,
     fromY: from.top - heroBounds.top + sceneStart,
     toX: to.left,

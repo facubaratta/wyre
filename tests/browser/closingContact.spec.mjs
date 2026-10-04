@@ -17,7 +17,7 @@ for (const viewport of [
     await page.evaluate(() => document.fonts.ready);
     await page
       .locator('#hero-actions')
-      .getByRole('link', { name: 'Hablemos' })
+      .getByRole('link', { name: 'Let’s talk' })
       .click();
     const closing = page.locator('section[aria-labelledby="closing-heading"]');
     await expect(closing).toHaveAttribute('aria-hidden', 'false');

@@ -60,7 +60,7 @@ function LandingPage() {
   );
 }
 
-export default function App({ language = 'es' }: { language?: Language }) {
+export default function App({ language = 'en' }: { language?: Language }) {
   return (
     <LanguageProvider initialLanguage={language}>
       <PreferencesProvider>

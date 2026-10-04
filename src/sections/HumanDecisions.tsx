@@ -1,56 +1,61 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import SectionHeading from './SectionHeading';
 import { memo } from 'react';
 import { Typography } from '@mui/material';
 
-const List = () => (
-  <Box sx={{ mt: 3 }}>
-    {[
-      ['Claridad', 'Qué hacés, para quién y dónde.'],
-      ['Confianza', 'Información concreta para decidir.'],
-      ['Acción', 'Un próximo paso fácil de encontrar.'],
-    ].map(([title, detail]) => (
-      <Box key={title} sx={{ py: 1.5, borderTop: '1px solid #ffffff20' }}>
-        <Typography sx={{ fontSize: 16, fontWeight: 600 }}>{title}</Typography>
-        <Typography sx={{ mt: 0.5, fontSize: 15, color: 'text.secondary' }}>
-          {detail}
-        </Typography>
-      </Box>
-    ))}
-  </Box>
-);
+const List = () => {
+  const { copy } = useLanguage();
+  return (
+    <Box sx={{ mt: 3 }}>
+      {copy.human.points.map(([title, detail]) => (
+        <Box key={title} sx={{ py: 1.5, borderTop: '1px solid #ffffff20' }}>
+          <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
+            {title}
+          </Typography>
+          <Typography sx={{ mt: 0.5, fontSize: 15, color: 'text.secondary' }}>
+            {detail}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
+  );
+};
 
-const Copy = () => (
-  <Box>
-    <Typography
-      sx={{
-        fontSize: { xs: 26, sm: 32, lg: 36 },
-        lineHeight: 1.3,
-        fontWeight: 500,
-        letterSpacing: '-.035em',
-        maxWidth: '24ch',
-      }}
-    >
-      Tu cliente necesita entender
-      <Box component="span" sx={{ display: 'block', color: 'var(--accent)' }}>
-        qué ofrecés y cómo contratarte.
-      </Box>
-    </Typography>
-    <Typography
-      sx={{
-        mt: 2.5,
-        maxWidth: '42ch',
-        fontSize: { xs: 16, sm: 18 },
-        lineHeight: 1.7,
-      }}
-    >
-      Cada decisión tiene un propósito: explicar tu servicio, dar motivos para
-      confiar y facilitar el contacto.
-    </Typography>
-  </Box>
-);
+const Copy = () => {
+  const { copy } = useLanguage();
+  return (
+    <Box>
+      <Typography
+        sx={{
+          fontSize: { xs: 26, sm: 32, lg: 36 },
+          lineHeight: 1.3,
+          fontWeight: 500,
+          letterSpacing: '-.035em',
+          maxWidth: '24ch',
+        }}
+      >
+        {copy.human.title}
+        <Box component="span" sx={{ display: 'block', color: 'var(--accent)' }}>
+          {copy.human.highlight}
+        </Box>
+      </Typography>
+      <Typography
+        sx={{
+          mt: 2.5,
+          maxWidth: '42ch',
+          fontSize: { xs: 16, sm: 18 },
+          lineHeight: 1.7,
+        }}
+      >
+        {copy.human.description}
+      </Typography>
+    </Box>
+  );
+};
 
 function HumanDecisions() {
+  const { copy } = useLanguage();
   return (
     <Box
       component="section"
@@ -76,7 +81,7 @@ function HumanDecisions() {
           sx={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 6 }}
         >
           <SectionHeading id="human-heading" icon="brain">
-            Decisiones Humanas
+            {copy.headings.human}
           </SectionHeading>
           <Copy />
         </Box>

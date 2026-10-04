@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import useControlState from '../controls/useControlState';
 import type { SVGProps } from 'react';
@@ -116,6 +117,7 @@ export default function BrowserToolbar({
   closing: boolean;
 }) {
   const { hovered, focusVisible, events } = useControlState();
+  const { copy } = useLanguage();
   return (
     <Box sx={styles.toolbar} aria-hidden={closing} inert={closing}>
       <Box sx={styles.address}>
@@ -134,8 +136,8 @@ export default function BrowserToolbar({
         rel="noopener noreferrer"
         {...events}
         sx={visitSx(closing, hovered, focusVisible)}
-        aria-label={`Open ${project.name} in a new tab`}
-        title="Open website in a new tab"
+        aria-label={`${copy.portfolio.open} ${project.name} ${copy.portfolio.newTab}`}
+        title={copy.portfolio.visit}
       >
         <ArrowIcon />
       </Box>

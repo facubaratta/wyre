@@ -1,4 +1,4 @@
-export const services = [
+const spanishServices = [
   {
     title: 'Landing page',
     label: 'TU PUNTO DE PARTIDA',
@@ -36,4 +36,43 @@ export const services = [
   },
 ];
 
-export type WebService = (typeof services)[number];
+const englishServices: typeof spanishServices = [
+  {
+    title: 'Landing page',
+    label: 'YOUR STARTING POINT',
+    interest: 'a landing page',
+    description:
+      'A fast, modern website focused on showcasing your business and generating inquiries.',
+  },
+  {
+    title: 'Website with custom features',
+    label: 'SIMPLIFY YOUR DAY',
+    interest: 'a website with custom features',
+    description:
+      'Bookings, forms, integrations and tools that simplify your daily operations. A website built to grow with your business.',
+  },
+  {
+    title: 'Company website',
+    label: 'SHOWCASE YOUR COMPANY',
+    interest: 'a company website',
+    description:
+      'Your company, services, catalog and contact details in one complete website. With an admin panel so you can update the content yourself.',
+  },
+  {
+    title: 'E-commerce',
+    label: 'SELL ONLINE',
+    interest: 'an online store',
+    description:
+      'Integrated catalog, payments and shipping, tailored to your inventory and existing logistics.',
+  },
+  {
+    title: 'Mobile app',
+    label: 'CONNECT WITH YOUR CUSTOMERS',
+    interest: 'a mobile app',
+    description:
+      'We design and develop your business’s app, connected to the systems you already use.',
+  },
+];
+
+export const services = { en: englishServices, es: spanishServices };
+export type WebService = (typeof spanishServices)[number];

@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
@@ -34,6 +35,7 @@ export default function ProjectScreenshots({
   projectIndex: number;
   closing: boolean;
 }) {
+  const { copy } = useLanguage();
   useEffect(() => {
     if (closing) return;
     const section = document.getElementById('crecimiento-real');
@@ -101,7 +103,7 @@ export default function ProjectScreenshots({
                 src={project.images.at(-1)!.src}
                 srcSet={srcSet(project.images)}
                 sizes={sizes}
-                alt={`${project.name} website screenshot`}
+                alt={`${project.name} ${copy.portfolio.screenshot}`}
                 loading="lazy"
                 decoding="async"
                 draggable={false}

@@ -8,7 +8,7 @@ test('content and styling are available without JavaScript', async ({
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
-  await page.goto('./', { waitUntil: 'domcontentloaded' });
+  await page.goto('./es/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#hero')).toBeVisible();
   await expect(page.locator('#human-heading')).toHaveText('Decisiones Humanas');
   await expect(page.locator('#growth-heading')).toHaveText('Crecimiento real');

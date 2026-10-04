@@ -1,3 +1,4 @@
+import { useLanguage } from '../../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { CSSProperties } from 'react';
 import useControlState from '../../../controls/useControlState';
@@ -53,6 +54,7 @@ export function YGlyph({
   compact = false,
 }: YGlyphProps) {
   const { focusVisible, events } = useControlState();
+  const { copy } = useLanguage();
   const currentColorIndex = ACCENT_COLORS.indexOf(accent ?? '');
   const nextColor =
     ACCENT_COLORS[(currentColorIndex + 1) % ACCENT_COLORS.length];
@@ -118,8 +120,8 @@ export function YGlyph({
         <Box
           component="button"
           type="button"
-          aria-label="Change accent color"
-          title="Change accent color"
+          aria-label={copy.picker.changeColor}
+          title={copy.picker.changeColor}
           onClick={() => onAccentChange(nextColor)}
           {...events}
           sx={{

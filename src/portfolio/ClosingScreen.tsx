@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import ContactButtons from '../contact/ContactButtons';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
@@ -40,6 +41,7 @@ const Highlight = ({ children }: { children: React.ReactNode }) => (
 
 export default function ClosingScreen({ progress }: { progress: number }) {
   const visible = progress > 0;
+  const { copy } = useLanguage();
   return (
     <Box
       component="section"
@@ -53,16 +55,11 @@ export default function ClosingScreen({ progress }: { progress: number }) {
         visibility: visible ? 'visible' : 'hidden',
       }}
     >
-      <Box
-        component="h2"
-        sx={headingSx}
-        id="closing-heading"
-        aria-label="Tu próxima web o app mobile"
-      >
-        {'Tu próxima '}
-        <Highlight>web</Highlight>
-        {' o '}
-        <Highlight>app mobile</Highlight>
+      <Box component="h2" sx={headingSx} id="closing-heading">
+        {copy.closing.start}
+        <Highlight>{copy.closing.web}</Highlight>
+        {copy.closing.or}
+        <Highlight>{copy.closing.app}</Highlight>
       </Box>
       <Box
         component="p"
@@ -75,9 +72,9 @@ export default function ClosingScreen({ progress }: { progress: number }) {
           maxWidth: 540,
         }}
       >
-        Contanos qué tenés en mente.
+        {copy.closing.idea}
         <br />
-        Definimos juntos el próximo paso.
+        {copy.closing.next}
       </Box>
       <ContactButtons placement="closing" />
     </Box>

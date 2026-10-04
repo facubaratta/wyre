@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import { keyframes } from '@emotion/react';
 import useControlState from '../controls/useControlState';
@@ -51,6 +52,7 @@ const highlightSx = {
 };
 
 const ScrollArrow = () => {
+  const { copy } = useLanguage();
   const { hovered, pressed, focusVisible, events } = useControlState();
   const { timeline, introHeight } = useLandingLayout();
   const {
@@ -91,7 +93,7 @@ const ScrollArrow = () => {
       <Box
         component="button"
         type="button"
-        aria-label={atEnd ? 'Scroll to top' : 'Scroll to the next section'}
+        aria-label={atEnd ? copy.scroll.top : copy.scroll.next}
         {...events}
         onClick={nextCheckpoint}
         sx={buttonSx}

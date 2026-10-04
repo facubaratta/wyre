@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import { Box, Typography } from '@mui/material';
 import {
   useTitleTransition,
@@ -27,6 +28,7 @@ const MathSymbol = ({ children }: { children: React.ReactNode }) => (
 );
 
 const HeroCopy = () => {
+  const { copy } = useLanguage();
   const { moving } = useTitleTransition();
   const exit = useHeroExit();
   return (
@@ -61,7 +63,7 @@ const HeroCopy = () => {
           }}
           style={{ opacity: moving ? 0 : 1 - exit }}
         >
-          Presencia web
+          {copy.headings.web}
         </Box>
         <br />
         <Box component="span" style={{ opacity: 1 - exit }}>
@@ -76,7 +78,7 @@ const HeroCopy = () => {
             opacity: 1 - exit,
           }}
         >
-          decisiones humanas
+          {copy.headings.human.toLowerCase()}
         </Box>
         <br />
         <Box component="span" style={{ opacity: 1 - exit }}>
@@ -91,7 +93,7 @@ const HeroCopy = () => {
             opacity: 1 - exit,
           }}
         >
-          crecimiento real
+          {copy.headings.growth.toLowerCase()}
         </Box>
       </Typography>
       <Box style={{ opacity: 1 - exit }} sx={{ mt: { xs: 3, sm: 4 } }}>
@@ -105,11 +107,11 @@ const HeroCopy = () => {
             ml: { xs: 1, md: 2 },
           }}
         >
-          Soluciones digitales
+          {copy.hero[0]}
           <br />
-          ideadas por profesionales
+          {copy.hero[1]}
           <br />
-          para tu negocio y tus clientes.
+          {copy.hero[2]}
         </Typography>
       </Box>
     </Box>

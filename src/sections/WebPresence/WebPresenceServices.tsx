@@ -1,10 +1,13 @@
+import { useLanguage } from '../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import ServiceCard from './ServiceCard';
-import { services } from './services';
+import { services as localizedServices } from './services';
 
 const serviceOrder = [0, 2, 3, 1, 4];
 
 export default function WebPresenceServices() {
+  const { language } = useLanguage();
+  const services = localizedServices[language];
   return (
     <Box
       sx={{
@@ -20,7 +23,7 @@ export default function WebPresenceServices() {
     >
       {serviceOrder.map((index) => (
         <Box
-          key={services[index].title}
+          key={index}
           sx={{
             minWidth: 0,
             height: '100%',

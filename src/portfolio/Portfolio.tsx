@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { projects } from './projects';
@@ -93,6 +94,7 @@ export default function Portfolio() {
     selectProject: onSelect,
   } = usePortfolioSequenceState();
   const { reduceMotion } = usePreferences();
+  const { copy } = useLanguage();
   const project = projects[projectIndex];
   const showClosing = closingProgress >= 0.5;
   const selectedIndex = showClosing ? projects.length : projectIndex;
@@ -116,7 +118,7 @@ export default function Portfolio() {
         }}
       >
         <SectionHeading id="growth-heading" icon="growth">
-          Crecimiento real
+          {copy.headings.growth}
         </SectionHeading>
         <Box sx={styles.assembly}>
           <Box sx={styles.monitor}>

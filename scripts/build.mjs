@@ -1,5 +1,5 @@
 import { build } from 'vite';
-import { readFile, writeFile, rm } from 'node:fs/promises';
+import { readFile, writeFile, rm, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -28,20 +28,44 @@ try {
       outDir: serverDirectory,
     },
   });
-  const { render, getAccentVariables, DEFAULT_ACCENT } = await import(
+  const { render, messages, getAccentVariables, DEFAULT_ACCENT } = await import(
     pathToFileURL(resolve(serverDirectory, 'entry-server.js')).href
   );
   const template = await readFile('dist/index.html', 'utf8');
-  const markup = await render();
   const variables = Object.entries(getAccentVariables(DEFAULT_ACCENT))
     .map(([name, value]) => `${name}:${value}`)
     .join(';');
-  await writeFile(
-    'dist/index.html',
-    template
+  const escapeHtml = (value) =>
+    value.replace(
+      /[&<>"']/g,
+      (character) =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        })[character],
+    );
+  for (const language of ['en', 'es']) {
+    const markup = await render(language);
+    const html = template
       .replace('<!--prerender-->', markup)
-      .replace('color-scheme:dark;', `color-scheme:dark;${variables};`),
-  );
+      .replace('lang="en"', `lang="${language}"`)
+      .replace(
+        /<title>.*?<\/title>/,
+        `<title>${escapeHtml(messages[language].meta.title)}</title>`,
+      )
+      .replace(
+        /(<meta name="description" content=")[^"]*(")/,
+        (_, start, end) =>
+          `${start}${escapeHtml(messages[language].meta.description)}${end}`,
+      )
+      .replace('color-scheme:dark;', `color-scheme:dark;${variables};`);
+    await mkdir(`dist/${language}`, { recursive: true });
+    await writeFile(`dist/${language}/index.html`, html);
+    if (language === 'en') await writeFile('dist/index.html', html);
+  }
 } finally {
   await rm(serverDirectory, { recursive: true, force: true });
 }

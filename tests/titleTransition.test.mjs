@@ -10,6 +10,7 @@ const { createTitleMotion } = await importSource(
 
 test('title and globe reach measured endpoints, restore the hero on reversal, and reveal the section', () => {
   const geometry = {
+    text: 'Web presence',
     fromX: 400,
     fromY: 180,
     toX: 100,
@@ -34,6 +35,7 @@ test('title and globe reach measured endpoints, restore the hero on reversal, an
     globeScale: 52 / 56,
   };
   const start = createTitleMotion(geometry, 0, false);
+  assert.equal(start.frame.text, 'Web presence');
   assert.equal(start.moving, false);
   assert.equal(start.frame.x, geometry.fromX);
   assert.equal(start.frame.y, geometry.fromY);

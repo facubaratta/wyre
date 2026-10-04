@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import { useTitleTransition } from '../hero/transition/TitleTransitionContext';
 import SectionIconGraphic from './SectionIconGraphic';
 import { Box, Typography } from '@mui/material';
@@ -19,6 +20,7 @@ export default function BrandEquation({
   placement?: 'hero' | 'navbar';
 }) {
   const isNavbar = placement === 'navbar';
+  const { copy } = useLanguage();
   const { moving } = useTitleTransition();
   return (
     <Box
@@ -41,7 +43,7 @@ export default function BrandEquation({
           display: isNavbar ? { xs: 'none', md: 'block' } : 'block',
         }}
       >
-        LA ECUACIÓN ES SIMPLE
+        {copy.equation}
       </Typography>
       <Box
         aria-hidden="true"

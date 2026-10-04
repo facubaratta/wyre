@@ -1,7 +1,9 @@
+import { useLanguage } from '../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 export default function WebPresenceIntro() {
+  const { copy } = useLanguage();
   return (
     <Box
       sx={{
@@ -22,10 +24,10 @@ export default function WebPresenceIntro() {
           letterSpacing: '-.025em',
         }}
       >
-        Una solución para lo que tu negocio necesita hoy.
+        {copy.web.intro}
         <Box component="span" sx={{ color: 'text.secondary' }}>
           {' '}
-          Y para lo que puede necesitar mañana.
+          {copy.web.future}
         </Box>
       </Typography>
       <Typography
@@ -38,8 +40,7 @@ export default function WebPresenceIntro() {
           color: 'text.secondary',
         }}
       >
-        Definimos juntos el alcance, las prioridades y el presupuesto. Si tu
-        idea no encaja en estas categorías, también podemos construirla.
+        {copy.web.description}
       </Typography>
     </Box>
   );

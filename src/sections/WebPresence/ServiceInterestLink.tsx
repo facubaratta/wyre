@@ -1,3 +1,4 @@
+import { useLanguage } from '../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { MouseEvent } from 'react';
 import useControlState from '../../controls/useControlState';
@@ -17,6 +18,7 @@ export default function ServiceInterestLink({
 }) {
   const { hovered, pressed, focusVisible, events } = useControlState();
   const openContact = useOpenContact();
+  const { copy } = useLanguage();
 
   return (
     <Box
@@ -35,8 +37,8 @@ export default function ServiceInterestLink({
       aria-controls={onExpand ? detailsId : undefined}
       aria-label={
         onExpand
-          ? `Ver más: ${service}`
-          : `Me interesa: ${service}. Ver opciones de contacto`
+          ? `${copy.web.more}: ${service}`
+          : `${copy.web.interested}: ${service}. ${copy.web.contactOptions}`
       }
       {...events}
       sx={{
@@ -61,7 +63,7 @@ export default function ServiceInterestLink({
         outlineOffset: 4,
       }}
     >
-      {onExpand ? 'Ver más' : 'Me interesa'}
+      {onExpand ? copy.web.more : copy.web.interested}
       <Box
         component="svg"
         viewBox="0 0 20 20"

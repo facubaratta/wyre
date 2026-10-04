@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import { memo } from 'react';
 import { Box, Button } from '@mui/material';
 import AccentPicker from './AccentPicker';
@@ -13,12 +14,13 @@ const fontSizes = {
 
 function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
   const openContact = useOpenContact();
+  const { copy } = useLanguage();
 
   return (
     <Box
       component="nav"
       id={`${placement}-actions`}
-      aria-label="Navegación principal"
+      aria-label={copy.navigation.label}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -41,7 +43,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
           flex: { xs: placement === 'navbar' ? '0 0 auto' : 1, md: '0 0 auto' },
         }}
       >
-        Ver proyectos
+        {copy.navigation.projects}
       </Button>
       <Button
         component="a"
@@ -65,7 +67,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
           flex: { xs: placement === 'navbar' ? '0 0 auto' : 1, md: '0 0 auto' },
         }}
       >
-        Hablemos
+        {copy.navigation.contact}
         <Box
           component="svg"
           viewBox="0 0 20 20"

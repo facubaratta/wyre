@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 import PortfolioNavigationButton from './PortfolioNavigationButton';
@@ -21,12 +22,13 @@ export default function PortfolioNavigation({
   projectIndex,
   onSelect,
 }: Props) {
+  const { copy } = useLanguage();
   return (
-    <Box component="nav" sx={navigationSx} aria-label="Portfolio projects">
+    <Box component="nav" sx={navigationSx} aria-label={copy.portfolio.label}>
       <PortfolioNavigationButton
         onClick={() => onSelect(Math.max(0, selectedIndex - 1))}
         disabled={selectedIndex === 0}
-        aria-label="Previous project"
+        aria-label={copy.portfolio.previous}
       >
         ←
       </PortfolioNavigationButton>
@@ -35,8 +37,8 @@ export default function PortfolioNavigation({
         disabled={selectedIndex === projects.length}
         aria-label={
           projectIndex === projects.length - 1
-            ? 'Show closing screen'
-            : 'Next project'
+            ? copy.portfolio.closing
+            : copy.portfolio.next
         }
       >
         →

@@ -10,7 +10,7 @@ export function createTitleMotion(
   return {
     moving: progress > 0 && !returningToHero,
     frame: {
-      text: 'Presencia web',
+      text: geometry.text,
       progress,
       x: via(geometry.fromX, geometry.middleX, geometry.toX, progress),
       y: via(geometry.fromY, geometry.middleY, geometry.toY, progress),

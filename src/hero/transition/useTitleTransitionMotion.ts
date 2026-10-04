@@ -52,6 +52,8 @@ export default function useTitleTransitionMotion(
     };
     const observer = new ResizeObserver(refresh);
     observer.observe(document.body);
+    const sourceTitle = document.getElementById('hero-title-web');
+    if (sourceTitle) observer.observe(sourceTitle);
     const header = document.getElementById('site-header');
     if (header) observer.observe(header);
     window.addEventListener('scroll', schedule, { passive: true });
