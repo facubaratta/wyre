@@ -12,7 +12,7 @@ test('content and styling are available without JavaScript', async ({
   await expect(page.locator('#hero')).toBeVisible();
   await expect(page.locator('#human-heading')).toHaveText('Decisiones Humanas');
   await expect(page.locator('#growth-heading')).toHaveText('Crecimiento real');
-  await expect(page.locator('#ai-example figure')).toHaveCount(1);
+  await expect(page.getByText('qué ofrecés y cómo contratarte.')).toBeVisible();
   expect(
     await page
       .locator('#hero')

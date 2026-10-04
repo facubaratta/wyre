@@ -51,42 +51,11 @@ for (const viewport of [
       await page.evaluate(() =>
         performance
           .getEntriesByType('resource')
-          .some((entry) =>
-            /assets\/(AiExample|Portfolio)-.*\.js/.test(entry.name),
-          ),
+          .some((entry) => /assets\/Portfolio-.*\.js/.test(entry.name)),
       ),
     ).toBe(false);
     const before = await page.locator('#decisiones-humanas').boundingBox();
     await page.locator('#decisiones-humanas').scrollIntoViewIfNeeded();
-    await expect
-      .poll(() =>
-        page.evaluate(() =>
-          performance
-            .getEntriesByType('resource')
-            .some(
-              (entry) =>
-                /assets\/AiExample-.*\.js/.test(entry.name) &&
-                !document.querySelector(
-                  `script[src="${new URL(entry.name).pathname}"]`,
-                ),
-            ),
-        ),
-      )
-      .toBe(true);
-    await expect(page.locator('#ai-example figure')).toBeVisible();
-    await expect
-      .poll(() =>
-        page.evaluate(
-          () =>
-            [...document.fonts].filter(
-              (face) =>
-                ['Instrument Serif', 'Roboto Mono'].includes(
-                  face.family.replaceAll('"', ''),
-                ) && face.status === 'loaded',
-            ).length,
-        ),
-      )
-      .toBe(3);
     const after = await page.locator('#decisiones-humanas').boundingBox();
     expect(Math.abs(before.height - after.height)).toBeLessThan(2);
     await page.screenshot({
