@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { Project } from './projects';
@@ -33,6 +34,47 @@ export default function ProjectScreenshots({
   projectIndex: number;
   closing: boolean;
 }) {
+  useEffect(() => {
+    if (closing) return;
+    const section = document.getElementById('crecimiento-real');
+    if (!section) return;
+    let nearby = false;
+    let retained: HTMLImageElement[] = [];
+    const media = window.matchMedia('(max-width: 640px)');
+    const preload = () => {
+      if (!nearby) return;
+      retained = projects
+        .filter((_, index) => Math.abs(index - projectIndex) <= 1)
+        .map((project) => {
+          const images = media.matches ? project.mobileImages : project.images;
+          const image = new Image();
+          image.decoding = 'async';
+          image.sizes = sizes;
+          image.srcset = srcSet(images);
+          image.src = images.at(-1)!.src;
+          void image.decode().catch(() => {
+            /* The visible image can retry normally. */
+          });
+          return image;
+        });
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        nearby = entry.isIntersecting;
+        if (nearby) preload();
+        else retained.length = 0;
+      },
+      { rootMargin: '1000px' },
+    );
+    observer.observe(section);
+    media.addEventListener('change', preload);
+    return () => {
+      observer.disconnect();
+      media.removeEventListener('change', preload);
+      retained.length = 0;
+    };
+  }, [projects, projectIndex, closing]);
+
   return (
     <>
       {projects.map(
