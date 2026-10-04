@@ -32,6 +32,24 @@ export default function ServiceCard({
       <ServiceReveal index={index}>
         <Box
           sx={{
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              borderRadius: 'inherit',
+              backgroundColor: '#0000004e',
+              opacity: 0,
+              pointerEvents: 'none',
+              transition: 'opacity 200ms ease',
+            },
+            '& > *': { position: 'relative' },
+            '@media (hover: hover)': {
+              '&:hover::before': { opacity: 1 },
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              '&::before': { transition: 'none' },
+            },
             height: '100%',
             minHeight: { sm: 100 },
             p: { xs: 2.5, sm: 3.5 },
