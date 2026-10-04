@@ -329,7 +329,19 @@ for (const viewport of [
     await expect(
       page.getByRole('button', { name: 'Scroll to top' }),
     ).toBeVisible();
-    await page.mouse.wheel(0, -viewport.height * 3);
+    // Wheel delivery is asynchronous; finish the downward scroll before
+    // reversing, then land inside Club Zurich rather than on its stage boundary.
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          Math.abs(
+            window.scrollY -
+              (document.documentElement.scrollHeight - window.innerHeight),
+          ),
+        ),
+      )
+      .toBeLessThanOrEqual(2);
+    await page.mouse.wheel(0, -viewport.height * 2.95);
     await expect(
       page.locator('picture:not([aria-hidden="true"]) img'),
     ).toHaveAttribute('alt', /Club Zurich/);
