@@ -359,13 +359,22 @@ test('every runtime source module is reachable from the application entry point'
       await readFile(path, 'utf8'),
       ts.ScriptTarget.Latest,
     );
-    for (const statement of source.statements) {
+    const specifiers = [];
+    const collectSpecifiers = (node) => {
       if (
-        !ts.isImportDeclaration(statement) &&
-        !ts.isExportDeclaration(statement)
+        (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) &&
+        node.moduleSpecifier
       )
-        continue;
-      const specifier = statement.moduleSpecifier;
+        specifiers.push(node.moduleSpecifier);
+      if (
+        ts.isCallExpression(node) &&
+        node.expression.kind === ts.SyntaxKind.ImportKeyword
+      )
+        specifiers.push(node.arguments[0]);
+      ts.forEachChild(node, collectSpecifiers);
+    };
+    collectSpecifiers(source);
+    for (const specifier of specifiers) {
       if (
         !specifier ||
         !ts.isStringLiteral(specifier) ||
@@ -375,9 +384,7 @@ test('every runtime source module is reachable from the application entry point'
       const { resolvedModule } = ts.resolveModuleName(
         specifier.text,
         path,
-        {
-          moduleResolution: ts.ModuleResolutionKind.Bundler,
-        },
+        { moduleResolution: ts.ModuleResolutionKind.Bundler },
         ts.sys,
       );
       if (resolvedModule && files.includes(resolvedModule.resolvedFileName))

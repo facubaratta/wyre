@@ -1,9 +1,10 @@
 import Box from '@mui/material/Box';
 import SectionHeading from './SectionHeading';
-import AiExample from './AiExample';
+import { memo } from 'react';
+import DeferredAiExample from './AiExample/DeferredAiExample';
 import HumanDecisionsCopy from './humanDecisions/HumanDecisionsCopy';
 
-export default function HumanDecisions() {
+function HumanDecisions() {
   return (
     <Box
       component="section"
@@ -37,10 +38,12 @@ export default function HumanDecisions() {
             <HumanDecisionsCopy />
           </Box>
         </Box>
-        <Box sx={{ width: '100%', maxWidth: 390, minWidth: 0 }}>
-          <AiExample />
+        <Box id="ai-example" sx={{ width: '100%', maxWidth: 390, minWidth: 0 }}>
+          <DeferredAiExample />
         </Box>
       </Box>
     </Box>
   );
 }
+
+export default memo(HumanDecisions);
