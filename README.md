@@ -51,6 +51,8 @@ Portfolio pictures select responsive WebP sources. The original JPEGs remain sou
 
 Navbar visibility caches the sticky hero's scene bounds, refreshing on resize/layout changes. The arrow selects discrete rendering state; its pending checkpoint tracking subscribes directly to the scroll store.
 
-`npx playwright install chromium` installs the browser for `npm run test:browser` after a production build. Tests infer its base path and cover desktop, narrow/tall mobile, deferred loading without section-height changes, image selection, scroll navigation, no-JavaScript content, and reduced motion. CI runs these checks alongside lint, behavior tests, and the build before publishing.
+Contact calls to action retain native WhatsApp URLs when JavaScript is unavailable, including the selected service in its message. The closing panel scrolls within the browser frame on short screens, with contact buttons sized to the frame's width.
 
-Check rendered desktop/mobile behavior after changing section geometry or animation timing. Reduced motion uses manual portfolio navigation and the same closing-screen sentinel.
+`npx playwright install chromium` installs the browser for `npm run test:browser` after a production build. Tests infer its base path and cover desktop, narrow/tall mobile, short-screen contact access, deferred loading without section-height changes, image selection, scroll navigation, no-JavaScript contact handoff, and reduced motion. CI runs these checks alongside lint, behavior tests, and the build before publishing.
+
+Check rendered desktop/mobile behavior after changing section geometry or animation timing. Reduced motion uses manual portfolio navigation and the same closing-screen sentinel; the closing arrow returns to the top and resets the first project without smooth scrolling.
