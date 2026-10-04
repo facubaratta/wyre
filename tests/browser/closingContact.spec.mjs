@@ -25,7 +25,7 @@ for (const viewport of [
     for (const locator of [
       page.locator('#closing-heading'),
       closing.getByRole('link', { name: /^WhatsApp:/ }),
-      closing.getByRole('link', { name: /^Mail:/ }),
+      closing.getByRole('link', { name: /^Email:/ }),
     ]) {
       await locator.scrollIntoViewIfNeeded();
       await expect

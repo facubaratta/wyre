@@ -75,4 +75,6 @@ const englishServices: typeof spanishServices = [
 ];
 
 export const services = { en: englishServices, es: spanishServices };
+// Keep a stable service index so the selected contact interest translates too.
+export type ServiceInterest = number | null;
 export type WebService = (typeof spanishServices)[number];

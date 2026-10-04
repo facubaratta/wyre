@@ -12,18 +12,18 @@ export default function ServiceInterestLink({
   detailsId,
 }: {
   service: string;
-  interest: string;
+  interest: number;
   onExpand?: () => void;
   detailsId: string;
 }) {
   const { hovered, pressed, focusVisible, events } = useControlState();
   const openContact = useOpenContact();
-  const { copy } = useLanguage();
+  const { language, copy } = useLanguage();
 
   return (
     <Box
       component={onExpand ? 'button' : 'a'}
-      href={onExpand ? undefined : getWhatsAppUrl(interest)}
+      href={onExpand ? undefined : getWhatsAppUrl(interest, language)}
       type={onExpand ? 'button' : undefined}
       onClick={(event: MouseEvent<HTMLElement>) => {
         if (onExpand) {

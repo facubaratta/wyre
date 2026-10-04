@@ -14,7 +14,7 @@ const fontSizes = {
 
 function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
   const openContact = useOpenContact();
-  const { copy } = useLanguage();
+  const { language, copy } = useLanguage();
 
   return (
     <Box
@@ -47,7 +47,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
       </Button>
       <Button
         component="a"
-        href={getWhatsAppUrl()}
+        href={getWhatsAppUrl(null, language)}
         onClick={(event) => {
           event.preventDefault();
           openContact();

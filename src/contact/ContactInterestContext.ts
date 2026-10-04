@@ -1,8 +1,9 @@
+import type { ServiceInterest } from '../sections/WebPresence/services';
 import { createContext, useContext } from 'react';
 
 export const ContactInterestContext = createContext<{
-  interest: string | null;
-  setInterest: (interest: string | null) => void;
+  interest: ServiceInterest;
+  setInterest: (interest: ServiceInterest) => void;
 } | null>(null);
 
 export function useContactInterest() {

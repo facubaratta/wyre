@@ -1,3 +1,4 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import ContactLink from './ContactLink';
 import type { ContactPlacement } from './ContactLink';
@@ -44,7 +45,7 @@ const contactLinks = [
     icon: <WhatsAppIcon />,
   },
   {
-    label: 'Mail: contact@wyre.com.ar',
+    label: 'contact@wyre.com.ar',
     title: 'contact@wyre.com.ar',
     icon: <EmailIcon />,
   },
@@ -76,14 +77,18 @@ export default function ContactButtons({
   placement?: Placement;
 }) {
   const { interest } = useContactInterest();
+  const { language, copy } = useLanguage();
   const links = contactLinks.map((link) => ({
     ...link,
-    href: link.external ? getWhatsAppUrl(interest) : getEmailUrl(interest),
+    label: link.external ? link.label : `${copy.contact.email}: ${link.label}`,
+    href: link.external
+      ? getWhatsAppUrl(interest, language)
+      : getEmailUrl(interest, language),
   }));
   return (
     <Box
       component="nav"
-      aria-label="Contactar a Wyre"
+      aria-label={copy.contact.label}
       sx={containerSx(placement)}
     >
       {links.map(({ icon, emphasized = false, ...link }) => (

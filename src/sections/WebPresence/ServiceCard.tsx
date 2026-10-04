@@ -83,6 +83,7 @@ export default function ServiceCard({
           >
             <ServiceCardContent
               service={service}
+              index={index}
               featured={featured}
               showDetails={showDetails}
               detailsId={detailsId}

@@ -7,6 +7,7 @@ import type { WebService } from './services';
 
 export default function ServiceCardContent({
   service,
+  index,
   featured,
   drawing,
   showDetails,
@@ -14,13 +15,14 @@ export default function ServiceCardContent({
   onExpand,
 }: {
   service: WebService;
+  index: number;
   featured: boolean;
   drawing?: ReactNode;
   showDetails: boolean;
   detailsId: string;
   onExpand?: () => void;
 }) {
-  const { title, description, interest, label } = service;
+  const { title, description, label } = service;
   return (
     <Box sx={{ flex: 1, minWidth: 0 }}>
       <Typography
@@ -60,7 +62,7 @@ export default function ServiceCardContent({
         </Typography>
         <ServiceInterestLink
           service={title}
-          interest={interest}
+          interest={index}
           onExpand={onExpand}
           detailsId={detailsId}
         />
