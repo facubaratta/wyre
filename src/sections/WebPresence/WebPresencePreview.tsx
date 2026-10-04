@@ -8,7 +8,7 @@ export default function WebPresencePreview({ kind }: { kind: number }) {
       sx={{
         color: 'var(--accent)',
         width: '100%',
-        maxWidth: kind === 0 ? 340 : 180,
+        maxWidth: kind === 0 ? 340 : kind === 4 ? 180 : 280,
         mx: 'auto',
       }}
     >
