@@ -2,7 +2,9 @@ import { defineConfig } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
 // Test the same base path as the most recent root or Pages production build.
-const html = process.env.WYRE_DEV ? '' : readFileSync('dist/index.html', 'utf8');
+const html = process.env.WYRE_DEV
+  ? ''
+  : readFileSync('dist/index.html', 'utf8');
 const base = process.env.WYRE_DEV
   ? '/'
   : html.match(/src="([^"]*?)assets\/[^"]+\.js"/)?.[1];
