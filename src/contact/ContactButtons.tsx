@@ -61,7 +61,13 @@ const containerSx = (placement: Placement) => ({
         ? { xs: '8px', sm: '14px' }
         : '10px',
   ...(placement === 'hero' ? { justifyContent: 'center' } : {}),
-  ...(placement === 'closing' ? { width: { xs: '100%', sm: 'auto' } } : {}),
+  ...(placement === 'closing'
+    ? {
+        width: '100%',
+        flexShrink: 0,
+        '@container (max-width: 360px)': { mt: 1, gap: '8px' },
+      }
+    : {}),
 });
 
 export default function ContactButtons({

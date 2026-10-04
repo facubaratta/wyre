@@ -8,8 +8,11 @@ const closingSx = {
   inset: 0,
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  justifyContent: 'safe center',
   alignItems: 'flex-start',
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  overscrollBehavior: 'contain',
   gap: '16px',
   p: '5%',
   color: '#ebe8de',
@@ -18,6 +21,7 @@ const closingSx = {
 
 const headingSx = {
   m: 0,
+  flexShrink: 0,
   py: '5%',
   borderTop: '1px solid rgba(235,232,222,.22)',
   fontSize: 'clamp(20px, 12cqw, 30px)',
@@ -80,6 +84,7 @@ export default function ClosingScreen({ progress }: { progress: number }) {
         component="p"
         sx={{
           m: 0,
+          flexShrink: 0,
           color: 'text.secondary',
           fontSize: 'clamp(14px, 3cqw, 19px)',
           lineHeight: 1.6,

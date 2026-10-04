@@ -62,6 +62,18 @@ const linkSx = (
     textDecoration: 'none',
     outline: focusVisible ? '2px solid var(--accent)' : 'none',
     outlineOffset: '4px',
+    ...(isClosing
+      ? {
+          maxWidth: '100%',
+          '@container (max-width: 360px)': {
+            width: '100%',
+            minHeight: 48,
+            padding: '12px 8px',
+            gap: '8px',
+            fontSize: 14,
+          },
+        }
+      : {}),
   };
 };
 
@@ -100,7 +112,12 @@ export default function ContactLink({
       >
         {children}
       </Box>
-      <span>{title}</span>
+      <Box
+        component="span"
+        sx={isClosing ? { minWidth: 0, overflowWrap: 'anywhere' } : {}}
+      >
+        {title}
+      </Box>
     </Box>
   );
 }
