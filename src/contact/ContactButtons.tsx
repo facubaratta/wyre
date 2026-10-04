@@ -2,12 +2,9 @@ import Box from '@mui/material/Box';
 import ContactLink from './ContactLink';
 import type { ContactPlacement } from './ContactLink';
 import { useContactInterest } from './ContactInterestContext';
+import { getEmailUrl, getWhatsAppUrl } from './contactUrls';
 
 type Placement = ContactPlacement;
-
-const whatsappUrl = `https://wa.me/5491133610131?text=${encodeURIComponent(
-  'Hola, me interesa contactar a Wyre',
-)}`;
 
 const iconProps = {
   viewBox: '0 0 24 24',
@@ -40,7 +37,6 @@ function WhatsAppIcon() {
 
 const contactLinks = [
   {
-    href: whatsappUrl,
     label: 'WhatsApp: +54 9 11 3361-0131',
     title: '+54 9 11 3361-0131',
     emphasized: true,
@@ -48,7 +44,6 @@ const contactLinks = [
     icon: <WhatsAppIcon />,
   },
   {
-    href: 'mailto:contact@wyre.com.ar',
     label: 'Mail: contact@wyre.com.ar',
     title: 'contact@wyre.com.ar',
     icon: <EmailIcon />,
@@ -75,14 +70,9 @@ export default function ContactButtons({
   placement?: Placement;
 }) {
   const { interest } = useContactInterest();
-  const message = interest ? `Hola Wyre, me interesa ${interest}.` : null;
   const links = contactLinks.map((link) => ({
     ...link,
-    href: message
-      ? link.external
-        ? `https://wa.me/5491133610131?text=${encodeURIComponent(message)}`
-        : `mailto:contact@wyre.com.ar?subject=${encodeURIComponent('Consulta sobre servicios')}&body=${encodeURIComponent(message)}`
-      : link.href,
+    href: link.external ? getWhatsAppUrl(interest) : getEmailUrl(interest),
   }));
   return (
     <Box

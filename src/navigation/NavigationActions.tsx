@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Box, Button } from '@mui/material';
 import AccentPicker from './AccentPicker';
 import useOpenContact from '../contact/useOpenContact';
+import { getWhatsAppUrl } from '../contact/contactUrls';
 
 const fontSizes = {
   navigation: {
@@ -44,7 +45,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
       </Button>
       <Button
         component="a"
-        href="#crecimiento-real"
+        href={getWhatsAppUrl()}
         onClick={(event) => {
           event.preventDefault();
           openContact();

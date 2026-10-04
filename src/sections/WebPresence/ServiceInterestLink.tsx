@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import type { MouseEvent } from 'react';
 import useControlState from '../../controls/useControlState';
 import useOpenContact from '../../contact/useOpenContact';
+import { getWhatsAppUrl } from '../../contact/contactUrls';
 
 export default function ServiceInterestLink({
   service,
@@ -20,7 +21,7 @@ export default function ServiceInterestLink({
   return (
     <Box
       component={onExpand ? 'button' : 'a'}
-      href={onExpand ? undefined : '#crecimiento-real'}
+      href={onExpand ? undefined : getWhatsAppUrl(interest)}
       type={onExpand ? 'button' : undefined}
       onClick={(event: MouseEvent<HTMLElement>) => {
         if (onExpand) {
