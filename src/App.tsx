@@ -1,3 +1,5 @@
+import LanguageProvider from './i18n/LanguageProvider';
+import type { Language } from './i18n/messages';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Navbar from './navigation/Navbar';
@@ -58,16 +60,18 @@ function LandingPage() {
   );
 }
 
-export default function App() {
+export default function App({ language = 'es' }: { language?: Language }) {
   return (
-    <PreferencesProvider>
-      <LandingLayoutProvider>
-        <PortfolioSequenceProvider>
-          <ContactInterestProvider>
-            <LandingPage />
-          </ContactInterestProvider>
-        </PortfolioSequenceProvider>
-      </LandingLayoutProvider>
-    </PreferencesProvider>
+    <LanguageProvider initialLanguage={language}>
+      <PreferencesProvider>
+        <LandingLayoutProvider>
+          <PortfolioSequenceProvider>
+            <ContactInterestProvider>
+              <LandingPage />
+            </ContactInterestProvider>
+          </PortfolioSequenceProvider>
+        </LandingLayoutProvider>
+      </PreferencesProvider>
+    </LanguageProvider>
   );
 }
