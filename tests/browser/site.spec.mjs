@@ -193,6 +193,30 @@ test('reduced motion hydrates and keeps manual project navigation', async ({
   await expect(
     page.locator('picture:not([aria-hidden="true"]) img'),
   ).toHaveAttribute('alt', /Finca/);
+  for (const name of ['ProTennisSquash', 'Club Zurich', 'Time Magnitude']) {
+    await page
+      .getByRole('button', { name: 'Scroll to the next section' })
+      .press('Enter');
+    await expect(
+      page.locator('picture:not([aria-hidden="true"]) img'),
+    ).toHaveAttribute('alt', `${name} website screenshot`);
+  }
+  await page
+    .getByRole('button', { name: 'Scroll to the next section' })
+    .press('Enter');
+  await expect(page.locator('#closing-heading')).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Scroll to top' }),
+  ).toBeVisible();
+  await page.screenshot({ path: 'test-results/closing-reduced-motion.png' });
+  await page.getByRole('button', { name: 'Scroll to top' }).press('Enter');
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(4);
+  await expect(
+    page.getByRole('button', { name: 'Scroll to the next section' }),
+  ).toBeVisible();
+  await expect(
+    page.locator('picture:not([aria-hidden="true"]) img'),
+  ).toHaveAttribute('alt', /Health & Harmony/);
   expect(errors).toEqual([]);
 });
 

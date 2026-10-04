@@ -11,6 +11,7 @@ interface Options {
   atEnd: boolean;
   reduceMotion: boolean;
   onNextReducedMotion: () => void;
+  onResetReducedMotion: () => void;
 }
 
 export default function useScrollCheckpoints({
@@ -19,6 +20,7 @@ export default function useScrollCheckpoints({
   atEnd,
   reduceMotion,
   onNextReducedMotion,
+  onResetReducedMotion,
 }: Options) {
   const pendingPosition = useRef<number | null>(null);
   useEffect(() => {
@@ -76,6 +78,16 @@ export default function useScrollCheckpoints({
   }, []);
 
   const nextCheckpoint = () => {
+    if (atEnd) {
+      pendingPosition.current = null;
+      if (reduceMotion) onResetReducedMotion();
+      window.scrollTo({
+        top: 0,
+        behavior: reduceMotion ? 'instant' : 'smooth',
+      });
+      return;
+    }
+
     const scroll = getWindowScroll();
     const pageBottom = Math.max(
       document.documentElement.scrollHeight - scroll.viewport,
@@ -120,19 +132,16 @@ export default function useScrollCheckpoints({
       return;
     }
 
-    if (atEnd) {
-      pendingPosition.current = null;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
     const current =
       (pendingPosition.current ?? window.scrollY) / scroll.viewport;
     const next = checkpoints.find((point) => point > current + 0.02);
     // Round forward so fractional section bounds reach the transition's end.
     pendingPosition.current =
       next === undefined ? pageBottom : Math.ceil(next * scroll.viewport);
-    window.scrollTo({ top: pendingPosition.current, behavior: 'smooth' });
+    window.scrollTo({
+      top: pendingPosition.current,
+      behavior: reduceMotion ? 'instant' : 'smooth',
+    });
   };
 
   return nextCheckpoint;

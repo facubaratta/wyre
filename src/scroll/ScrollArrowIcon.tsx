@@ -19,6 +19,7 @@ const circleSx = (atEnd: boolean) => ({
   transform: 'rotate(-90deg)',
   transformOrigin: 'center',
   animation: atEnd ? `${drawCircle} 650ms linear both` : 'none',
+  '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
 });
 
 export default function ScrollArrowIcon({ atEnd }: { atEnd: boolean }) {
@@ -47,6 +48,7 @@ export default function ScrollArrowIcon({ atEnd }: { atEnd: boolean }) {
           transform: atEnd ? 'rotate(180deg)' : 'none',
           transformOrigin: 'center',
           transition: 'transform 300ms ease',
+          '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
         }}
       />
     </Box>

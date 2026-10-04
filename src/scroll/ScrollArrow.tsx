@@ -52,14 +52,18 @@ const highlightSx = {
 
 const ScrollArrow = () => {
   const { hovered, pressed, focusVisible, events } = useControlState();
-  const { timeline } = useLandingLayout();
-  const { nextManualProject: onNextReducedMotion } =
-    usePortfolioSequenceState();
+  const { timeline, introHeight } = useLandingLayout();
+  const {
+    nextManualProject: onNextReducedMotion,
+    closingProgress,
+    selectProject,
+  } = usePortfolioSequenceState();
   const projectCount = projects.length;
   const { reduceMotion } = usePreferences();
-  const atEnd = useScrollSnapshot(
-    (scroll) =>
-      !reduceMotion && scroll.y >= timeline.closingEnd * scroll.viewport - 2,
+  const atEnd = useScrollSnapshot((scroll) =>
+    reduceMotion
+      ? closingProgress >= 0.5 && scroll.y >= introHeight - 2
+      : scroll.y >= timeline.closingEnd * scroll.viewport - 2,
   );
   const bouncing = useScrollSnapshot(
     (scroll) =>
@@ -73,6 +77,7 @@ const ScrollArrow = () => {
     atEnd,
     reduceMotion,
     onNextReducedMotion,
+    onResetReducedMotion: () => selectProject(0),
   });
 
   return (
