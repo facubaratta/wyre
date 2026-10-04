@@ -3,10 +3,14 @@ export interface WindowScroll {
   viewport: number;
 }
 
-const readWindow = (): WindowScroll => ({
-  y: window.scrollY,
-  viewport: Math.max(window.innerHeight, 1),
-});
+const serverSnapshot: WindowScroll = { y: 0, viewport: 900 };
+const readWindow = (): WindowScroll =>
+  typeof window === 'undefined'
+    ? serverSnapshot
+    : {
+        y: window.scrollY,
+        viewport: Math.max(window.innerHeight, 1),
+      };
 let snapshot = readWindow();
 const listeners = new Set<() => void>();
 let frame = 0;
@@ -24,6 +28,7 @@ function schedule() {
 }
 
 export const getWindowScroll = () => snapshot;
+export const getServerWindowScroll = () => serverSnapshot;
 
 export function subscribeWindowScroll(listener: () => void) {
   if (!listeners.size) {

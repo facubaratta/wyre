@@ -31,9 +31,10 @@ export default tseslint.config(
     },
   },
   {
-    files: ['vite.config.ts'],
+    files: ['vite.config.ts', 'src/entry-server.tsx'],
     languageOptions: {
       globals: globals.node,
     },
+    rules: { 'react-refresh/only-export-components': 'off' },
   },
 );

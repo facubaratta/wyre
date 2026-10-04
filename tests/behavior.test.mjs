@@ -392,6 +392,7 @@ test('every runtime source module is reachable from the application entry point'
     }
   };
   await visit(join(root, 'main.tsx'));
+  await visit(join(root, 'entry-server.tsx'));
   assert.deepEqual(
     files.filter((path) => !reached.has(path)),
     [],

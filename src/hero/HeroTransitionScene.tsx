@@ -13,7 +13,9 @@ export default function HeroTransitionScene() {
       id="hero-scene"
       sx={{
         position: 'relative',
-        height: reduceMotion ? 'auto' : `calc(${height || viewport}px + 75svh)`,
+        height: reduceMotion
+          ? 'auto'
+          : `calc(${height ? `${height}px` : '100svh'} + 75svh)`,
       }}
     >
       <Box
