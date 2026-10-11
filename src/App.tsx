@@ -12,7 +12,7 @@ import { PreferencesProvider } from './preferences/PreferencesProvider';
 import HeroTransitionScene from './hero/HeroTransitionScene';
 import PortfolioScene from './portfolio/PortfolioScene';
 import WebPresence from './sections/WebPresence';
-import TitleTransitionProvider from './hero/transition/TitleTransitionProvider';
+import HeroTransitionProvider from './hero/transition/HeroTransitionProvider';
 import HumanDecisions from './sections/HumanDecisions';
 import ScrollArrow from './scroll/ScrollArrow';
 import ScrollShadow from './scroll/ScrollShadow';
@@ -56,7 +56,7 @@ function LandingPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <TitleTransitionProvider>
+      <HeroTransitionProvider>
         <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
           <MeshBackground />
           <Navbar />
@@ -71,7 +71,7 @@ function LandingPage() {
             <PortfolioScene />
           </Box>
         </Box>
-      </TitleTransitionProvider>
+      </HeroTransitionProvider>
     </ThemeProvider>
   );
 }

@@ -6,20 +6,15 @@ import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from './NavigationActions';
 import useHeaderHeight from './useHeaderHeight';
 import useNavbarVisibility from './useNavbarVisibility';
-import {
-  useTitleFrame,
-  useTitleTransition,
-} from '../hero/transition/TitleTransitionContext';
+import { useHeroTransition } from '../hero/transition/HeroTransitionContext';
 
 export default function Navbar() {
   const scrolled = useScrollSnapshot((scroll) => scroll.y > 0);
   const { accent, reduceMotion } = usePreferences();
   const headerRef = useHeaderHeight();
   const visible = useNavbarVisibility();
-  const { moving, complete } = useTitleTransition();
-  const titleFrame = useTitleFrame();
+  const { moving, complete, pastHero } = useHeroTransition();
   const animating = moving && !complete;
-  const pastHero = titleFrame === null || titleFrame.progress === 1;
   const show = scrolled && visible && !animating && pastHero;
   return (
     <Box

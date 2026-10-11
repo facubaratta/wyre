@@ -17,7 +17,7 @@ test('content and styling are available without JavaScript', async ({
     await page
       .locator('#hero')
       .evaluate((element) => getComputedStyle(element).display),
-  ).toBe('flex');
+  ).toBe('block');
   const contact = page
     .locator('#hero-actions')
     .getByRole('link', { name: 'Hablemos' });

@@ -4,66 +4,32 @@ import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 import { importSource, modules } from './helpers/importSource.mjs';
 
-const { createTitleMotion } = await importSource(
-  '../src/hero/transition/titleTransitionFrame.ts',
+const { createHeroMotion } = await importSource(
+  '../src/hero/transition/heroTransitionFrame.ts',
 );
 
-test('title and globe reach measured endpoints, restore the hero on reversal, and reveal the section', () => {
-  const geometry = {
-    text: 'Web presence',
-    fromX: 400,
-    fromY: 180,
-    toX: 100,
-    toY: 120,
-    middleX: 200,
-    middleY: 600,
-    middleScale: 1.9,
-    width: 380,
-    fontSize: 40,
-    lineHeight: 48,
-    weight: 600,
-    spacing: -1.4,
-    targetScale: 1.6,
-    globeFromX: 800,
-    globeFromY: 500,
-    globeToX: 50,
-    globeToY: 110,
-    globeMiddleX: 400,
-    globeMiddleY: 240,
-    globeMiddleScale: 8,
-    globeSize: 56,
-    globeScale: 52 / 56,
-  };
-  const start = createTitleMotion(geometry, 0, false);
-  assert.equal(start.frame.text, 'Web presence');
+test('hero fade carries wire geometry and restores the copy when returning', () => {
+  const geometry = { wires: { tails: [{ x: 800, y: 500 }] } };
+  const start = createHeroMotion(geometry, 0, false);
   assert.equal(start.moving, false);
-  assert.equal(start.frame.x, geometry.fromX);
-  assert.equal(start.frame.y, geometry.fromY);
   assert.equal(start.frame.heroExit, 0);
-  assert.equal(start.frame.reveal, 0);
-  const middle = createTitleMotion(geometry, 0.5, false);
+  const middle = createHeroMotion(geometry, 0.5, false);
   assert.equal(middle.moving, true);
   assert.equal(middle.frame.complete, false);
   assert.equal(middle.frame.heroExit, 1);
-  assert.equal(middle.frame.x, geometry.middleX);
-  const returning = createTitleMotion(geometry, 0.5, true);
+  const returning = createHeroMotion(geometry, 0.5, true);
   assert.equal(returning.moving, false);
   assert.equal(returning.frame.complete, true);
   assert.equal(returning.frame.heroExit, 0);
-  const end = createTitleMotion(geometry, 1, false);
-  assert.equal(end.frame.x, geometry.toX);
-  assert.equal(end.frame.y, geometry.toY);
-  assert.equal(end.frame.scale, geometry.targetScale);
-  assert.equal(end.frame.globe.x, geometry.globeToX);
-  assert.equal(end.frame.globe.y, geometry.globeToY);
+  const end = createHeroMotion(geometry, 1, false);
+  assert.equal(end.frame.wires, geometry.wires);
   assert.equal(end.frame.complete, true);
-  assert.equal(end.frame.reveal, 1);
 });
 
-test('title transition reverses before completion and resets only at its start after completion', async () => {
+test('hero transition reverses before completion and resets only at its start after completion', async () => {
   const source = await readFile(
     new URL(
-      '../src/hero/transition/useTitleTransitionMotion.ts',
+      '../src/hero/transition/useHeroTransitionMotion.ts',
       import.meta.url,
     ),
     'utf8',
@@ -71,18 +37,26 @@ test('title transition reverses before completion and resets only at its start a
   const handlers = new Map();
   let scheduled;
   let motion;
+  let renders = 0;
   let cleanup;
-  globalThis.__titleMotionTest = {
+  globalThis.__heroMotionTest = {
     useState: () => [
       null,
       (value) => {
         motion = value;
+        renders++;
       },
     ],
     useLayoutEffect: (effect) => {
       cleanup = effect();
     },
-    measureTitleGeometry: () => ({ start: 100, end: 1100 }),
+    measureHeroGeometry: () => ({ start: 100, end: 1100 }),
+    getWindowScroll: () => ({ y: window.scrollY }),
+    subscribeWindowScroll: (callback) => {
+      const handler = () => requestAnimationFrame(callback);
+      window.addEventListener('scroll', handler);
+      return () => window.removeEventListener('scroll', handler);
+    },
   };
   globalThis.window = {
     scrollY: 0,
@@ -115,17 +89,21 @@ test('title transition reverses before completion and resets only at its start a
       })
       .outputText.replace(
         /import .* from 'react';/,
-        'const { useLayoutEffect, useState } = globalThis.__titleMotionTest;',
+        'const { useLayoutEffect, useState } = globalThis.__heroMotionTest;',
       )
       .replace(
-        /import .* from '.\/titleTransitionGeometry';/,
-        'const { measureTitleGeometry } = globalThis.__titleMotionTest;',
+        /import .* from '.\/heroTransitionGeometry';/,
+        'const { measureHeroGeometry } = globalThis.__heroMotionTest;',
+      )
+      .replace(
+        /import .* from '..\/..\/scroll\/windowScrollStore';/,
+        'const { getWindowScroll, subscribeWindowScroll } = globalThis.__heroMotionTest;',
       );
     for (const match of [...code.matchAll(/from ['"](\.[^'"]+)['"]/g)]) {
       const dependency = new URL(
         `${match[1]}.ts`,
         new URL(
-          '../src/hero/transition/useTitleTransitionMotion.ts',
+          '../src/hero/transition/useHeroTransitionMotion.ts',
           import.meta.url,
         ),
       );
@@ -145,10 +123,12 @@ test('title transition reverses before completion and resets only at its start a
       return motion;
     };
     scrollTo(600);
+    const stableRenders = renders;
     const reversed = scrollTo(400);
+    assert.equal(renders, stableRenders);
     assert.equal(reversed.moving, true);
     assert.equal(reversed.frame.complete, false);
-    assert.equal(reversed.frame.progress, 0.3);
+    assert.equal(reversed.frame.pastHero, false);
     assert.equal(scrollTo(800).moving, true);
     assert.equal(scrollTo(1100).frame.complete, true);
     assert.equal(scrollTo(600).moving, false);
@@ -160,7 +140,7 @@ test('title transition reverses before completion and resets only at its start a
   } finally {
     cleanup?.();
     for (const key of [
-      '__titleMotionTest',
+      '__heroMotionTest',
       'window',
       'document',
       'ResizeObserver',

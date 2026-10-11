@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useId, useState } from 'react';
-import ServiceReveal from './ServiceReveal';
 import WebPresencePreview from './WebPresencePreview';
 import ServiceCardContent from './ServiceCardContent';
 import ServiceDetailsReveal from './ServiceDetailsReveal';
@@ -29,7 +28,7 @@ export default function ServiceCard({
         height: '100%',
       }}
     >
-      <ServiceReveal index={index}>
+      <Box component="article" sx={{ height: '100%' }}>
         <Box
           sx={{
             position: 'relative',
@@ -56,10 +55,10 @@ export default function ServiceCard({
             borderRadius: 3,
             border: '1px solid',
             borderColor: featured
-              ? 'color-mix(in srgb, var(--accent) 35%, transparent)'
+              ? 'rgba(243,183,151,.65)'
               : 'rgba(235,232,222,.1)',
             background: featured
-              ? 'linear-gradient(120deg, color-mix(in srgb, var(--accent) 9%, #181a19), #1b1e1b)'
+              ? 'linear-gradient(120deg, rgba(187,123,241,.16), rgba(232,154,196,.1), rgba(255,195,151,.12))'
               : 'rgba(235,232,222,.025)',
             display: 'flex',
             flexDirection: 'column',
@@ -109,7 +108,7 @@ export default function ServiceCard({
             )}
           </Box>
         </Box>
-      </ServiceReveal>
+      </Box>
     </Box>
   );
 }

@@ -1,121 +1,134 @@
 import { useLanguage } from '../i18n/LanguageContext';
-import { Box, Typography } from '@mui/material';
-import {
-  useTitleTransition,
-  useHeroExit,
-} from './transition/TitleTransitionContext';
+import { Box, Button, Typography } from '@mui/material';
+import { useHeroExit } from './transition/HeroTransitionContext';
+import useOpenContact from '../contact/useOpenContact';
+import { getWhatsAppUrl } from '../contact/contactUrls';
 
-// Match the section title and its moving copy so their measured bounds agree.
-const titleSx = {
-  display: 'inline-block',
-  textBoxTrim: 'trim-both',
-  textBoxEdge: 'cap alphabetic',
-};
-
-const MathSymbol = ({ children }: { children: React.ReactNode }) => (
-  <Typography
-    component="span"
-    sx={{
-      mx: { xs: 1, sm: 2 },
-      fontSize: { xs: 'clamp(28px, 7vw, 40px)', sm: 'clamp(36px, 4vw, 60px)' },
-      fontWeight: 600,
-      lineHeight: 1.2,
-      color: 'var(--accent)',
-    }}
-  >
-    {children}
-  </Typography>
-);
-
-const HeroCopy = () => {
-  const { copy } = useLanguage();
-  const { moving } = useTitleTransition();
+export default function HeroCopy() {
+  const { copy, language } = useLanguage();
   const exit = useHeroExit();
+  const openContact = useOpenContact();
   return (
-    <Box
-      sx={{
-        maxWidth: 'min(680px, 100%)',
-        minWidth: 0,
-        textAlign: 'left',
-        width: { xs: 'fit-content', md: 'auto' },
-      }}
-    >
+    <Box sx={{ minWidth: 0, maxWidth: 680 }}>
+      <Typography
+        component="p"
+        style={{ opacity: 1 - exit }}
+        sx={{
+          mb: 2.5,
+          color: 'var(--accent)',
+          fontSize: { xs: 10, sm: 11 },
+          letterSpacing: '.2em',
+          textTransform: 'uppercase',
+        }}
+      >
+        {copy.heroDesign.eyebrow}
+      </Typography>
       <Typography
         component="h1"
         id="hero-headline"
+        style={{ opacity: 1 - exit }}
         sx={{
           fontSize: {
-            xs: 'clamp(26px, 6.8vw, 40px)',
-            sm: 'clamp(32px, 3.5vw, 56px)',
+            xs: 'clamp(36px, 9vw, 52px)',
+            md: 'clamp(44px, 4.9vw, 72px)',
           },
           fontWeight: 600,
-          lineHeight: 1.2,
-          letterSpacing: '-0.035em',
-          textWrap: 'balance',
+          lineHeight: 1.12,
+          letterSpacing: '-.045em',
+          textWrap: 'pretty',
         }}
+      >
+        {copy.heroDesign.headline}
+        <Box component="span" sx={{ color: 'var(--accent)' }}>
+          .
+        </Box>
+      </Typography>
+      <Typography
+        component="p"
+        style={{ opacity: 1 - exit }}
+        sx={{
+          mt: 2.5,
+          maxWidth: 470,
+          fontSize: { xs: 16, md: 19 },
+          lineHeight: 1.6,
+          color: 'text.secondary',
+        }}
+      >
+        {copy.heroDesign.description}
+      </Typography>
+      <Box
+        style={{ opacity: 1 - exit }}
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: { xs: 2, md: 3 },
+          mt: 3.5,
+        }}
+      >
+        <Button
+          component="a"
+          href={getWhatsAppUrl(null, language)}
+          onClick={(event) => {
+            event.preventDefault();
+            openContact();
+          }}
+          variant="contained"
+          sx={{
+            background: 'var(--accent)',
+            color: '#111212',
+            textTransform: 'none',
+            fontWeight: 700,
+            px: 2.5,
+            minHeight: 48,
+            borderRadius: 1,
+          }}
+        >
+          {copy.heroDesign.discuss} ↗
+        </Button>
+        <Button
+          component="a"
+          href="#crecimiento-real"
+          sx={{
+            textTransform: 'none',
+            color: 'text.primary',
+            borderRadius: 0,
+            borderBottom: '1px solid var(--accent)',
+            px: 0,
+            minHeight: 44,
+          }}
+        >
+          {copy.heroDesign.explore} ↓
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          mt: 3,
+          fontSize: 12,
+          color: 'text.secondary',
+          display: 'flex',
+          gap: 1,
+          flexWrap: 'wrap',
+        }}
+        style={{ opacity: 1 - exit }}
       >
         <Box
           component="span"
           id="hero-title-web"
           sx={{
-            ...titleSx,
-            visibility: moving ? 'hidden' : 'visible',
+            display: 'inline-block',
+            textBoxTrim: 'trim-both',
+            textBoxEdge: 'cap alphabetic',
           }}
-          style={{ opacity: moving ? 0 : 1 - exit }}
         >
           {copy.headings.web}
         </Box>
-        <br />
-        <Box component="span" style={{ opacity: 1 - exit }}>
-          <MathSymbol>+</MathSymbol>
+        <Box component="span">
+          {' '}
+          + <span id="hero-title-human">{copy.headings.human}</span> ={' '}
+          <span id="hero-title-growth">{copy.headings.growth}</span>
         </Box>
-        <br />
-        <Box
-          component="span"
-          id="hero-title-human"
-          sx={titleSx}
-          style={{
-            opacity: 1 - exit,
-          }}
-        >
-          {copy.headings.human.toLowerCase()}
-        </Box>
-        <br />
-        <Box component="span" style={{ opacity: 1 - exit }}>
-          <MathSymbol>=</MathSymbol>
-        </Box>
-        <br />
-        <Box
-          component="span"
-          id="hero-title-growth"
-          sx={titleSx}
-          style={{
-            opacity: 1 - exit,
-          }}
-        >
-          {copy.headings.growth.toLowerCase()}
-        </Box>
-      </Typography>
-      <Box style={{ opacity: 1 - exit }} sx={{ mt: { xs: 3, sm: 4 } }}>
-        <Typography
-          component="p"
-          sx={{
-            maxWidth: 480,
-            fontSize: { xs: 16, sm: 22 },
-            lineHeight: 1.7,
-            color: 'text.secondary',
-            ml: { xs: 1, md: 2 },
-          }}
-        >
-          {copy.hero[0]}
-          <br />
-          {copy.hero[1]}
-          <br />
-          {copy.hero[2]}
-        </Typography>
       </Box>
     </Box>
   );
-};
-
-export default HeroCopy;
+}

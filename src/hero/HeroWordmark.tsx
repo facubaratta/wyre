@@ -1,43 +1,39 @@
-import { memo } from 'react';
+import { memo, useId, useRef } from 'react';
 import Box from '@mui/material/Box';
-import { keyframes } from '@emotion/react';
-import { HeroLogo } from '../brand/logo';
-import { usePreferences } from '../preferences/PreferencesContext';
+import { YGlyph } from '../brand/logo/components/YGlyph';
+import { useLogoAnimation } from '../brand/logo/useLogoAnimation';
 
-const enter = keyframes({
-  from: { opacity: 0, transform: 'translateY(18px)' },
-  to: { opacity: 1, transform: 'translateY(0)' },
-});
-
-const wordmarkSx = {
-  display: 'flex',
-  alignItems: 'center',
-  lineHeight: 1,
-  flex: '0 0 auto',
-  fontSize: 'clamp(100px, 15vw, 240px)',
-  animation: `${enter} 1100ms cubic-bezier(.22,1,.36,1) both`,
-  '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
-  '@media (max-width:640px)': { fontSize: 'min(32vw, 18svh)' },
-  '@media (max-width:640px) and (max-height:700px)': {
-    fontSize: 'min(28vw, 13svh)',
-  },
-};
-
-interface HeroWordmarkProps {
-  animationActive: boolean;
-}
-
-function HeroWordmark({ animationActive }: HeroWordmarkProps) {
-  const { accent } = usePreferences();
+function HeroWordmark({ animationActive }: { animationActive: boolean }) {
+  const root = useRef<HTMLDivElement>(null);
+  const id = `hero-y-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  useLogoAnimation(root, animationActive);
   return (
-    <Box id="hero-wordmark" sx={wordmarkSx}>
-      <HeroLogo
-        style={{ fontSize: 'inherit' }}
-        accent={accent}
-        animationActive={animationActive}
-      />
+    <Box
+      id="hero-wordmark"
+      ref={root}
+      aria-hidden="true"
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        fontSize: { xs: '220px', sm: '340px', md: 'clamp(340px, 36vw, 510px)' },
+        lineHeight: 0,
+        height: '.8em',
+        '& svg': { transform: 'translateY(-.2em)' },
+        width: '100%',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: '15% 0 0',
+          background:
+            'radial-gradient(ellipse at 30% 40%, rgba(187,123,241,.7), transparent 55%), radial-gradient(ellipse at 65% 60%, rgba(255,195,151,.7), transparent 55%)',
+          opacity: 0.12,
+          filter: 'blur(35px)',
+        },
+      }}
+    >
+      <YGlyph id={id} />
     </Box>
   );
 }
-
 export default memo(HeroWordmark);
