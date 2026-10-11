@@ -2,38 +2,28 @@ import { Box } from '@mui/material';
 import { HeroLogo } from '../brand/logo';
 import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from '../navigation/NavigationActions';
-import SectionNavigation from '../navigation/SectionNavigation';
 import HeroWordmark from './HeroWordmark';
 import HeroCopy from './HeroCopy';
-import { useHeroProgress } from './transition/HeroTransitionContext';
-import { between, ease } from './transition/motion';
 
 export default function HeroSection() {
   const { accent } = usePreferences();
-  const progress = useHeroProgress();
-  const exit = ease(between(progress, 0.08, 0.72));
   return (
     <Box
       component="section"
       aria-labelledby="hero-headline"
       id="hero"
-      inert={exit === 1}
       sx={{
         position: 'relative',
         zIndex: 1,
-        transform: `translate3d(0, ${progress * 28}vh, 0) scale(${1 - progress * 0.22})`,
-        transformOrigin: 'center center',
-        filter: `blur(${progress * 5}px)`,
         minHeight: '100svh',
-        px: { xs: '6vw', md: '4vw' },
+        px: { xs: '6vw', sm: '7vw' },
         pb: { xs: 11, md: 12 },
         color: 'text.primary',
       }}
     >
       <Box
-        style={{ opacity: 1 - exit }}
         sx={{
-          maxWidth: 1440,
+          maxWidth: 1200,
           mx: 'auto',
           display: 'flex',
           alignItems: 'center',
@@ -54,21 +44,20 @@ export default function HeroSection() {
         >
           <HeroLogo compact accent={accent} animationActive={false} />
         </Box>
-        <SectionNavigation />
         <Box sx={{ ml: 'auto' }}>
           <NavigationActions placement="hero" />
         </Box>
       </Box>
       <Box
         sx={{
-          maxWidth: 1440,
+          maxWidth: 1200,
           mx: 'auto',
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', md: '1.12fr 1fr' },
+          gridTemplateColumns: { xs: '1fr', sm: '1.25fr 0.75fr' },
           alignItems: 'center',
-          gap: { xs: 3, md: 5 },
-          minHeight: { md: 'calc(100svh - 180px)' },
-          pt: { xs: 5, md: 5 },
+          gap: { xs: 5, md: 8 },
+          minHeight: { sm: 'calc(100svh - 180px)' },
+          pt: { xs: 4, md: 5 },
         }}
       >
         <HeroCopy />

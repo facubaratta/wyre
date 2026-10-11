@@ -12,14 +12,15 @@ React, Vite, and MUI. Run `npm install` and `npm run dev` to start locally.
 | `brand/logo/` | SVG structure, geometry binding, packet updates, and animation lifecycle |
 | `controls/` | Shared pointer and keyboard focus state |
 | `contact/` | Contact links and buttons |
-| `hero/` | Hero copy, wordmark, and sticky scene |
-| `hero/transition/` | Hero sink transition, geometry measurement, and scroll lifecycle |
+| `hero/` | Hero copy, wordmark, and fade-in scene |
 | `navigation/` | Navbar visibility, height, actions, and language toggle |
 | `i18n/` | English/Spanish copy, language context, URL switching, and document metadata |
-| `portfolio/` | Sticky scene, project selection, screenshots, browser frame, and closing screen |
+| `portfolio/` | Project navigation, screenshots, browser frame, and closing screen |
 | `preferences/` | Fixed brand palette and system reduced-motion preference |
 | `scroll/` | Window-scroll store, dimension-based timeline, layout context, checkpoints, arrow, and shadow |
 | `sections/` | Web-presence services, human-decisions content, and section headings |
+
+The hero, navbar, and content sections share a 1200px content width. Service descriptions and contact links stay visible on mobile; decorative previews appear from the tablet breakpoint. The service grid uses three equal cards followed by two wider cards on desktop, two columns on tablet, and one column on mobile.
 
 Styles belong to their elements: MUI `sx` for layout and appearance, inline styles for continuously changing animation values, and no CSS files.
 
@@ -27,7 +28,7 @@ Styles belong to their elements: MUI `sx` for layout and appearance, inline styl
 
 The window-scroll store owns one animation-frame-batched scroll/resize subscription. Layout selects viewport height; the navbar selects whether scrolling has started; the portfolio selects the displayed project or closing-screen sentinel. Continuous position does not flow through the page's layout context.
 
-The hero sinks, scales down, and fades as the next section rises into view. The fixed mesh darkens and blurs over the same scroll progress. Geometry measurement and scroll lifecycle live in the hero transition module.
+Sections and service cards fade in when entering the viewport, replaying after they leave and re-enter. Content follows normal document flow; the hero and portfolio are not pinned, and scrolling does not select projects. Portfolio controls are always available. Reduced motion disables the fades; prerendered content remains visible without JavaScript.
 
 The mesh retains its position buffers and precomputes possible connections on resize. A maximum-displacement bound excludes pairs that can never connect. Sampled viewports from 390×844 to 2560×1440 require 78–95% fewer pair checks per frame. This measures candidate work, not overall frame rate.
 
@@ -39,7 +40,7 @@ Checkpoint section bounds are read when the arrow is activated. Successive taps 
 
 - `npm run build` — strict TypeScript, unused locals/parameters, and production build.
 - `npm run lint` — source lint and React hook checks.
-- `npm test` — mesh connection parity, portfolio boundaries, hero reversal, scroll-store batching/cleanup, and source-module reachability.
+- `npm test` — mesh connection parity, scroll-store batching/cleanup, and source-module reachability.
 - `python3 src/brand/logo/scripts/generate_geometry.py --check` — authored routes, including Prettier-formatted TypeScript.
 
 ## Production delivery
@@ -56,4 +57,4 @@ Contact calls to action retain native WhatsApp URLs when JavaScript is unavailab
 
 `npx playwright install chromium` installs the browser for `npm run test:browser` after a production build. Tests infer its base path and cover desktop, narrow/tall mobile, short-screen contact access, deferred loading without section-height changes, image selection, scroll navigation, no-JavaScript contact handoff, and reduced motion. CI runs these checks alongside lint, behavior tests, and the build before publishing.
 
-Check rendered desktop/mobile behavior after changing section geometry or animation timing. Reduced motion uses manual portfolio navigation and the same closing-screen sentinel; the closing arrow returns to the top and resets the first project without smooth scrolling.
+Check rendered desktop/mobile behavior after changing section geometry or animation timing. Portfolio navigation uses the same closing-screen sentinel; the closing arrow returns to the top and resets the first project without smooth scrolling.

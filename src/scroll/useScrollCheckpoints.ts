@@ -1,26 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { CHECKPOINT_OFFSET, PROJECT_DISTANCE } from './scrollTimeline';
 import { getWindowScroll, subscribeWindowScroll } from './windowScrollStore';
 
-const createCheckpoints = (length: number, start: number, distance: number) =>
-  Array.from({ length }, (_, index) => start + index * distance);
-
 interface Options {
-  projectCount: number;
-  projectsStart: number;
   atEnd: boolean;
   reduceMotion: boolean;
-  onNextReducedMotion: () => void;
-  onResetReducedMotion: () => void;
+  onReset: () => void;
 }
 
 export default function useScrollCheckpoints({
-  projectCount,
-  projectsStart,
   atEnd,
   reduceMotion,
-  onNextReducedMotion,
-  onResetReducedMotion,
+  onReset,
 }: Options) {
   const pendingPosition = useRef<number | null>(null);
   useEffect(() => {
@@ -80,7 +70,7 @@ export default function useScrollCheckpoints({
   const nextCheckpoint = () => {
     if (atEnd) {
       pendingPosition.current = null;
-      if (reduceMotion) onResetReducedMotion();
+      onReset();
       window.scrollTo({
         top: 0,
         behavior: reduceMotion ? 'instant' : 'smooth',
@@ -93,19 +83,11 @@ export default function useScrollCheckpoints({
       document.documentElement.scrollHeight - scroll.viewport,
       0,
     );
-    // The portfolio section entrance already selects the first website.
-    const projectCheckpoints = createCheckpoints(
-      Math.max(0, projectCount - 1),
-      projectsStart + PROJECT_DISTANCE + CHECKPOINT_OFFSET,
-      PROJECT_DISTANCE,
-    );
-
     const headerHeight =
       document.getElementById('site-header')?.getBoundingClientRect().height ??
       0;
     const sectionCheckpoints = [
       'presencia-web',
-      'decisiones-humanas',
       'crecimiento-real',
     ].flatMap((id) => {
       const section = document.getElementById(id);
@@ -118,19 +100,7 @@ export default function useScrollCheckpoints({
       return [start];
     });
 
-    const checkpoints = [
-      ...sectionCheckpoints,
-      ...projectCheckpoints,
-      pageBottom / scroll.viewport,
-    ];
-
-    if (
-      reduceMotion &&
-      window.scrollY >= (sectionCheckpoints.at(-1) ?? 0) * scroll.viewport
-    ) {
-      onNextReducedMotion();
-      return;
-    }
+    const checkpoints = [...sectionCheckpoints, pageBottom / scroll.viewport];
 
     const current =
       (pendingPosition.current ?? window.scrollY) / scroll.viewport;

@@ -1,5 +1,4 @@
 import type { PropsWithChildren } from 'react';
-import { useLandingLayout } from '../scroll/LandingLayoutContext';
 import { projects } from './projects';
 import usePortfolioSequence from './usePortfolioSequence';
 import { PortfolioSequenceContext } from './PortfolioSequenceContext';
@@ -7,8 +6,7 @@ import { PortfolioSequenceContext } from './PortfolioSequenceContext';
 export default function PortfolioSequenceProvider({
   children,
 }: PropsWithChildren) {
-  const { viewport, timeline } = useLandingLayout();
-  const value = usePortfolioSequence(viewport, projects.length, timeline);
+  const value = usePortfolioSequence(projects.length);
   return (
     <PortfolioSequenceContext.Provider value={value}>
       {children}

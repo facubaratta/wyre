@@ -12,8 +12,8 @@ export default function useOpenContact() {
   return (interest: ServiceInterest = null) => {
     setInterest(interest);
     selectProject(projects.length);
-    if (reduceMotion) {
-      document.getElementById('crecimiento-real')?.scrollIntoView();
-    }
+    document
+      .getElementById('crecimiento-real')
+      ?.scrollIntoView({ behavior: reduceMotion ? 'instant' : 'smooth' });
   };
 }

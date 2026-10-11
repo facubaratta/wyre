@@ -3,18 +3,15 @@ import { HeroLogo } from '../brand/logo';
 import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from './NavigationActions';
 import useHeaderHeight from './useHeaderHeight';
-import SectionNavigation from './SectionNavigation';
 import { useScrollSnapshot } from '../scroll/useWindowScroll';
 import useNavbarVisibility from './useNavbarVisibility';
-import { useHeroTransition } from '../hero/transition/HeroTransitionContext';
 
 export default function Navbar() {
   const { accent, reduceMotion } = usePreferences();
   const headerRef = useHeaderHeight();
   const scrolled = useScrollSnapshot((scroll) => scroll.y > 0);
   const visible = useNavbarVisibility();
-  const { moving, complete, pastHero } = useHeroTransition();
-  const show = scrolled && visible && !(moving && !complete) && pastHero;
+  const show = scrolled && visible;
   return (
     <Box
       component="header"
@@ -29,19 +26,18 @@ export default function Navbar() {
         zIndex: 20,
         opacity: show ? 1 : 0,
         pointerEvents: show ? 'auto' : 'none',
-        transform: show ? 'translateY(0)' : 'translateY(-100%)',
-        transition: reduceMotion ? 'none' : 'transform 200ms ease',
+        transition: reduceMotion ? 'none' : 'opacity 200ms ease',
         background: 'rgba(24,26,25,.94)',
         backdropFilter: { xs: 'none', md: 'blur(16px)' },
         borderBottom: '1px solid rgba(235,232,222,.14)',
-        px: { xs: '5vw', sm: '6.5vw' },
+        px: { xs: '6vw', sm: '7vw' },
         pt: 'max(8px, env(safe-area-inset-top))',
         pb: { xs: 1, md: 1.5 },
       }}
     >
       <Box
         sx={{
-          maxWidth: 1600,
+          maxWidth: 1200,
           mx: 'auto',
           display: 'flex',
           flexDirection: 'row',
@@ -66,7 +62,6 @@ export default function Navbar() {
             />
           </Box>
         </Box>
-        <SectionNavigation />
         <Box
           sx={{
             minWidth: 0,

@@ -5,7 +5,6 @@ import { projects } from './projects';
 import ProjectBrowser from './ProjectBrowser';
 import PortfolioNavigation from './PortfolioNavigation';
 import SectionHeading from '../sections/SectionHeading';
-import { usePreferences } from '../preferences/PreferencesContext';
 import { usePortfolioSequenceState } from './PortfolioSequenceContext';
 
 const hiddenOnSmallOrShort = {
@@ -15,7 +14,8 @@ const hiddenOnSmallOrShort = {
 
 const styles = {
   portfolio: {
-    position: 'absolute',
+    position: 'relative',
+    minHeight: '100svh',
     zIndex: 2,
     inset: 0,
     display: 'flex',
@@ -39,7 +39,7 @@ const styles = {
   },
   assembly: {
     width:
-      'min(100%, 1100px, 82svh, calc((100dvh - var(--header-height, 100px) - 310px) * 1.7778))',
+      'min(100%, 1100px, calc((100dvh - var(--header-height, 100px) - 310px) * 1.7778))',
     '@media (max-width:640px)': {
       width:
         'min(100%, calc((100dvh - 280px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * .5625))',
@@ -50,7 +50,6 @@ const styles = {
     },
   },
   monitor: {
-    border: '1px solid rgba(243,183,151,.65)',
     borderRadius: '12px',
     overflow: 'hidden',
     background: '#202321',
@@ -93,7 +92,6 @@ export default function Portfolio() {
     projectIndex,
     selectProject: onSelect,
   } = usePortfolioSequenceState();
-  const { reduceMotion } = usePreferences();
   const { copy } = useLanguage();
   const project = projects[projectIndex];
   const showClosing = closingProgress >= 0.5;
@@ -104,7 +102,6 @@ export default function Portfolio() {
       aria-labelledby="growth-heading"
       sx={{
         ...styles.portfolio,
-        ...(reduceMotion ? { position: 'relative', minHeight: '100svh' } : {}),
       }}
     >
       <Box
@@ -138,13 +135,13 @@ export default function Portfolio() {
             aria-hidden="true"
             sx={{ ...styles.foot, ...hiddenOnSmallOrShort }}
           />
-          {reduceMotion && (
+          {
             <PortfolioNavigation
               selectedIndex={selectedIndex}
               projectIndex={projectIndex}
               onSelect={onSelect}
             />
-          )}
+          }
         </Box>
       </Box>
     </Box>

@@ -13,7 +13,6 @@ import { PreferencesProvider } from './preferences/PreferencesProvider';
 import HeroTransitionScene from './hero/HeroTransitionScene';
 import PortfolioScene from './portfolio/PortfolioScene';
 import WebPresence from './sections/WebPresence';
-import HumanDecisions from './sections/HumanDecisions';
 import ScrollArrow from './scroll/ScrollArrow';
 import { LandingLayoutProvider } from './scroll/LandingLayoutProvider';
 import { useLandingLayout } from './scroll/LandingLayoutContext';

@@ -8,11 +8,9 @@ export const messages = {
     },
     headings: {
       web: 'Web presence',
-      human: 'Human decisions',
       growth: 'Real growth',
     },
     heroDesign: {
-      eyebrow: 'Digital strategy · Design · Development',
       headline: 'Digital experiences that move business forward',
       description:
         'We combine thoughtful design, smart technology and human insight to build digital experiences that help your business grow.',
@@ -21,7 +19,6 @@ export const messages = {
       services: 'Services',
       work: 'Work',
       about: 'About',
-      pillars: ['Strategy', 'Experience', 'Growth'],
     },
     hero: [
       'Digital solutions',
@@ -41,17 +38,6 @@ export const messages = {
       more: 'Learn more',
       interested: 'I’m interested',
       contactOptions: 'View contact options',
-    },
-    human: {
-      title: 'Your customers need to understand',
-      highlight: 'what you offer and how to hire you.',
-      description:
-        'Every decision has a purpose: explain your service, give people reasons to trust you and make it easy to get in touch.',
-      points: [
-        ['Clarity', 'What you do, who it’s for and where.'],
-        ['Trust', 'Clear information to make a decision.'],
-        ['Action', 'An easy-to-find next step.'],
-      ],
     },
     closing: {
       start: 'Your next ',
@@ -89,11 +75,9 @@ export const messages = {
     },
     headings: {
       web: 'Presencia web',
-      human: 'Decisiones Humanas',
       growth: 'Crecimiento real',
     },
     heroDesign: {
-      eyebrow: 'Estrategia digital · Diseño · Desarrollo',
       headline: 'Experiencias digitales que impulsan tu negocio',
       description:
         'Combinamos diseño, tecnología y criterio profesional para crear experiencias digitales que ayuden a crecer a tu negocio.',
@@ -102,7 +86,6 @@ export const messages = {
       services: 'Servicios',
       work: 'Proyectos',
       about: 'Nosotros',
-      pillars: ['Estrategia', 'Experiencia', 'Crecimiento'],
     },
     hero: [
       'Soluciones digitales',
@@ -122,17 +105,6 @@ export const messages = {
       more: 'Ver más',
       interested: 'Me interesa',
       contactOptions: 'Ver opciones de contacto',
-    },
-    human: {
-      title: 'Tu cliente necesita entender',
-      highlight: 'qué ofrecés y cómo contratarte.',
-      description:
-        'Cada decisión tiene un propósito: explicar tu servicio, dar motivos para confiar y facilitar el contacto.',
-      points: [
-        ['Claridad', 'Qué hacés, para quién y dónde.'],
-        ['Confianza', 'Información concreta para decidir.'],
-        ['Acción', 'Un próximo paso fácil de encontrar.'],
-      ],
     },
     closing: {
       start: 'Tu próxima ',
