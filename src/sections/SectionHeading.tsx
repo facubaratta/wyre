@@ -35,14 +35,14 @@ export default function SectionHeading({
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: { xs: 1.5, sm: 3 },
+        gap: { xs: 1.5, sm: 2 },
         fontSize: {
           xs: 'clamp(26px, 7vw, 32px)',
-          sm: 'clamp(40px, 5vw, 64px)',
+          sm: 'clamp(36px, 3.6vw, 48px)',
         },
-        fontWeight: icon === 'globe' ? 600 : 500,
-        letterSpacing: icon === 'globe' ? '-.035em' : '-.04em',
-        lineHeight: icon === 'globe' ? 1.2 : 1.15,
+        fontWeight: 600,
+        letterSpacing: '-.035em',
+        lineHeight: 1.2,
         '@media (max-height:500px)': { fontSize: '28px', gap: 1.5 },
       }}
     >
@@ -50,8 +50,8 @@ export default function SectionHeading({
         id={`section-${icon}`}
         sx={{
           opacity: hidden ? 0 : 1,
-          width: { xs: 30, sm: 52 },
-          height: { xs: 30, sm: 52 },
+          width: { xs: 30, sm: 36 },
+          height: { xs: 30, sm: 36 },
           flexShrink: 0,
           '@media (max-height:500px)': { width: 28, height: 28 },
         }}

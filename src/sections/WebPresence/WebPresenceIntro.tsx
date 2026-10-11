@@ -11,15 +11,15 @@ export default function WebPresenceIntro() {
         flexDirection: 'column',
         width: '100%',
         gap: 2,
-        mt: { xs: 4, sm: 5 },
+        mt: { xs: 3, sm: 4 },
       }}
     >
       <Typography
         component="p"
         sx={{
           width: '100%',
-          maxWidth: { xs: '30ch', md: 'none' },
-          fontSize: { xs: 23, sm: 30 },
+          maxWidth: '40ch',
+          fontSize: { xs: 22, sm: 28 },
           lineHeight: 1.4,
           letterSpacing: '-.025em',
         }}
@@ -34,7 +34,7 @@ export default function WebPresenceIntro() {
         component="p"
         sx={{
           width: '100%',
-          maxWidth: { xs: '48ch', md: 'none' },
+          maxWidth: '72ch',
           fontSize: { xs: 15, sm: 16 },
           lineHeight: 1.75,
           color: 'text.secondary',

@@ -1,3 +1,6 @@
+import { gradientFocusSx } from '../../brand/colors';
+import { useId } from 'react';
+import BrandGradient from '../../brand/BrandGradient';
 import { useLanguage } from '../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { MouseEvent } from 'react';
@@ -8,38 +11,24 @@ import { getWhatsAppUrl } from '../../contact/contactUrls';
 export default function ServiceInterestLink({
   service,
   interest,
-  onExpand,
-  detailsId,
 }: {
   service: string;
   interest: number;
-  onExpand?: () => void;
-  detailsId: string;
 }) {
   const { hovered, pressed, focusVisible, events } = useControlState();
   const openContact = useOpenContact();
   const { language, copy } = useLanguage();
 
+  const gradientId = `brand-${useId().replace(/:/g, '')}`;
   return (
     <Box
-      component={onExpand ? 'button' : 'a'}
-      href={onExpand ? undefined : getWhatsAppUrl(interest, language)}
-      type={onExpand ? 'button' : undefined}
+      component="a"
+      href={getWhatsAppUrl(interest, language)}
       onClick={(event: MouseEvent<HTMLElement>) => {
-        if (onExpand) {
-          onExpand();
-        } else {
-          event.preventDefault();
-          openContact(interest);
-        }
+        event.preventDefault();
+        openContact(interest);
       }}
-      aria-expanded={onExpand ? false : undefined}
-      aria-controls={onExpand ? detailsId : undefined}
-      aria-label={
-        onExpand
-          ? `${copy.web.more}: ${service}`
-          : `${copy.web.interested}: ${service}. ${copy.web.contactOptions}`
-      }
+      aria-label={`${copy.web.interested}: ${service}. ${copy.web.contactOptions}`}
       {...events}
       sx={{
         display: 'inline-flex',
@@ -47,36 +36,40 @@ export default function ServiceInterestLink({
         gap: 0.5,
         flexShrink: 0,
         whiteSpace: 'nowrap',
-        px: 1.25,
+        justifyContent: 'center',
+        width: 44,
+        px: 0,
         minHeight: 44,
-        borderRadius: 10,
-        border: '1px solid',
-        borderColor: 'color-mix(in srgb, var(--accent) 45%, transparent)',
-        background: hovered || pressed ? 'var(--accent)' : 'transparent',
-        color: hovered || pressed ? '#181a19' : 'var(--accent)',
+        borderRadius: '50%',
+        border: '1px solid #e9bd9b99',
+        background: hovered ? '#ffc39718' : 'transparent',
+        color: '#e9bd9b',
+        opacity: hovered || pressed ? 0.75 : 1,
         textDecoration: 'none',
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 600,
         fontFamily: 'inherit',
         cursor: 'pointer',
-        outline: focusVisible ? '2px solid var(--accent)' : 'none',
+        position: 'relative',
+        isolation: 'isolate',
+        ...(focusVisible ? gradientFocusSx : {}),
         outlineOffset: 4,
       }}
     >
-      {onExpand ? copy.web.more : copy.web.interested}
       <Box
         component="svg"
         viewBox="0 0 20 20"
         fill="none"
-        stroke="currentColor"
+        stroke={`url(#${gradientId})`}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
         focusable="false"
-        sx={{ width: 14, height: 14 }}
+        sx={{ width: 22, height: 22 }}
       >
-        <path d={onExpand ? 'm5 8 5 5 5-5' : 'M5 15 15 5M5 5h10v10'} />
+        <BrandGradient id={gradientId} />
+        <path d="M4 10h12M10 4l6 6-6 6" />
       </Box>
     </Box>
   );

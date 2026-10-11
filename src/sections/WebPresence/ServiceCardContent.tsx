@@ -12,7 +12,6 @@ export default function ServiceCardContent({
   drawing,
   showDetails,
   detailsId,
-  onExpand,
 }: {
   service: WebService;
   index: number;
@@ -31,7 +30,7 @@ export default function ServiceCardContent({
           fontSize: 11,
           letterSpacing: '.14em',
           fontWeight: 600,
-          color: 'var(--accent)',
+          color: '#e9bd9b',
         }}
       >
         {label}
@@ -51,7 +50,8 @@ export default function ServiceCardContent({
             maxWidth: '24ch',
             fontSize: {
               xs: 23,
-              sm: featured ? 32 : 25,
+              sm: featured ? 28 : 25,
+              lg: featured ? 30 : 26,
             },
             fontWeight: 500,
             lineHeight: 1.25,
@@ -60,12 +60,7 @@ export default function ServiceCardContent({
         >
           {title}
         </Typography>
-        <ServiceInterestLink
-          service={title}
-          interest={index}
-          onExpand={onExpand}
-          detailsId={detailsId}
-        />
+        <ServiceInterestLink service={title} interest={index} />
       </Box>
       <ServiceDetailsReveal open={showDetails} id={detailsId}>
         <Box
@@ -85,7 +80,7 @@ export default function ServiceCardContent({
               maxWidth: '46ch',
               fontSize: 15,
               lineHeight: 1.7,
-              color: 'text.secondary',
+              color: '#d4d0ca',
             }}
           >
             {description}
