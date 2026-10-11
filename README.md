@@ -13,11 +13,11 @@ React, Vite, and MUI. Run `npm install` and `npm run dev` to start locally.
 | `controls/` | Shared pointer and keyboard focus state |
 | `contact/` | Contact links and buttons |
 | `hero/` | Hero copy, wordmark, and sticky scene |
-| `hero/transition/` | Hero-to-web title/globe measurement, interpolation, rendering, and scroll lifecycle |
-| `navigation/` | Navbar visibility, height, actions, and combined language/accent picker |
+| `hero/transition/` | Y-tail wire extension, hero fade, geometry measurement, and scroll lifecycle |
+| `navigation/` | Navbar visibility, height, actions, and language toggle |
 | `i18n/` | English/Spanish copy, language context, URL switching, and document metadata |
 | `portfolio/` | Sticky scene, project selection, screenshots, browser frame, and closing screen |
-| `preferences/` | Accent palette and system reduced-motion preference |
+| `preferences/` | Fixed brand palette and system reduced-motion preference |
 | `scroll/` | Window-scroll store, dimension-based timeline, layout context, checkpoints, arrow, and shadow |
 | `sections/` | Web-presence services, human-decisions content, and section headings |
 
@@ -27,11 +27,13 @@ Styles belong to their elements: MUI `sx` for layout and appearance, inline styl
 
 The window-scroll store owns one animation-frame-batched scroll/resize subscription. Layout selects viewport height; the navbar selects whether scrolling has started; the portfolio selects the displayed project or closing-screen sentinel. Continuous position does not flow through the page's layout context.
 
-The title transition separates continuous frames, hero fade progress, and discrete visibility flags. The navbar and equation receive visibility flags. The hero stops rerendering when its fade is complete. Geometry measurement, interpolation, overlay rendering, and event handling live in separate modules.
+The hero transition extends the Y's lower wires to the left, then down beside the web-presence section. The section title stays in normal flow. Geometry measurement, wire rendering, hero fade, and event handling live in separate modules.
+
+The wire SVG shares the Y's sticky container so their joint follows native scrolling. The shared scroll subscription updates its four paths directly; React receives geometry changes, hero fade, and discrete navbar flags. Layered translucent strokes and radial pulse lights provide the wire glow without large blur filters. Hidden/offscreen wire animations pause.
 
 The mesh retains its position buffers and precomputes possible connections on resize. A maximum-displacement bound excludes pairs that can never connect. Sampled viewports from 390×844 to 2560×1440 require 78–95% fewer pair checks per frame. This measures candidate work, not overall frame rate.
 
-The logo precomputes branch/status-light schedules and suspends animation when inactive, outside the viewport, or in a hidden document. Compact logos skip circuit initialization. Geometry scripts and design notes live in `brand/logo/`.
+The logo precomputes branch/status-light schedules and samples its paths at setup, so animation frames interpolate cached points without reading SVG geometry. Large spill lights move with transforms. Animation suspends when inactive, outside the viewport, or in a hidden document. Compact logos skip circuit initialization. Geometry scripts and design notes live in `brand/logo/`.
 
 Checkpoint section bounds are read when the arrow is activated. Successive taps retain their pending target. Arrival, reversal, wheel input, touch dragging, keyboard scrolling, and resize clear it.
 
@@ -39,12 +41,12 @@ Checkpoint section bounds are read when the arrow is activated. Successive taps 
 
 - `npm run build` — strict TypeScript, unused locals/parameters, and production build.
 - `npm run lint` — source lint and React hook checks.
-- `npm test` — mesh connection parity, portfolio boundaries, title/globe endpoints and reversal, scroll-store batching/cleanup, and source-module reachability.
+- `npm test` — mesh connection parity, portfolio boundaries, wire endpoints and hero reversal, scroll-store batching/cleanup, and source-module reachability.
 - `python3 src/brand/logo/scripts/generate_geometry.py --check` — authored routes, including Prettier-formatted TypeScript.
 
 ## Production delivery
 
-`npm run build` produces static, prerendered pages at `/`, `/en/` and `/es/` in `dist/`; no runtime server is required. English is the default. A small React context selects typed English/Spanish copy without a translation or routing library. The EN/ES accent circle opens language links and color swatches; language changes update the URL, copy and metadata without resetting the accent. Browser back/forward restores the language, and direct locale URLs work without JavaScript. Service contact messages use the current language. `npm run build:pages -- --base=/own-landing-page/` uses the same pipeline with a deployment subpath. The temporary server bundle is removed after rendering. The client hydrates the existing HTML; the development server still mounts the app directly.
+`npm run build` produces static, prerendered pages at `/`, `/en/` and `/es/` in `dist/`; no runtime server is required. English is the default. A small React context selects typed English/Spanish copy without a translation or routing library. The EN/ES toggle switches languages directly; language changes update the URL, copy and metadata. The purple, pink and peach brand palette is fixed. Browser back/forward restores the language, and direct locale URLs work without JavaScript. Service contact messages use the current language. `npm run build:pages -- --base=/own-landing-page/` uses the same pipeline with a deployment subpath. The temporary server bundle is removed after rendering. The client hydrates the existing HTML; the development server still mounts the app directly.
 
 The example component code loads when its section approaches within 1000px of the viewport. Its static HTML is present from the first response, and fallback markup preserves the layout during early hydration updates. The portfolio stays under live React ownership from the initial render so scroll/context updates and development hot reload cannot leave it displaying a static snapshot. Section containers stay mounted so dimensions and scroll checkpoints remain measurable. Fonts are unchanged.
 
