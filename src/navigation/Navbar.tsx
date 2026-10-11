@@ -1,21 +1,20 @@
 import { Box } from '@mui/material';
-import BrandEquation from '../brand/BrandEquation';
 import { HeroLogo } from '../brand/logo';
-import { useScrollSnapshot } from '../scroll/useWindowScroll';
 import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from './NavigationActions';
 import useHeaderHeight from './useHeaderHeight';
+import SectionNavigation from './SectionNavigation';
+import { useScrollSnapshot } from '../scroll/useWindowScroll';
 import useNavbarVisibility from './useNavbarVisibility';
 import { useHeroTransition } from '../hero/transition/HeroTransitionContext';
 
 export default function Navbar() {
-  const scrolled = useScrollSnapshot((scroll) => scroll.y > 0);
   const { accent, reduceMotion } = usePreferences();
   const headerRef = useHeaderHeight();
+  const scrolled = useScrollSnapshot((scroll) => scroll.y > 0);
   const visible = useNavbarVisibility();
   const { moving, complete, pastHero } = useHeroTransition();
-  const animating = moving && !complete;
-  const show = scrolled && visible && !animating && pastHero;
+  const show = scrolled && visible && !(moving && !complete) && pastHero;
   return (
     <Box
       component="header"
@@ -51,15 +50,7 @@ export default function Navbar() {
           gap: { xs: 1, md: 3 },
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexShrink: 0,
-            gap: { xs: 2, md: 3 },
-          }}
-        >
+        <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
           <Box
             id="navbar-wordmark"
             sx={{
@@ -74,14 +65,13 @@ export default function Navbar() {
               style={{ fontSize: 'inherit' }}
             />
           </Box>
-          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-            <BrandEquation placement="navbar" />
-          </Box>
         </Box>
+        <SectionNavigation />
         <Box
           sx={{
             minWidth: 0,
             ml: 'auto',
+            order: { xs: 2, md: 3 },
           }}
         >
           <NavigationActions placement="navbar" />
