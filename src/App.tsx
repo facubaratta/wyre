@@ -1,3 +1,7 @@
+import {
+  DEFAULT_ACCENT,
+  getAccentVariables,
+} from './preferences/useAccentColor';
 import LanguageProvider from './i18n/LanguageProvider';
 import type { Language } from './i18n/messages';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
@@ -22,12 +26,24 @@ const theme = createTheme({
     mode: 'dark',
     background: { default: '#181a19', paper: '#181a19' },
     text: { primary: '#ebe8de', secondary: '#a4a69d' },
-    primary: { main: '#c2a27b' },
+    primary: { main: '#f3b797' },
   },
-  typography: { fontFamily: 'Manrope, Arial, sans-serif' },
+  typography: { fontFamily: 'Inter, Arial, sans-serif' },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        '@font-face': {
+          fontFamily: 'Inter',
+          fontStyle: 'normal',
+          fontWeight: '100 900',
+          fontDisplay: 'swap',
+          src: `url('${import.meta.env.BASE_URL}fonts/inter-latin-variable.woff2') format('woff2')`,
+        },
+        ':root': {
+          ...getAccentVariables(DEFAULT_ACCENT),
+          '--brand-gradient':
+            'linear-gradient(110deg, #bb7bf1 0%, #e89ac4 48%, #ffc397 100%)',
+        },
         '::selection': { background: 'var(--accent)', color: '#181a19' },
       },
     },

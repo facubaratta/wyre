@@ -68,7 +68,26 @@ export default function SectionHeading({
           opacity: hidden ? 0 : 1,
         }}
       >
-        {children}
+        {typeof children === 'string'
+          ? children.split(' ').map((word, index, words) => (
+              <Box
+                component="span"
+                key={index}
+                sx={
+                  index === words.length - 1
+                    ? {
+                        background: 'var(--brand-gradient)',
+                        backgroundClip: 'text',
+                        color: 'transparent',
+                      }
+                    : undefined
+                }
+              >
+                {index > 0 ? ' ' : ''}
+                {word}
+              </Box>
+            ))
+          : children}
       </Box>
     </Typography>
   );

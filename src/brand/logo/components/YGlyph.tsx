@@ -1,27 +1,10 @@
-import { useLanguage } from '../../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { CSSProperties } from 'react';
-import useControlState from '../../../controls/useControlState';
 import { SUBSTRATE, VIEWBOX_WIDTH } from '../geometry';
 import { SvgDefinitions } from './SvgDefinitions';
 import { CircuitTraces } from './CircuitTraces';
 import { CircuitDetails } from './CircuitDetails';
 import { PacketLights, SurfaceLights, SpillLights } from './PacketLights';
-
-const ACCENT_COLORS = ['#2a2acb', '#35d0ba', '#43a5ff', '#a77bff', '#ff6f91'];
-
-const buttonSx = {
-  position: 'absolute',
-  inset: 0,
-  width: '100%',
-  height: '100%',
-  background: 'transparent',
-  cursor: 'pointer',
-  p: 0,
-  border: 0,
-  borderRadius: '3px',
-  outlineOffset: '4px',
-};
 
 const glyphStyle = {
   position: 'relative',
@@ -43,21 +26,9 @@ const svgStyle = {
 interface YGlyphProps {
   id: string;
   compact?: boolean;
-  accent?: string;
-  onAccentChange?: (color: string) => void;
 }
 
-export function YGlyph({
-  id,
-  accent,
-  onAccentChange,
-  compact = false,
-}: YGlyphProps) {
-  const { focusVisible, events } = useControlState();
-  const { copy } = useLanguage();
-  const currentColorIndex = ACCENT_COLORS.indexOf(accent ?? '');
-  const nextColor =
-    ACCENT_COLORS[(currentColorIndex + 1) % ACCENT_COLORS.length];
+export function YGlyph({ id, compact = false }: YGlyphProps) {
   return (
     <Box
       component="span"
@@ -68,8 +39,9 @@ export function YGlyph({
           component="span"
           aria-hidden="true"
           sx={{
-            color: 'var(--accent-light)',
-            WebkitTextStroke: '0.0015em var(--accent-bright)',
+            background: 'var(--brand-gradient)',
+            backgroundClip: 'text',
+            color: 'transparent',
           }}
         >
           y
@@ -102,7 +74,7 @@ export function YGlyph({
               fontSize="1000"
               fontWeight="700"
               fill="none"
-              stroke="var(--accent)"
+              stroke={`url(#${id}-brand)`}
               strokeWidth="1.5"
               opacity={0.65}
             >
@@ -115,20 +87,6 @@ export function YGlyph({
           </g>
           <SpillLights id={id} />
         </svg>
-      )}
-      {onAccentChange && (
-        <Box
-          component="button"
-          type="button"
-          aria-label={copy.picker.changeColor}
-          title={copy.picker.changeColor}
-          onClick={() => onAccentChange(nextColor)}
-          {...events}
-          sx={{
-            ...buttonSx,
-            outline: focusVisible ? '2px solid var(--accent-light)' : 'none',
-          }}
-        />
       )}
     </Box>
   );

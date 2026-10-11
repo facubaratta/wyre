@@ -2,7 +2,6 @@ import { createContext, useContext } from 'react';
 
 interface Preferences {
   accent: string;
-  setAccent: (color: string) => void;
   reduceMotion: boolean;
 }
 

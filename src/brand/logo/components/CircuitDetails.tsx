@@ -1,7 +1,6 @@
 import {
   BRANCHES,
   CONTACT_FIELDS,
-  CYAN,
   ROUTES,
   SERVICE_STRIPS,
   SIDE_PORTS,
@@ -17,18 +16,30 @@ export function CircuitDetails({ id }: { id: string }) {
           key={`strip-${i}`}
           transform={`translate(${strip.x} ${strip.y}) rotate(${strip.angle})`}
         >
+          <defs>
+            <linearGradient
+              id={`${id}-strip-${i}`}
+              href={`#${id}-brand`}
+              gradientTransform={`rotate(${-strip.angle}) translate(${-strip.x} ${-strip.y})`}
+            />
+          </defs>
           <path
             d={`M-4 ${-strip.height / 2} V${strip.height / 2} H4`}
             fill="none"
-            stroke={CYAN}
+            stroke={`url(#${id}-strip-${i})`}
             strokeWidth="1.6"
           />
-          <circle cx="-4" cy={-strip.height / 2} r="2.4" fill={CYAN} />
+          <circle
+            cx="-4"
+            cy={-strip.height / 2}
+            r="2.4"
+            fill={`url(#${id}-strip-${i})`}
+          />
           {[0, 1, 2].map((k) => (
             <path
               key={k}
               d={`M-4 ${-strip.height / 2 + 10 + k * 8}h${k === 0 ? 9 : 5}`}
-              stroke={CYAN}
+              stroke={`url(#${id}-strip-${i})`}
               strokeWidth="1.5"
             />
           ))}
@@ -40,7 +51,7 @@ export function CircuitDetails({ id }: { id: string }) {
               y={strip.height / 2 - 22 + k * 6}
               width="6"
               height="2"
-              fill="var(--accent-light)"
+              fill={`url(#${id}-strip-${i})`}
               filter={`url(#${id}-point-glow)`}
               opacity=".16"
             />
@@ -54,7 +65,7 @@ export function CircuitDetails({ id }: { id: string }) {
             d={branch.d}
             pathLength="1"
             fill="none"
-            stroke={CYAN}
+            stroke={`url(#${id}-brand)`}
             strokeWidth={branch.major ? 3 : 2.2}
             opacity={branch.major ? 0.75 : 0.5}
             strokeLinejoin="round"
@@ -65,10 +76,10 @@ export function CircuitDetails({ id }: { id: string }) {
             cy={branch.end[1]}
             r={branch.major ? 4.8 : 3.5}
             fill={SUBSTRATE}
-            stroke={CYAN}
+            stroke={`url(#${id}-brand)`}
             strokeWidth="2"
           />
-          <circle data-branch-source={i} r="2.1" fill={CYAN} />
+          <circle data-branch-source={i} r="2.1" fill={`url(#${id}-brand)`} />
         </g>
       ))}
       {SIDE_PORTS.map((port, i) => (
@@ -76,7 +87,18 @@ export function CircuitDetails({ id }: { id: string }) {
           key={`port-${i}`}
           transform={`translate(${port.x} ${port.y}) rotate(${port.angle})`}
         >
-          <path d="M-6 -10 V10" stroke={CYAN} strokeWidth="2" />
+          <defs>
+            <linearGradient
+              id={`${id}-port-${i}`}
+              href={`#${id}-brand`}
+              gradientTransform={`rotate(${-port.angle}) translate(${-port.x} ${-port.y})`}
+            />
+          </defs>
+          <path
+            d="M-6 -10 V10"
+            stroke={`url(#${id}-port-${i})`}
+            strokeWidth="2"
+          />
           {[0, 1, 2].map((k) => (
             <rect
               key={k}
@@ -84,7 +106,7 @@ export function CircuitDetails({ id }: { id: string }) {
               y={-8 + k * 6}
               width="8"
               height="2"
-              fill={CYAN}
+              fill={`url(#${id}-port-${i})`}
             />
           ))}
         </g>
@@ -94,6 +116,13 @@ export function CircuitDetails({ id }: { id: string }) {
           key={`contact-${i}`}
           transform={`translate(${x} ${y}) rotate(${angle})`}
         >
+          <defs>
+            <linearGradient
+              id={`${id}-contact-${i}`}
+              href={`#${id}-brand`}
+              gradientTransform={`rotate(${-angle}) translate(${-x} ${-y})`}
+            />
+          </defs>
           {[0, 1, 2].map((k) => (
             <rect
               key={k}
@@ -101,7 +130,7 @@ export function CircuitDetails({ id }: { id: string }) {
               y="0"
               width="2"
               height={k === 0 ? 7 : 4}
-              fill={CYAN}
+              fill={`url(#${id}-contact-${i})`}
               opacity=".65"
             />
           ))}
@@ -109,8 +138,13 @@ export function CircuitDetails({ id }: { id: string }) {
       ))}
       {TEST_POINTS.map((_, i) => (
         <g key={`test-${i}`} data-test-point={i} opacity="0">
-          <circle r="5.3" fill={SUBSTRATE} stroke={CYAN} strokeWidth="1.6" />
-          <circle r="2" fill={CYAN} />
+          <circle
+            r="5.3"
+            fill={SUBSTRATE}
+            stroke={`url(#${id}-brand)`}
+            strokeWidth="1.6"
+          />
+          <circle r="2" fill={`url(#${id}-brand)`} />
         </g>
       ))}
       {ROUTES.map((_, i) => (
@@ -120,7 +154,7 @@ export function CircuitDetails({ id }: { id: string }) {
           y="330"
           width="4.2"
           height="4"
-          fill="var(--accent)"
+          fill={`url(#${id}-brand)`}
           opacity=".7"
         />
       ))}

@@ -3,8 +3,8 @@ import { usePreferences } from '../preferences/PreferencesContext';
 import { useDigitalMesh } from './useDigitalMesh';
 
 export default function MeshBackground() {
-  const { reduceMotion, accent } = usePreferences();
-  const canvasRef = useDigitalMesh(reduceMotion, accent);
+  const { reduceMotion } = usePreferences();
+  const canvasRef = useDigitalMesh(reduceMotion);
   return (
     <Box
       aria-hidden="true"

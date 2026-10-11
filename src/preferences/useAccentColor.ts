@@ -1,6 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
-
-export const DEFAULT_ACCENT = '#c2a27b';
+export const DEFAULT_ACCENT = '#f3b797';
 const isColor = (value: string | null): value is string =>
   !!value && /^#[\da-f]{6}$/i.test(value);
 
@@ -29,20 +27,4 @@ export function getAccentVariables(
     '--accent-dark': `rgb(${dark.join(',')})`,
     '--accent-substrate': `rgb(${substrate.join(',')})`,
   };
-}
-
-export default function useAccentColor() {
-  const [accent, setAccent] = useState(DEFAULT_ACCENT);
-
-  useLayoutEffect(() => {
-    const root = document.documentElement;
-    Object.entries(getAccentVariables(accent)).forEach(([name, value]) =>
-      root.style.setProperty(name, value),
-    );
-  }, [accent]);
-
-  const updateAccent = useCallback((value: string) => {
-    if (isColor(value)) setAccent(value);
-  }, []);
-  return { accent, setAccent: updateAccent };
 }

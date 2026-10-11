@@ -1,5 +1,4 @@
 import { useLanguage } from '../i18n/LanguageContext';
-import { useTitleTransition } from '../hero/transition/TitleTransitionContext';
 import SectionIconGraphic from './SectionIconGraphic';
 import { Box, Typography } from '@mui/material';
 
@@ -21,7 +20,6 @@ export default function BrandEquation({
 }) {
   const isNavbar = placement === 'navbar';
   const { copy } = useLanguage();
-  const { moving } = useTitleTransition();
   return (
     <Box
       id={`${placement}-equation`}
@@ -63,7 +61,6 @@ export default function BrandEquation({
           sx={{
             width: isNavbar ? 28 : { xs: 40, sm: 56 },
             height: isNavbar ? 28 : { xs: 40, sm: 56 },
-            visibility: !isNavbar && moving ? 'hidden' : 'visible',
           }}
         >
           <SectionIconGraphic icon="globe" />

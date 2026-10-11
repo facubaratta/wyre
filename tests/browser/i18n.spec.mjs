@@ -28,7 +28,7 @@ for (const viewport of [
   { width: 390, height: 844 },
   { width: 320, height: 568 },
 ]) {
-  test(`combined picker switches language and color at ${viewport.width}`, async ({
+  test(`language toggle switches language at ${viewport.width}`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
@@ -39,50 +39,22 @@ for (const viewport of [
     });
     await page.goto('./en/?source=test');
     await page.evaluate(() => document.fonts.ready);
-    const picker = page
+    const toggle = page
       .locator('#hero-actions')
-      .getByRole('button', { name: 'Choose language and accent color' });
-    await expect(picker).toHaveText('EN');
-    await picker.click();
-    const dialog = page.getByRole('dialog');
-    await dialog.getByRole('button', { name: 'Mint', exact: true }).click();
-    await dialog.getByRole('link', { name: 'Español' }).click();
+      .getByRole('link', { name: 'Cambiar a español' });
+    await expect(toggle).toHaveText('EN/ES');
+    await toggle.click();
     await expect(page).toHaveURL(/\/es\/\?source=test$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
     await expect(page.locator('#hero-title-web')).toHaveText('Presencia web');
-    await expect(dialog.getByRole('link', { name: 'Español' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    await expect(dialog.getByRole('link', { name: 'Español' })).toHaveCSS(
-      'background-color',
-      'rgb(53, 208, 186)',
-    );
-    await expect(dialog.getByRole('link', { name: 'English' })).toHaveCSS(
-      'color',
-      'rgb(235, 232, 222)',
-    );
-    await expect(dialog.getByRole('button', { name: 'Menta' })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
-    await page.screenshot({
-      path: `test-results/picker-es-${viewport.width}.png`,
-    });
-    await page.keyboard.press('Escape');
-    await expect(dialog).toHaveCount(0);
+    await expect(page.getByRole('dialog')).toHaveCount(0);
     await expect(
       page
         .locator('#hero-actions')
-        .getByRole('button', { name: 'Elegir idioma y color de acento' }),
-    ).toHaveText('ES');
+        .getByRole('link', { name: 'Switch to English' }),
+    ).toBeVisible();
     await page.goBack();
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    expect(
-      await page.evaluate(() =>
-        document.documentElement.style.getPropertyValue('--accent'),
-      ),
-    ).toBe('#35d0ba');
     await page.goForward();
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
     await page.reload();
@@ -123,10 +95,8 @@ test('navbar language changes translate a previously selected contact service', 
   await expect(page.locator('#site-header')).not.toHaveAttribute('inert');
   await page
     .locator('#navbar-actions')
-    .getByRole('button', { name: 'Choose language and accent color' })
+    .getByRole('link', { name: 'Cambiar a español' })
     .click();
-  await page.getByRole('dialog').getByRole('link', { name: 'Español' }).click();
-  await page.keyboard.press('Escape');
   await expect(page.locator('#closing-heading')).toHaveText(
     'Tu próxima web o app mobile',
   );

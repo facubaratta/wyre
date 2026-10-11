@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react';
 import { createMeshRenderer } from './createMeshRenderer';
 
 /** Animation and pointer state stay outside React's render cycle. */
-export function useDigitalMesh(reduceMotion: boolean, accent: string) {
+export function useDigitalMesh(reduceMotion: boolean) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
-    const renderer = createMeshRenderer(canvas, ctx, accent);
+    const renderer = createMeshRenderer(canvas, ctx);
     let frame = 0,
       time = 0,
       previousTime = 0,
@@ -84,6 +84,6 @@ export function useDigitalMesh(reduceMotion: boolean, accent: string) {
       window.removeEventListener('blur', leave);
       document.removeEventListener('visibilitychange', visibility);
     };
-  }, [reduceMotion, accent]);
+  }, [reduceMotion]);
   return canvasRef;
 }

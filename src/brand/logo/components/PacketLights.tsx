@@ -43,7 +43,7 @@ export function PacketLights({ id }: { id: string }) {
             data-packet-trail={i}
             href={`#${id}-route-${i}`}
             fill="none"
-            stroke="var(--accent)"
+            stroke={`url(#${id}-brand)`}
             strokeWidth="13"
             strokeLinecap="butt"
             strokeLinejoin="round"
@@ -54,7 +54,7 @@ export function PacketLights({ id }: { id: string }) {
             data-packet-head={i}
             href={`#${id}-route-${i}`}
             fill="none"
-            stroke="var(--accent-bright)"
+            stroke={`url(#${id}-brand)`}
             strokeWidth="3.8"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -63,7 +63,7 @@ export function PacketLights({ id }: { id: string }) {
           <circle
             data-packet-dot={i}
             r="2.6"
-            fill="var(--accent-bright)"
+            fill={`url(#${id}-brand)`}
             filter={glow}
             opacity="0"
           />
@@ -76,7 +76,7 @@ export function PacketLights({ id }: { id: string }) {
             d={branch.d}
             pathLength="1"
             fill="none"
-            stroke="var(--accent-light)"
+            stroke={`url(#${id}-brand)`}
             strokeWidth="2.8"
             strokeLinecap="round"
             filter={glow}
@@ -87,7 +87,7 @@ export function PacketLights({ id }: { id: string }) {
             cx={branch.end[0]}
             cy={branch.end[1]}
             r={branch.major ? 3.8 : 2.2}
-            fill="var(--accent-light)"
+            fill={`url(#${id}-brand)`}
             filter={glow}
             opacity="0"
           />
@@ -100,7 +100,7 @@ export function PacketLights({ id }: { id: string }) {
           cx={port.x}
           cy={port.y}
           r="3.3"
-          fill="var(--accent-light)"
+          fill={`url(#${id}-brand)`}
           filter={glow}
           opacity="0"
         />
@@ -116,6 +116,7 @@ export function SpillLights({ id }: { id: string }) {
         <circle
           key={i}
           data-spill-light={i}
+          style={{ willChange: 'transform, opacity' }}
           r="570"
           fill={`url(#${id}-spill-light)`}
           opacity="0"

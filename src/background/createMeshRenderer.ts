@@ -1,4 +1,3 @@
-import { getAccentVariables } from '../preferences/useAccentColor';
 import {
   connectionReach,
   createMeshConnections,
@@ -12,11 +11,10 @@ import {
 export function createMeshRenderer(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D,
-  accent: string,
 ) {
-  const colors = getAccentVariables(accent);
-  const rgb = colors['--accent-rgb'];
-  const lightRgb = colors['--accent-light-rgb'];
+  const rgb = '255,255,255';
+  const lightRgb = rgb;
+  let brandGradient: CanvasGradient;
   const glowSprite = document.createElement('canvas');
   glowSprite.width = glowSprite.height = 64;
   const glowContext = glowSprite.getContext('2d');
@@ -68,6 +66,11 @@ export function createMeshRenderer(
       ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
       ctx.fill();
     }
+    // Tint the existing mesh alpha once; geometry and pointer behavior stay intact.
+    ctx.globalCompositeOperation = 'source-in';
+    ctx.fillStyle = brandGradient;
+    ctx.fillRect(0, 0, width, height);
+    ctx.globalCompositeOperation = 'source-over';
   };
   const resize = () => {
     width = window.innerWidth;
@@ -76,6 +79,10 @@ export function createMeshRenderer(
     canvas.width = Math.round(width * ratio);
     canvas.height = Math.round(height * ratio);
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    brandGradient = ctx.createLinearGradient(0, 0, width, height * 0.4);
+    brandGradient.addColorStop(0, '#bb7bf1');
+    brandGradient.addColorStop(0.48, '#e89ac4');
+    brandGradient.addColorStop(1, '#ffc397');
     nodes = createMeshNodes(width, height);
     positions = nodes.map((node) => ({
       x: node.x,

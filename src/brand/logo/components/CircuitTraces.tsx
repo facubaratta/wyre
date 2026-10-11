@@ -9,7 +9,7 @@ export function CircuitTraces({ id }: { id: string }) {
           <use
             href={`#${id}-route-${i}`}
             fill="none"
-            stroke="var(--accent)"
+            stroke={`url(#${id}-brand)`}
             strokeWidth="12"
             strokeLinecap="butt"
             strokeLinejoin="round"
@@ -19,7 +19,7 @@ export function CircuitTraces({ id }: { id: string }) {
           <use
             href={`#${id}-route-${i}`}
             fill="none"
-            stroke="var(--accent)"
+            stroke={`url(#${id}-brand)`}
             strokeWidth="6.5"
             strokeLinecap="butt"
             strokeLinejoin="round"

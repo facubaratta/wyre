@@ -1,13 +1,13 @@
 import { useLanguage } from '../i18n/LanguageContext';
 import { memo } from 'react';
 import { Box, Button } from '@mui/material';
-import AccentPicker from './AccentPicker';
+import LanguageToggle from './LanguageToggle';
 import useOpenContact from '../contact/useOpenContact';
 import { getWhatsAppUrl } from '../contact/contactUrls';
 
 const fontSizes = {
   navigation: {
-    hero: { xs: 13, sm: 20 },
+    hero: { xs: 12, sm: 14 },
     navbar: { xs: 12, sm: 14 },
   },
 } as const;
@@ -34,6 +34,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
         component="a"
         href="#crecimiento-real"
         sx={{
+          display: placement === 'hero' ? 'none' : 'inline-flex',
           minHeight: 44,
           color: 'text.primary',
           textTransform: 'none',
@@ -58,7 +59,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
           px: { xs: placement === 'navbar' ? 1 : 1.5, sm: 2.5 },
           gap: 0.5,
           whiteSpace: 'nowrap',
-          background: 'var(--accent)',
+          background: 'var(--brand-gradient)',
           color: '#181a19',
           fontWeight: 700,
           textTransform: 'none',
@@ -87,7 +88,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
           <path d="M5 15 15 5M5 5h10v10" />
         </Box>
       </Button>
-      <AccentPicker />
+      <LanguageToggle />
     </Box>
   );
 }

@@ -50,7 +50,7 @@ const styles = {
     },
   },
   monitor: {
-    border: '1px solid #60615b',
+    border: '1px solid rgba(243,183,151,.65)',
     borderRadius: '12px',
     overflow: 'hidden',
     background: '#202321',

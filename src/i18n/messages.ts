@@ -11,6 +11,18 @@ export const messages = {
       human: 'Human decisions',
       growth: 'Real growth',
     },
+    heroDesign: {
+      eyebrow: 'Digital strategy · Design · Development',
+      headline: 'Digital experiences that move business forward',
+      description:
+        'We combine thoughtful design, smart technology and human insight to build digital experiences that help your business grow.',
+      discuss: 'Discuss your project',
+      explore: 'Explore our work',
+      services: 'Services',
+      work: 'Work',
+      about: 'About',
+      pillars: ['Strategy', 'Experience', 'Growth'],
+    },
     hero: [
       'Digital solutions',
       'designed by professionals',
@@ -20,13 +32,6 @@ export const messages = {
       label: 'Main navigation',
       projects: 'View projects',
       contact: 'Let’s talk',
-    },
-    picker: {
-      label: 'Choose language and accent color',
-      language: 'Language',
-      color: 'Accent color',
-      colors: ['Sand', 'Mint', 'Blue', 'Violet', 'Pink', 'Magenta'],
-      changeColor: 'Change accent color',
     },
     web: {
       intro: 'A solution for what your business needs today.',
@@ -87,6 +92,18 @@ export const messages = {
       human: 'Decisiones Humanas',
       growth: 'Crecimiento real',
     },
+    heroDesign: {
+      eyebrow: 'Estrategia digital · Diseño · Desarrollo',
+      headline: 'Experiencias digitales que impulsan tu negocio',
+      description:
+        'Combinamos diseño, tecnología y criterio profesional para crear experiencias digitales que ayuden a crecer a tu negocio.',
+      discuss: 'Hablemos de tu proyecto',
+      explore: 'Explorá nuestro trabajo',
+      services: 'Servicios',
+      work: 'Proyectos',
+      about: 'Nosotros',
+      pillars: ['Estrategia', 'Experiencia', 'Crecimiento'],
+    },
     hero: [
       'Soluciones digitales',
       'ideadas por profesionales',
@@ -96,13 +113,6 @@ export const messages = {
       label: 'Navegación principal',
       projects: 'Ver proyectos',
       contact: 'Hablemos',
-    },
-    picker: {
-      label: 'Elegir idioma y color de acento',
-      language: 'Idioma',
-      color: 'Color de acento',
-      colors: ['Arena', 'Menta', 'Azul', 'Violeta', 'Rosa', 'Magenta'],
-      changeColor: 'Cambiar color de acento',
     },
     web: {
       intro: 'Una solución para lo que tu negocio necesita hoy.',

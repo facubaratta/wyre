@@ -36,7 +36,15 @@ const Copy = () => {
         }}
       >
         {copy.human.title}
-        <Box component="span" sx={{ display: 'block', color: 'var(--accent)' }}>
+        <Box
+          component="span"
+          sx={{
+            display: 'block',
+            background: 'var(--brand-gradient)',
+            backgroundClip: 'text',
+            color: 'transparent',
+          }}
+        >
           {copy.human.highlight}
         </Box>
       </Typography>

@@ -3,6 +3,18 @@ import { ROUTES } from '../geometry';
 export function SvgDefinitions({ id }: { id: string }) {
   return (
     <defs>
+      <linearGradient
+        id={`${id}-brand`}
+        gradientUnits="userSpaceOnUse"
+        x1="0"
+        y1="0"
+        x2="556"
+        y2="1000"
+      >
+        <stop stopColor="#bb7bf1" />
+        <stop offset=".48" stopColor="#e89ac4" />
+        <stop offset="1" stopColor="#ffc397" />
+      </linearGradient>
       <clipPath id={`${id}-glyph`}>
         <text
           x="0"

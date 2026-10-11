@@ -18,7 +18,6 @@ const logoStyle = {
 export interface HeroLogoProps {
   accent?: string;
   compact?: boolean;
-  onAccentChange?: (color: string) => void;
   /** Suspend animation while the wordmark is hidden. */
   animationActive?: boolean;
   /** Standard CSS overrides; fontSize controls the wordmark's size. */
@@ -33,7 +32,6 @@ export function HeroLogo({
   compact = false,
   label = 'Wyre',
   accent = DEFAULT_ACCENT,
-  onAccentChange,
   animationActive = true,
 }: HeroLogoProps) {
   const root = useRef<HTMLDivElement>(null);
@@ -56,12 +54,7 @@ export function HeroLogo({
         }}
       >
         <LitLetter letter="w" />
-        <YGlyph
-          compact={compact}
-          id={id}
-          accent={accent}
-          onAccentChange={onAccentChange}
-        />
+        <YGlyph compact={compact} id={id} />
         <LitLetter letter="r" />
         <LitLetter letter="e" />
       </div>
