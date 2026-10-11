@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { useId } from 'react';
+import { useId, useRef } from 'react';
 import WebPresencePreview from './WebPresencePreview';
 import ServiceCardContent from './ServiceCardContent';
 import type { WebService } from './services';
@@ -12,19 +12,13 @@ const fluidGradientSx = {
   opacity: 0,
   pointerEvents: 'none',
   background:
-    'radial-gradient(ellipse at 28% 68%, #ffc397a6 0%, transparent 34%), radial-gradient(ellipse at 78% 72%, #9854d77a 0%, transparent 42%), radial-gradient(ellipse at 80% 25%, #ffaf8270 0%, transparent 38%), linear-gradient(145deg, #302237, #17131d 65%)',
-  backgroundSize: '140% 140%',
-  backgroundPosition: '0% 50%',
+    'radial-gradient(ellipse at var(--pointer-x, 28%) var(--pointer-y, 68%), #ffc397a6 0%, transparent 34%), radial-gradient(ellipse at calc(100% - var(--pointer-x, 28%)) calc(100% - var(--pointer-y, 68%)), #9854d77a 0%, transparent 42%), radial-gradient(ellipse at 80% 25%, #ffaf8270 0%, transparent 38%), linear-gradient(145deg, #302237, #17131d 65%)',
+  backgroundSize: '100% 100%',
+  transition: 'opacity 450ms ease',
   transition: 'opacity 450ms ease',
   '@media (hover: hover)': {
-    animation: 'service-fluid-drift 12s ease-in-out infinite alternate',
-    '@keyframes service-fluid-drift': {
-      '0%': { backgroundPosition: '0% 50%', transform: 'rotate(0deg) scale(1)' },
-      '50%': { backgroundPosition: '55% 0%', transform: 'rotate(8deg) scale(1.08)' },
-      '100%': { backgroundPosition: '100% 65%', transform: 'rotate(-5deg) scale(1.03)' },
-    },
     '@media (prefers-reduced-motion: reduce)': {
-      animation: 'none',
+      transition: 'none',
     },
   },
 };
@@ -38,9 +32,27 @@ export default function ServiceCard({
 }) {
   const wide = index === 1 || index === 4;
   const detailsId = useId();
+  const cardRef = useRef<HTMLElement>(null);
+
+  const moveGradient = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType === 'touch') return;
+    const card = cardRef.current;
+    if (!card) return;
+    const bounds = card.getBoundingClientRect();
+    card.style.setProperty(
+      '--pointer-x',
+      `${((event.clientX - bounds.left) / bounds.width) * 100}%`,
+    );
+    card.style.setProperty(
+      '--pointer-y',
+      `${((event.clientY - bounds.top) / bounds.height) * 100}%`,
+    );
+  };
   return (
     <Box
       component="article"
+      ref={cardRef}
+      onPointerMove={moveGradient}
       sx={{
         position: 'relative',
         isolation: 'isolate',
