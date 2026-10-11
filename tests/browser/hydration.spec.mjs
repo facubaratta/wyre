@@ -46,7 +46,7 @@ for (const viewport of [
     ).toBe(false);
     expect(
       openingRequests.filter((url) => /\/fonts\/.*\.woff2/.test(url)),
-    ).toEqual([expect.stringContaining('/fonts/manrope-latin-variable.woff2')]);
+    ).toEqual([expect.stringContaining('/fonts/inter-latin-variable.woff2')]);
     expect(
       await page.evaluate(() =>
         performance
