@@ -1,3 +1,4 @@
+import { gradientFocusSx } from '../brand/colors';
 import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import { keyframes } from '@emotion/react';
@@ -5,10 +6,8 @@ import useControlState from '../controls/useControlState';
 import ScrollArrowIcon from './ScrollArrowIcon';
 import { usePreferences } from '../preferences/PreferencesContext';
 import useScrollCheckpoints from './useScrollCheckpoints';
-import { useLandingLayout } from './LandingLayoutContext';
 import { usePortfolioSequenceState } from '../portfolio/PortfolioSequenceContext';
 import { useScrollSnapshot } from './useWindowScroll';
-import { projects } from '../portfolio/projects';
 
 const bounce = keyframes({
   '0%, 100%': { translate: '0 0' },
@@ -17,7 +16,7 @@ const bounce = keyframes({
 const rootSx = {
   position: 'fixed',
   zIndex: 1300,
-  left: '50%',
+  left: { xs: 'calc(100% - 40px)', sm: '50%' },
   bottom: { xs: 'calc(36px + env(safe-area-inset-bottom))', md: '6.5vh' },
   width: 0,
   height: 0,
@@ -29,12 +28,12 @@ const buttonSx = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: { xs: '56px', md: 'clamp(50px, 20vw, 100px)' },
-  height: { xs: '56px', md: 'clamp(50px, 20vw, 100px)' },
+  width: 48,
+  height: 48,
   p: 0,
   border: 0,
   borderRadius: '50%',
-  background: { xs: 'rgba(24,26,25,.92)', md: 'transparent' },
+  background: 'rgba(24,26,25,.92)',
   cursor: 'pointer',
   userSelect: 'none',
   WebkitTapHighlightColor: 'transparent',
@@ -46,7 +45,7 @@ const highlightSx = {
   width: '62.5%',
   height: '62.5%',
   borderRadius: '50%',
-  backgroundColor: 'var(--accent)',
+  background: 'var(--brand-gradient)',
   transition: 'opacity 150ms ease',
   pointerEvents: 'none',
 };
@@ -54,32 +53,22 @@ const highlightSx = {
 const ScrollArrow = () => {
   const { copy } = useLanguage();
   const { hovered, pressed, focusVisible, events } = useControlState();
-  const { timeline, introHeight } = useLandingLayout();
-  const {
-    nextManualProject: onNextReducedMotion,
-    closingProgress,
-    selectProject,
-  } = usePortfolioSequenceState();
-  const projectCount = projects.length;
+  const { selectProject } = usePortfolioSequenceState();
   const { reduceMotion } = usePreferences();
-  const atEnd = useScrollSnapshot((scroll) =>
-    reduceMotion
-      ? closingProgress >= 0.5 && scroll.y >= introHeight - 2
-      : scroll.y >= timeline.closingEnd * scroll.viewport - 2,
-  );
-  const bouncing = useScrollSnapshot(
+  const atEnd = useScrollSnapshot(
     (scroll) =>
-      !reduceMotion &&
-      scroll.y < timeline.closingEnd * scroll.viewport - 2 &&
-      (scroll.y < 4 || scroll.y / scroll.viewport >= timeline.portfolioStart),
+      scroll.y >=
+      (typeof document === 'undefined'
+        ? Infinity
+        : document.documentElement.scrollHeight) -
+        scroll.viewport -
+        2,
   );
+  const bouncing = useScrollSnapshot((scroll) => !reduceMotion && scroll.y < 4);
   const nextCheckpoint = useScrollCheckpoints({
-    projectCount,
-    projectsStart: timeline.projectsStart,
     atEnd,
     reduceMotion,
-    onNextReducedMotion,
-    onResetReducedMotion: () => selectProject(0),
+    onReset: () => selectProject(0),
   });
 
   return (
@@ -87,7 +76,6 @@ const ScrollArrow = () => {
       sx={{
         ...rootSx,
         animation: bouncing ? `${bounce} 1.4s ease-in-out infinite` : 'none',
-        outline: focusVisible ? '2px solid var(--accent)' : 'none',
       }}
     >
       <Box
@@ -96,7 +84,11 @@ const ScrollArrow = () => {
         aria-label={atEnd ? copy.scroll.top : copy.scroll.next}
         {...events}
         onClick={nextCheckpoint}
-        sx={buttonSx}
+        sx={{
+          ...buttonSx,
+          isolation: 'isolate',
+          ...(focusVisible ? gradientFocusSx : {}),
+        }}
       >
         <Box
           component="span"

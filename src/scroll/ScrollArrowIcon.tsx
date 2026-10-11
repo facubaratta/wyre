@@ -1,3 +1,5 @@
+import { useId } from 'react';
+import BrandGradient from '../brand/BrandGradient';
 import Box from '@mui/material/Box';
 import { keyframes } from '@emotion/react';
 
@@ -23,15 +25,17 @@ const circleSx = (atEnd: boolean) => ({
 });
 
 export default function ScrollArrowIcon({ atEnd }: { atEnd: boolean }) {
+  const gradientId = `brand-${useId().replace(/:/g, '')}`;
   return (
     <Box component="svg" aria-hidden="true" viewBox="0 0 48 48" sx={iconSx}>
+      <BrandGradient id={gradientId} />
       <Box
         component="circle"
         cx="24"
         cy="24"
         r="15"
         fill="none"
-        stroke="currentColor"
+        stroke={`url(#${gradientId})`}
         strokeWidth="1.5"
         strokeDasharray={circumference}
         sx={circleSx(atEnd)}
@@ -40,7 +44,7 @@ export default function ScrollArrowIcon({ atEnd }: { atEnd: boolean }) {
         component="path"
         d="M18 21l6 6 6-6"
         fill="none"
-        stroke="currentColor"
+        stroke={`url(#${gradientId})`}
         strokeWidth="3.5"
         strokeLinecap="round"
         strokeLinejoin="round"

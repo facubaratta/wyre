@@ -1,3 +1,4 @@
+import { gradientFocusSx } from '../brand/colors';
 import type { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import useControlState from '../controls/useControlState';
@@ -43,16 +44,15 @@ const linkSx = (
         : '10px 18px',
     width: isHero || isClosing ? { xs: '100%', sm: 'auto' } : 'auto',
     border: '1px solid',
-    borderColor: hovered
-      ? emphasized
-        ? '#ebe8de'
-        : 'var(--accent)'
-      : emphasized
-        ? 'var(--accent)'
-        : 'rgba(235,232,222,.35)',
+    borderColor: 'transparent',
+    borderImage: emphasized || hovered ? 'var(--brand-gradient) 1' : 'none',
     borderRadius: '3px',
-    background: emphasized ? 'var(--accent)' : '#181a19',
-    color: emphasized ? '#181a19' : hovered ? 'var(--accent)' : '#ebe8de',
+    background: emphasized
+      ? 'var(--brand-gradient)'
+      : hovered
+        ? 'var(--brand-gradient-soft)'
+        : '#181a19',
+    color: emphasized ? '#181a19' : '#ebe8de',
     fontSize: isHero
       ? { xs: 'clamp(16px, 5vw, 20px)', sm: 'clamp(20px, 1.8vw, 27px)' }
       : isClosing
@@ -60,7 +60,9 @@ const linkSx = (
         : 14,
     lineHeight: 1.2,
     textDecoration: 'none',
-    outline: focusVisible ? '2px solid var(--accent)' : 'none',
+    position: 'relative',
+    isolation: 'isolate' as const,
+    ...(focusVisible ? gradientFocusSx : {}),
     outlineOffset: '4px',
     ...(isClosing
       ? {

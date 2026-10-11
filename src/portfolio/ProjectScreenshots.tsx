@@ -24,6 +24,21 @@ const styles = {
       objectPosition: '50% top',
     },
   },
+  card: {
+    position: 'absolute',
+    inset: 0,
+    border: '1px solid transparent',
+    borderImage: 'none',
+    background: 'transparent',
+    transition: 'none',
+    '@media (hover: hover)': {
+      '&:hover': {
+        borderImage: 'var(--brand-gradient) 1',
+        background: 'var(--brand-gradient-soft)',
+        '& img': { opacity: 0.94 },
+      },
+    },
+  },
 } satisfies Record<string, SxProps<Theme>>;
 
 export default function ProjectScreenshots({
@@ -86,10 +101,7 @@ export default function ProjectScreenshots({
               component="picture"
               key={project.url}
               aria-hidden={index !== projectIndex || closing}
-              sx={{
-                ...styles.picture,
-                opacity: index === projectIndex ? 1 : 0,
-              }}
+              sx={{ ...styles.picture, opacity: index === projectIndex ? 1 : 0 }}
             >
               <source
                 type="image/webp"
@@ -97,17 +109,19 @@ export default function ProjectScreenshots({
                 srcSet={srcSet(project.mobileImages)}
                 sizes={sizes}
               />
-              <Box
-                component="img"
-                sx={styles.image}
-                src={project.images.at(-1)!.src}
-                srcSet={srcSet(project.images)}
-                sizes={sizes}
-                alt={`${project.name} ${copy.portfolio.screenshot}`}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-              />
+              <Box sx={styles.card}>
+                <Box
+                  component="img"
+                  sx={styles.image}
+                  src={project.images.at(-1)!.src}
+                  srcSet={srcSet(project.images)}
+                  sizes={sizes}
+                  alt={`${project.name} ${copy.portfolio.screenshot}`}
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                />
+              </Box>
             </Box>
           ),
       )}

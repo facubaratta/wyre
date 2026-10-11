@@ -1,3 +1,5 @@
+import { gradientFocusSx } from '../brand/colors';
+import { gradientTextSx } from '../brand/colors';
 import Box from '@mui/material/Box';
 import type { ButtonHTMLAttributes } from 'react';
 import useControlState from '../controls/useControlState';
@@ -8,7 +10,7 @@ const buttonSx = {
   width: '44px',
   height: '44px',
   p: 0,
-  color: 'var(--accent)',
+  ...gradientTextSx,
   background: 'transparent',
   border: 0,
   outlineOffset: '4px',
@@ -31,7 +33,9 @@ export default function PortfolioNavigationButton({
         ...buttonSx,
         opacity: disabled ? 0.25 : 1,
         cursor: disabled ? 'default' : 'pointer',
-        outline: focusVisible ? '2px solid var(--accent)' : 'none',
+        position: 'relative',
+        isolation: 'isolate',
+        ...(focusVisible ? gradientFocusSx : {}),
       }}
     >
       {children}

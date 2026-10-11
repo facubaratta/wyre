@@ -33,7 +33,7 @@ const styles = {
   indicator: {
     width: '4px',
     height: '4px',
-    background: 'var(--accent)',
+    background: 'var(--brand-gradient)',
     borderRadius: '50%',
     '@media (max-width:640px)': {
       width: '32%',

@@ -1,3 +1,5 @@
+import { gradientTextSx } from '../brand/colors';
+import { gradientFocusSx } from '../brand/colors';
 import { ButtonBase } from '@mui/material';
 import { useLanguage } from '../i18n/LanguageContext';
 import { languagePath } from '../i18n/routes';
@@ -31,26 +33,25 @@ export default function LanguageToggle() {
         minHeight: 44,
         flexShrink: 0,
         borderRadius: 2,
-        border: '1px solid rgba(243,183,151,.35)',
+        border: '1px solid transparent',
+        borderImage: 'var(--brand-gradient) 1',
         color: 'text.primary',
         fontSize: 12,
         fontWeight: 700,
         gap: 0.75,
         background: 'rgba(15,13,19,.65)',
-        outline: focusVisible ? '2px solid var(--accent)' : 'none',
+        position: 'relative',
+        isolation: 'isolate',
+        ...(focusVisible ? gradientFocusSx : {}),
         outlineOffset: 3,
-        '&:hover': { background: 'rgba(205,138,235,.15)' },
+        '&:hover': { background: 'var(--brand-gradient-soft)' },
       }}
     >
-      <span style={{ color: language === 'en' ? 'var(--accent)' : undefined }}>
-        EN
-      </span>
+      <span style={language === 'en' ? gradientTextSx : {}}>EN</span>
       <span aria-hidden="true" style={{ opacity: 0.35 }}>
         /
       </span>
-      <span style={{ color: language === 'es' ? 'var(--accent)' : undefined }}>
-        ES
-      </span>
+      <span style={language === 'es' ? gradientTextSx : {}}>ES</span>
     </ButtonBase>
   );
 }

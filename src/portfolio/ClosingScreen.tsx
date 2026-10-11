@@ -1,3 +1,4 @@
+import { gradientTextSx } from '../brand/colors';
 import { useLanguage } from '../i18n/LanguageContext';
 import ContactButtons from '../contact/ContactButtons';
 import Box from '@mui/material/Box';
@@ -34,7 +35,7 @@ const headingSx = {
 } satisfies SxProps<Theme>;
 
 const Highlight = ({ children }: { children: React.ReactNode }) => (
-  <Box component="em" sx={{ color: 'var(--accent)', fontStyle: 'normal' }}>
+  <Box component="em" sx={{ ...gradientTextSx, fontStyle: 'normal' }}>
     {children}
   </Box>
 );

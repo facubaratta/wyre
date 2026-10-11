@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import type { CSSProperties } from 'react';
-import { SUBSTRATE, VIEWBOX_WIDTH } from '../geometry';
+import { VIEWBOX_WIDTH } from '../geometry';
 import { SvgDefinitions } from './SvgDefinitions';
 import { CircuitTraces } from './CircuitTraces';
 import { CircuitDetails } from './CircuitDetails';
@@ -35,17 +35,40 @@ export function YGlyph({ id, compact = false }: YGlyphProps) {
       style={{ ...glyphStyle, lineHeight: compact ? 1 : 0 }}
     >
       {compact ? (
-        <Box
-          component="span"
-          aria-hidden="true"
-          sx={{
-            background: 'var(--brand-gradient)',
-            backgroundClip: 'text',
-            color: 'transparent',
-          }}
-        >
-          y
-        </Box>
+        <>
+          <svg
+            aria-hidden="true"
+            width="0"
+            height="0"
+            style={{ position: 'absolute' }}
+          >
+            <defs>
+              <filter id={`${id}-outline`}>
+                <feMorphology
+                  in="SourceAlpha"
+                  operator="erode"
+                  radius="1.2"
+                  result="interior"
+                />
+                <feComposite in="SourceGraphic" in2="interior" operator="out" />
+              </filter>
+            </defs>
+          </svg>
+          <Box
+            component="span"
+            aria-hidden="true"
+            sx={{
+              display: 'inline-block',
+              background: 'var(--brand-gradient)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+              filter: `url(#${id}-outline)`,
+            }}
+          >
+            y
+          </Box>
+        </>
       ) : (
         <svg
           aria-hidden="true"
@@ -63,29 +86,23 @@ export function YGlyph({ id, compact = false }: YGlyphProps) {
               fontFamily="Arial,Helvetica,sans-serif"
               fontSize="1000"
               fontWeight="700"
-              fill={SUBSTRATE}
-            >
-              y
-            </text>
-            <text
-              x="0"
-              y="846.5"
-              fontFamily="Arial,Helvetica,sans-serif"
-              fontSize="1000"
-              fontWeight="700"
               fill="none"
               stroke={`url(#${id}-brand)`}
-              strokeWidth="1.5"
-              opacity={0.65}
+              strokeWidth="2"
+              opacity={0.24}
             >
               y
             </text>
             <CircuitTraces id={id} />
             <CircuitDetails id={id} />
-            <SurfaceLights id={id} />
+            <g opacity={0.22}>
+              <SurfaceLights id={id} />
+            </g>
             <PacketLights id={id} />
           </g>
-          <SpillLights id={id} />
+          <g opacity={0.28}>
+            <SpillLights id={id} />
+          </g>
         </svg>
       )}
     </Box>

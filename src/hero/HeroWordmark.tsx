@@ -16,7 +16,7 @@ function HeroWordmark({ animationActive }: { animationActive: boolean }) {
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
-        fontSize: { xs: '220px', sm: '340px', md: 'clamp(340px, 36vw, 510px)' },
+        fontSize: { xs: '180px', sm: '240px', md: 'clamp(280px, 28vw, 390px)' },
         lineHeight: 0,
         height: '.8em',
         '& svg': { transform: 'translateY(-.2em)' },
@@ -25,8 +25,9 @@ function HeroWordmark({ animationActive }: { animationActive: boolean }) {
           content: '""',
           position: 'absolute',
           inset: '15% 0 0',
-          background:
-            'radial-gradient(ellipse at 30% 40%, rgba(187,123,241,.7), transparent 55%), radial-gradient(ellipse at 65% 60%, rgba(255,195,151,.7), transparent 55%)',
+          background: 'var(--brand-gradient)',
+          maskImage:
+            'radial-gradient(ellipse at center, #000 0%, rgba(0,0,0,.8) 25%, rgba(0,0,0,.3) 55%, transparent 80%)',
           opacity: 0.12,
           filter: 'blur(35px)',
         },

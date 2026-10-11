@@ -1,3 +1,6 @@
+import { useId } from 'react';
+import BrandGradient from '../brand/BrandGradient';
+import { gradientFocusSx } from '../brand/colors';
 import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import useControlState from '../controls/useControlState';
@@ -53,7 +56,7 @@ const styles = {
     width: '44px',
     height: '44px',
     flexShrink: 0,
-    color: 'var(--accent)',
+    color: 'text.primary',
     fontSize: '28px',
     textDecoration: 'none',
     '@media (max-width:640px)': { fontSize: '24px' },
@@ -67,8 +70,10 @@ const visitSx = (
 ) => ({
   ...styles.visit,
   ...(closing ? hiddenToolbarPart : {}),
-  color: hovered ? '#ebe8de' : 'var(--accent)',
-  outline: focusVisible ? '2px solid var(--accent)' : 'none',
+  opacity: hovered ? 0.7 : 1,
+  position: 'relative',
+  isolation: 'isolate',
+  ...(focusVisible ? gradientFocusSx : {}),
   outlineOffset: '4px',
 });
 
@@ -95,19 +100,23 @@ const LockIcon = () => (
   </Box>
 );
 
-const ArrowIcon = () => (
-  <svg
-    {...iconSx}
-    width="30"
-    height="30"
-    strokeWidth="1.6"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M7 13 14 6" />
-    <path d="M8 6h6v6" />
-  </svg>
-);
+const ArrowIcon = () => {
+  const id = `visit-${useId().replace(/:/g, '')}`;
+  return (
+    <svg
+      {...iconSx}
+      width="30"
+      height="30"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <BrandGradient id={id} />
+      <path stroke={`url(#${id})`} d="M7 13 14 6" />
+      <path stroke={`url(#${id})`} d="M8 6h6v6" />
+    </svg>
+  );
+};
 
 export default function BrowserToolbar({
   project,
