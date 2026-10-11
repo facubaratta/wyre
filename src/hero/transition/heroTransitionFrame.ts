@@ -1,6 +1,5 @@
-import { between, ease } from './motion';
+import { ease } from './motion';
 import type { HeroMotion } from './HeroTransitionContext';
-import type { HeroGeometry } from './heroTransitionGeometry';
 import { clamp } from '../../scroll/scrollTimeline';
 
 export const getHeroProgress = (
@@ -12,7 +11,6 @@ export const getHeroProgress = (
     : clamp((y - geometry.start) / (geometry.end - geometry.start));
 
 export function createHeroMotion(
-  geometry: HeroGeometry,
   progress: number,
   returningToHero: boolean,
 ): HeroMotion {
@@ -21,8 +19,7 @@ export function createHeroMotion(
     frame: {
       pastHero: progress === 1,
       complete: progress === 1 || returningToHero,
-      heroExit: returningToHero ? 0 : ease(between(progress, 0, 0.24)),
-      wires: geometry.wires,
+      progress: returningToHero ? 0 : ease(progress),
     },
   };
 }

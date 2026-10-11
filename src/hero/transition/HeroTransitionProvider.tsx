@@ -1,8 +1,7 @@
 import { useMemo, type PropsWithChildren } from 'react';
 import { usePreferences } from '../../preferences/PreferencesContext';
 import {
-  HeroExitContext,
-  HeroWireGeometryContext,
+  HeroProgressContext,
   HeroTransitionContext,
 } from './HeroTransitionContext';
 import useHeroTransitionMotion from './useHeroTransitionMotion';
@@ -20,11 +19,9 @@ export default function HeroTransitionProvider({
   );
   return (
     <HeroTransitionContext.Provider value={visibility}>
-      <HeroWireGeometryContext.Provider value={frame?.wires ?? null}>
-        <HeroExitContext.Provider value={frame?.heroExit ?? 0}>
-          {children}
-        </HeroExitContext.Provider>
-      </HeroWireGeometryContext.Provider>
+      <HeroProgressContext.Provider value={frame?.progress ?? 0}>
+        {children}
+      </HeroProgressContext.Provider>
     </HeroTransitionContext.Provider>
   );
 }

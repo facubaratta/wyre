@@ -1,28 +1,15 @@
 import { useLanguage } from '../i18n/LanguageContext';
 import { Box, Button, Typography } from '@mui/material';
-import { useHeroExit } from './transition/HeroTransitionContext';
+import { useHeroProgress } from './transition/HeroTransitionContext';
 import useOpenContact from '../contact/useOpenContact';
 import { getWhatsAppUrl } from '../contact/contactUrls';
 
 export default function HeroCopy() {
   const { copy, language } = useLanguage();
-  const exit = useHeroExit();
+  const exit = useHeroProgress() ** 2;
   const openContact = useOpenContact();
   return (
     <Box sx={{ minWidth: 0, maxWidth: 680 }}>
-      <Typography
-        component="p"
-        style={{ opacity: 1 - exit }}
-        sx={{
-          mb: 2.5,
-          color: 'var(--accent)',
-          fontSize: { xs: 10, sm: 11 },
-          letterSpacing: '.2em',
-          textTransform: 'uppercase',
-        }}
-      >
-        {copy.heroDesign.eyebrow}
-      </Typography>
       <Typography
         component="h1"
         id="hero-headline"
@@ -100,34 +87,6 @@ export default function HeroCopy() {
         >
           {copy.heroDesign.explore} ↓
         </Button>
-      </Box>
-      <Box
-        sx={{
-          mt: 3,
-          fontSize: 12,
-          color: 'text.secondary',
-          display: 'flex',
-          gap: 1,
-          flexWrap: 'wrap',
-        }}
-        style={{ opacity: 1 - exit }}
-      >
-        <Box
-          component="span"
-          id="hero-title-web"
-          sx={{
-            display: 'inline-block',
-            textBoxTrim: 'trim-both',
-            textBoxEdge: 'cap alphabetic',
-          }}
-        >
-          {copy.headings.web}
-        </Box>
-        <Box component="span">
-          {' '}
-          + <span id="hero-title-human">{copy.headings.human}</span> ={' '}
-          <span id="hero-title-growth">{copy.headings.growth}</span>
-        </Box>
       </Box>
     </Box>
   );

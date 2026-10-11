@@ -32,13 +32,12 @@ export default function useHeroTransitionMotion(
       if (y <= geometry.start) completed = false;
       else if (progress === 1) completed = true;
       returningToHero = completed && progress < 1;
-      const next = createHeroMotion(geometry, progress, returningToHero);
+      const next = createHeroMotion(progress, returningToHero);
       if (
         next.moving === previousMotion.moving &&
-        next.frame?.heroExit === previousMotion.frame?.heroExit &&
+        next.frame?.progress === previousMotion.frame?.progress &&
         next.frame?.complete === previousMotion.frame?.complete &&
-        next.frame?.pastHero === previousMotion.frame?.pastHero &&
-        next.frame?.wires === previousMotion.frame?.wires
+        next.frame?.pastHero === previousMotion.frame?.pastHero
       )
         return;
       previousMotion = next;

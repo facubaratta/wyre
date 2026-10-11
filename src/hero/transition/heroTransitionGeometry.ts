@@ -1,16 +1,13 @@
-import { measureSectionWires } from './sectionWireGeometry';
-
 export function measureHeroGeometry() {
   const section = document.getElementById('presencia-web');
-  const hero = document.getElementById('hero');
+  if (!section) return;
   const scene = document.getElementById('hero-scene');
-  if (!section || !hero || !scene) return;
-  const wires = measureSectionWires(hero, scene, section);
-  if (!wires) return;
+  if (!scene) return;
+  const start = scene.getBoundingClientRect().top + window.scrollY;
+  const end = section.getBoundingClientRect().top + window.scrollY;
   return {
-    start: wires.start,
-    end: wires.end,
-    wires,
+    start,
+    end,
   };
 }
 

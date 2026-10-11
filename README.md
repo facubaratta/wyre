@@ -13,7 +13,7 @@ React, Vite, and MUI. Run `npm install` and `npm run dev` to start locally.
 | `controls/` | Shared pointer and keyboard focus state |
 | `contact/` | Contact links and buttons |
 | `hero/` | Hero copy, wordmark, and sticky scene |
-| `hero/transition/` | Y-tail wire extension, hero fade, geometry measurement, and scroll lifecycle |
+| `hero/transition/` | Hero sink transition, geometry measurement, and scroll lifecycle |
 | `navigation/` | Navbar visibility, height, actions, and language toggle |
 | `i18n/` | English/Spanish copy, language context, URL switching, and document metadata |
 | `portfolio/` | Sticky scene, project selection, screenshots, browser frame, and closing screen |
@@ -27,9 +27,7 @@ Styles belong to their elements: MUI `sx` for layout and appearance, inline styl
 
 The window-scroll store owns one animation-frame-batched scroll/resize subscription. Layout selects viewport height; the navbar selects whether scrolling has started; the portfolio selects the displayed project or closing-screen sentinel. Continuous position does not flow through the page's layout context.
 
-The hero transition extends the Y's lower wires to the left, then down beside the web-presence section. The section title stays in normal flow. Geometry measurement, wire rendering, hero fade, and event handling live in separate modules.
-
-The wire SVG shares the Y's sticky container so their joint follows native scrolling. The shared scroll subscription updates its four paths directly; React receives geometry changes, hero fade, and discrete navbar flags. Layered translucent strokes and radial pulse lights provide the wire glow without large blur filters. Hidden/offscreen wire animations pause.
+The hero sinks, scales down, and fades as the next section rises into view. The fixed mesh darkens and blurs over the same scroll progress. Geometry measurement and scroll lifecycle live in the hero transition module.
 
 The mesh retains its position buffers and precomputes possible connections on resize. A maximum-displacement bound excludes pairs that can never connect. Sampled viewports from 390×844 to 2560×1440 require 78–95% fewer pair checks per frame. This measures candidate work, not overall frame rate.
 
@@ -41,7 +39,7 @@ Checkpoint section bounds are read when the arrow is activated. Successive taps 
 
 - `npm run build` — strict TypeScript, unused locals/parameters, and production build.
 - `npm run lint` — source lint and React hook checks.
-- `npm test` — mesh connection parity, portfolio boundaries, wire endpoints and hero reversal, scroll-store batching/cleanup, and source-module reachability.
+- `npm test` — mesh connection parity, portfolio boundaries, hero reversal, scroll-store batching/cleanup, and source-module reachability.
 - `python3 src/brand/logo/scripts/generate_geometry.py --check` — authored routes, including Prettier-formatted TypeScript.
 
 ## Production delivery

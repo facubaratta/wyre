@@ -1,22 +1,17 @@
-import { Box, Button } from '@mui/material';
-import HeroWordmark from './HeroWordmark';
+import { Box } from '@mui/material';
 import { HeroLogo } from '../brand/logo';
 import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from '../navigation/NavigationActions';
+import SectionNavigation from '../navigation/SectionNavigation';
+import HeroWordmark from './HeroWordmark';
 import HeroCopy from './HeroCopy';
-import {
-  useHeroExit,
-  useHeroWireGeometry,
-} from './transition/HeroTransitionContext';
-import SectionWires from './transition/SectionWires';
-import { useLanguage } from '../i18n/LanguageContext';
-import SectionIconGraphic from '../brand/SectionIconGraphic';
+import { useHeroProgress } from './transition/HeroTransitionContext';
+import { between, ease } from './transition/motion';
 
 export default function HeroSection() {
   const { accent } = usePreferences();
-  const { copy } = useLanguage();
-  const exit = useHeroExit();
-  const wireGeometry = useHeroWireGeometry();
+  const progress = useHeroProgress();
+  const exit = ease(between(progress, 0.08, 0.72));
   return (
     <Box
       component="section"
@@ -26,6 +21,9 @@ export default function HeroSection() {
       sx={{
         position: 'relative',
         zIndex: 1,
+        transform: `translate3d(0, ${progress * 28}vh, 0) scale(${1 - progress * 0.22})`,
+        transformOrigin: 'center center',
+        filter: `blur(${progress * 5}px)`,
         minHeight: '100svh',
         px: { xs: '6vw', md: '4vw' },
         pb: { xs: 11, md: 12 },
@@ -56,26 +54,7 @@ export default function HeroSection() {
         >
           <HeroLogo compact accent={accent} animationActive={false} />
         </Box>
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3 }}>
-          {[
-            [copy.heroDesign.services, '#presencia-web'],
-            [copy.heroDesign.work, '#crecimiento-real'],
-            [copy.heroDesign.about, '#decisiones-humanas'],
-          ].map(([label, href]) => (
-            <Button
-              key={href}
-              component="a"
-              href={href}
-              sx={{
-                color: 'text.secondary',
-                textTransform: 'none',
-                fontSize: 14,
-              }}
-            >
-              {label}
-            </Button>
-          ))}
-        </Box>
+        <SectionNavigation />
         <Box sx={{ ml: 'auto' }}>
           <NavigationActions placement="hero" />
         </Box>
@@ -101,54 +80,8 @@ export default function HeroSection() {
           }}
         >
           <HeroWordmark animationActive />
-          <Box
-            id="hero-equation"
-            style={{ opacity: 1 - exit }}
-            sx={{
-              display: 'flex',
-              width: '100%',
-              maxWidth: 420,
-              mt: { xs: 1, md: 3 },
-            }}
-          >
-            {(['globe', 'brain', 'growth'] as const).map((icon, index) => (
-              <Box
-                key={icon}
-                sx={{
-                  flex: 1,
-                  textAlign: 'center',
-                  position: 'relative',
-                  '&:not(:last-child)::after': {
-                    content: '""',
-                    position: 'absolute',
-                    right: 0,
-                    top: 14,
-                    height: 44,
-                    width: '1px',
-                    background: 'rgba(194,162,123,.3)',
-                  },
-                }}
-              >
-                <Box
-                  id={index === 0 ? 'hero-globe' : undefined}
-                  sx={{
-                    width: 42,
-                    height: 42,
-                    mx: 'auto',
-                    color: 'var(--accent)',
-                  }}
-                >
-                  <SectionIconGraphic icon={icon} />
-                </Box>
-                <Box sx={{ mt: 1.5, fontSize: 13, color: 'text.secondary' }}>
-                  {copy.heroDesign.pillars[index]}
-                </Box>
-              </Box>
-            ))}
-          </Box>
         </Box>
       </Box>
-      {wireGeometry && <SectionWires geometry={wireGeometry} />}
     </Box>
   );
 }

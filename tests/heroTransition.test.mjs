@@ -8,21 +8,20 @@ const { createHeroMotion } = await importSource(
   '../src/hero/transition/heroTransitionFrame.ts',
 );
 
-test('hero fade carries wire geometry and restores the copy when returning', () => {
-  const geometry = { wires: { tails: [{ x: 800, y: 500 }] } };
-  const start = createHeroMotion(geometry, 0, false);
+test('hero sinks away and restores when returning', () => {
+  const start = createHeroMotion(0, false);
   assert.equal(start.moving, false);
-  assert.equal(start.frame.heroExit, 0);
-  const middle = createHeroMotion(geometry, 0.5, false);
+  assert.equal(start.frame.progress, 0);
+  const middle = createHeroMotion(0.5, false);
   assert.equal(middle.moving, true);
   assert.equal(middle.frame.complete, false);
-  assert.equal(middle.frame.heroExit, 1);
-  const returning = createHeroMotion(geometry, 0.5, true);
+  assert.equal(middle.frame.progress, 0.5);
+  const returning = createHeroMotion(0.5, true);
   assert.equal(returning.moving, false);
   assert.equal(returning.frame.complete, true);
-  assert.equal(returning.frame.heroExit, 0);
-  const end = createHeroMotion(geometry, 1, false);
-  assert.equal(end.frame.wires, geometry.wires);
+  assert.equal(returning.frame.progress, 0);
+  const end = createHeroMotion(1, false);
+  assert.equal(end.frame.progress, 1);
   assert.equal(end.frame.complete, true);
 });
 
