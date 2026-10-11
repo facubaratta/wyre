@@ -38,14 +38,14 @@ export function renderLogoFrame(
       (channel.headLength - distance) / channel.length,
     );
     channel.head.style.opacity = String(alpha * (side ? 0.77 : 1));
-    const point = channel.path.getPointAtLength(
+    const point = channel.pointAtDistance(
       clamp(distance / channel.length) * channel.length,
     );
     position(channel.dot, point);
     channel.dot.style.opacity = String(alpha * (side ? 0.68 : 0.95));
     position(channel.light, point);
     channel.light.style.opacity = String(alpha * (side ? 0.72 : 0.9));
-    position(channel.spill, point);
+    channel.spill.style.transform = `translate(${point.x}px, ${point.y}px)`;
     channel.spill.style.opacity = String(alpha * (side ? 0.6 : 0.85));
     if (alpha > 0.005)
       sources.push({
@@ -55,7 +55,7 @@ export function renderLogoFrame(
       });
     position(
       channel.wake,
-      channel.path.getPointAtLength(
+      channel.pointAtDistance(
         Math.max(0, Math.min(channel.length, distance - 38)),
       ),
     );
@@ -100,7 +100,7 @@ export function renderLogoFrame(
     );
     position(
       circuit.light,
-      circuit.path.getPointAtLength(Math.min(distance, circuit.length)),
+      circuit.pointAtDistance(Math.min(distance, circuit.length)),
     );
     circuit.light.style.opacity = String(
       (circuit.major ? 0.48 : 0.28) * Math.max(moving, receipt),

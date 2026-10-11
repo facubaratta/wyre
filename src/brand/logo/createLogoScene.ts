@@ -6,6 +6,7 @@ import {
   TEST_POINTS,
   VIEWBOX_WIDTH,
 } from './geometry';
+import { samplePath } from './samplePath';
 /** Finds where an attached detail receives a packet from its parent conductor. */
 function attachmentDistance(
   path: SVGPathElement,
@@ -66,6 +67,7 @@ export function createLogoScene(root: HTMLDivElement) {
       ...route,
       path,
       length,
+      pointAtDistance: samplePath(path, length),
       trailLength,
       headLength,
       trail,
@@ -99,6 +101,7 @@ export function createLogoScene(root: HTMLDivElement) {
       ...branch,
       path,
       length,
+      pointAtDistance: samplePath(path, length),
       flow,
       segment,
       speed: branch.major ? 83 : 70,
@@ -134,7 +137,10 @@ export function createLogoScene(root: HTMLDivElement) {
     const parent = channels[test.route];
     const point = parent.path.getPointAtLength(parent.length * test.fraction);
     const group = find<SVGGElement>(`[data-test-point="${index}"]`);
-    group.setAttribute('transform', `translate(${point.x} ${point.y})`);
+    group.querySelectorAll('circle').forEach((circle) => {
+      circle.setAttribute('cx', String(point.x));
+      circle.setAttribute('cy', String(point.y));
+    });
     group.setAttribute('opacity', '1');
   });
 
