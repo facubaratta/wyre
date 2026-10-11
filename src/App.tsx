@@ -1,3 +1,4 @@
+import { BRAND_STOPS, brandGradient } from './brand/colors';
 import {
   DEFAULT_ACCENT,
   getAccentVariables,
@@ -12,10 +13,8 @@ import { PreferencesProvider } from './preferences/PreferencesProvider';
 import HeroTransitionScene from './hero/HeroTransitionScene';
 import PortfolioScene from './portfolio/PortfolioScene';
 import WebPresence from './sections/WebPresence';
-import HeroTransitionProvider from './hero/transition/HeroTransitionProvider';
 import HumanDecisions from './sections/HumanDecisions';
 import ScrollArrow from './scroll/ScrollArrow';
-import ScrollShadow from './scroll/ScrollShadow';
 import { LandingLayoutProvider } from './scroll/LandingLayoutProvider';
 import { useLandingLayout } from './scroll/LandingLayoutContext';
 import PortfolioSequenceProvider from './portfolio/PortfolioSequenceProvider';
@@ -26,7 +25,7 @@ const theme = createTheme({
     mode: 'dark',
     background: { default: '#181a19', paper: '#181a19' },
     text: { primary: '#ebe8de', secondary: '#a4a69d' },
-    primary: { main: '#f3b797' },
+    primary: { main: BRAND_STOPS[2].color },
   },
   typography: { fontFamily: 'Inter, Arial, sans-serif' },
   components: {
@@ -41,10 +40,11 @@ const theme = createTheme({
         },
         ':root': {
           ...getAccentVariables(DEFAULT_ACCENT),
-          '--brand-gradient':
-            'linear-gradient(110deg, #bb7bf1 0%, #e89ac4 48%, #ffc397 100%)',
+          '--brand-gradient': brandGradient(),
+          '--brand-gradient-soft': brandGradient(0.14),
+          '--surface': '#181a19',
         },
-        '::selection': { background: 'var(--accent)', color: '#181a19' },
+        '::selection': { background: 'var(--surface)', color: 'text.primary' },
       },
     },
   },
@@ -56,22 +56,18 @@ function LandingPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <HeroTransitionProvider>
-        <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
-          <MeshBackground />
-          <Navbar />
-          <ScrollArrow />
-          <ScrollShadow />
-          <Box component="main" sx={{ position: 'relative' }}>
-            <Box ref={introRef}>
-              <HeroTransitionScene />
-              <WebPresence />
-              <HumanDecisions />
-            </Box>
-            <PortfolioScene />
+      <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
+        <MeshBackground />
+        <Navbar />
+        <ScrollArrow />
+        <Box component="main" sx={{ position: 'relative' }}>
+          <Box ref={introRef}>
+            <HeroTransitionScene />
+            <WebPresence />
           </Box>
+          <PortfolioScene />
         </Box>
-      </HeroTransitionProvider>
+      </Box>
     </ThemeProvider>
   );
 }

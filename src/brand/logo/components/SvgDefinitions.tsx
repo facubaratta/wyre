@@ -1,3 +1,4 @@
+import { BRAND_STOPS } from '../../colors';
 import { ROUTES } from '../geometry';
 
 export function SvgDefinitions({ id }: { id: string }) {
@@ -11,9 +12,9 @@ export function SvgDefinitions({ id }: { id: string }) {
         x2="556"
         y2="1000"
       >
-        <stop stopColor="#bb7bf1" />
-        <stop offset=".48" stopColor="#e89ac4" />
-        <stop offset="1" stopColor="#ffc397" />
+        {BRAND_STOPS.map(({ offset, color }) => (
+          <stop key={offset} offset={offset} stopColor={color} />
+        ))}
       </linearGradient>
       <clipPath id={`${id}-glyph`}>
         <text

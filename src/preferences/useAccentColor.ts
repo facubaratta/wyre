@@ -1,4 +1,5 @@
-export const DEFAULT_ACCENT = '#f3b797';
+import { BRAND_STOPS } from '../brand/colors';
+export const DEFAULT_ACCENT = BRAND_STOPS[2].color;
 const isColor = (value: string | null): value is string =>
   !!value && /^#[\da-f]{6}$/i.test(value);
 

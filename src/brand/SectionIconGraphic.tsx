@@ -1,14 +1,17 @@
+import { useId } from 'react';
+import BrandGradient from './BrandGradient';
 import Box from '@mui/material/Box';
 
 export type SectionIcon = 'globe' | 'brain' | 'growth';
 
 export default function SectionIconGraphic({ icon }: { icon: SectionIcon }) {
+  const gradientId = `brand-${useId().replace(/:/g, '')}`;
   return (
     <Box
       component="svg"
       viewBox="0 0 48 48"
       fill="none"
-      stroke="currentColor"
+      stroke={`url(#${gradientId})`}
       strokeWidth="1.6"
       aria-hidden="true"
       sx={{
@@ -16,9 +19,9 @@ export default function SectionIconGraphic({ icon }: { icon: SectionIcon }) {
         width: '100%',
         height: '100%',
         flexShrink: 0,
-        color: 'var(--accent)',
       }}
     >
+      <BrandGradient id={gradientId} />
       {icon === 'globe' && (
         <>
           <circle cx="24" cy="24" r="19" />

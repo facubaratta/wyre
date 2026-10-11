@@ -1,3 +1,4 @@
+import { gradientTextSx } from './colors';
 import { useLanguage } from '../i18n/LanguageContext';
 import SectionIconGraphic from './SectionIconGraphic';
 import { Box, Typography } from '@mui/material';
@@ -37,7 +38,7 @@ export default function BrandEquation({
           fontSize: fontSizes[placement].label,
           fontWeight: 700,
           letterSpacing: '.16em',
-          color: 'var(--accent)',
+          ...gradientTextSx,
           display: isNavbar ? { xs: 'none', md: 'block' } : 'block',
         }}
       >
@@ -50,7 +51,7 @@ export default function BrandEquation({
           alignItems: 'center',
           gap: isNavbar ? { xs: 1, md: 1.5 } : { xs: 2, sm: 3 },
           mb: isNavbar ? 0 : { xs: 4, sm: 5 },
-          color: 'var(--accent)',
+          ...gradientTextSx,
           fontSize: fontSizes[placement].symbols,
           fontWeight: 400,
           lineHeight: 1,

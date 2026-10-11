@@ -1,3 +1,4 @@
+import { BRAND_STOPS } from '../brand/colors';
 import {
   connectionReach,
   createMeshConnections,
@@ -80,9 +81,9 @@ export function createMeshRenderer(
     canvas.height = Math.round(height * ratio);
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     brandGradient = ctx.createLinearGradient(0, 0, width, height * 0.4);
-    brandGradient.addColorStop(0, '#bb7bf1');
-    brandGradient.addColorStop(0.48, '#e89ac4');
-    brandGradient.addColorStop(1, '#ffc397');
+    BRAND_STOPS.forEach(({ offset, color }) =>
+      brandGradient.addColorStop(offset, color),
+    );
     nodes = createMeshNodes(width, height);
     positions = nodes.map((node) => ({
       x: node.x,
