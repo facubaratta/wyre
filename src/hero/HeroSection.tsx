@@ -4,65 +4,68 @@ import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from '../navigation/NavigationActions';
 import HeroWordmark from './HeroWordmark';
 import HeroCopy from './HeroCopy';
+import FadeIn from '../scroll/FadeIn';
 
 export default function HeroSection() {
   const { accent } = usePreferences();
   return (
-    <Box
-      component="section"
-      aria-labelledby="hero-headline"
-      id="hero"
-      sx={{
-        position: 'relative',
-        zIndex: 1,
-        minHeight: '100svh',
-        px: { xs: '6vw', sm: '7vw' },
-        pb: { xs: 11, md: 12 },
-        color: 'text.primary',
-      }}
-    >
+    <FadeIn id="hero-scene">
       <Box
+        component="section"
+        aria-labelledby="hero-headline"
+        id="hero"
         sx={{
-          maxWidth: 1320,
-          mx: 'auto',
-          display: 'flex',
-          alignItems: 'center',
-          gap: { xs: 2.2, md: 6.6 },
-          pt: 'max(18px, env(safe-area-inset-top))',
-          pb: 2.2,
+          position: 'relative',
+          zIndex: 1,
+          minHeight: '100svh',
+          px: { xs: '6vw', sm: '7vw' },
+          pb: { xs: 11, md: 12 },
+          color: 'text.primary',
         }}
       >
         <Box
-          component="a"
-          href="#hero"
-          aria-label="Wyre"
           sx={{
-            fontSize: { xs: 33, md: 39.6 },
-            color: 'inherit',
-            textDecoration: 'none',
+            maxWidth: 1320,
+            mx: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: { xs: 2.2, md: 6.6 },
+            pt: 'max(18px, env(safe-area-inset-top))',
+            pb: 2.2,
           }}
         >
-          <HeroLogo compact accent={accent} animationActive={false} />
+          <Box
+            component="a"
+            href="#hero"
+            aria-label="Wyre"
+            sx={{
+              fontSize: { xs: 33, md: 39.6 },
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            <HeroLogo compact accent={accent} animationActive={false} />
+          </Box>
+          <Box sx={{ ml: 'auto' }}>
+            <NavigationActions placement="hero" />
+          </Box>
         </Box>
-        <Box sx={{ ml: 'auto' }}>
-          <NavigationActions placement="hero" />
+        <Box
+          sx={{
+            maxWidth: 1320,
+            mx: 'auto',
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '1.25fr 0.75fr' },
+            alignItems: 'center',
+            gap: { xs: 5.5, md: 8.8 },
+            minHeight: { sm: 'calc(100svh - 180px)' },
+            pt: { xs: 4.4, md: 5.5 },
+          }}
+        >
+          <HeroCopy />
+          <HeroWordmark animationActive />
         </Box>
       </Box>
-      <Box
-        sx={{
-          maxWidth: 1320,
-          mx: 'auto',
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: '1.25fr 0.75fr' },
-          alignItems: 'center',
-          gap: { xs: 5.5, md: 8.8 },
-          minHeight: { sm: 'calc(100svh - 180px)' },
-          pt: { xs: 4.4, md: 5.5 },
-        }}
-      >
-        <HeroCopy />
-        <HeroWordmark animationActive />
-      </Box>
-    </Box>
+    </FadeIn>
   );
 }
