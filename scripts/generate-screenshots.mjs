@@ -7,7 +7,7 @@ const directory = 'src/portfolio/screenshots';
 const output = join(directory, 'optimized');
 await mkdir(output, { recursive: true });
 const files = (await readdir(directory))
-  .filter((file) => file.endsWith('.jpg'))
+  .filter((file) => file.endsWith('.jpg') && !file.endsWith(' mobile.jpg'))
   .sort();
 const imports = [];
 const entries = [];
