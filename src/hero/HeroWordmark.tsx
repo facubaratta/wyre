@@ -16,10 +16,11 @@ function HeroWordmark({ animationActive }: { animationActive: boolean }) {
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
-        fontSize: { xs: '180px', sm: '240px', md: 'clamp(280px, 28vw, 390px)' },
+        fontSize: { xs: '198px', sm: '264px', md: 'clamp(308px, 30.8vw, 429px)' },
         lineHeight: 0,
         height: '.8em',
-        '& svg': { transform: 'translateY(-.2em)' },
+        // Account for empty SVG space and the full wordmark's letter spacing.
+        '& svg': { transform: 'translate(-.045em, -.29em)' },
         width: '100%',
         '&::before': {
           content: '""',
@@ -29,7 +30,7 @@ function HeroWordmark({ animationActive }: { animationActive: boolean }) {
           maskImage:
             'radial-gradient(ellipse at center, #000 0%, rgba(0,0,0,.8) 25%, rgba(0,0,0,.3) 55%, transparent 80%)',
           opacity: 0.12,
-          filter: 'blur(35px)',
+          filter: 'blur(38.5px)',
         },
       }}
     >

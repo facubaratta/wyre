@@ -23,13 +23,13 @@ export default function HeroSection() {
     >
       <Box
         sx={{
-          maxWidth: 1200,
+          maxWidth: 1320,
           mx: 'auto',
           display: 'flex',
           alignItems: 'center',
-          gap: { xs: 2, md: 6 },
+          gap: { xs: 2.2, md: 6.6 },
           pt: 'max(18px, env(safe-area-inset-top))',
-          pb: 2,
+          pb: 2.2,
         }}
       >
         <Box
@@ -37,7 +37,7 @@ export default function HeroSection() {
           href="#hero"
           aria-label="Wyre"
           sx={{
-            fontSize: { xs: 30, md: 36 },
+            fontSize: { xs: 33, md: 39.6 },
             color: 'inherit',
             textDecoration: 'none',
           }}
@@ -50,14 +50,14 @@ export default function HeroSection() {
       </Box>
       <Box
         sx={{
-          maxWidth: 1200,
+          maxWidth: 1320,
           mx: 'auto',
           display: 'grid',
           gridTemplateColumns: { xs: '1fr', sm: '1.25fr 0.75fr' },
           alignItems: 'center',
-          gap: { xs: 5, md: 8 },
+          gap: { xs: 5.5, md: 8.8 },
           minHeight: { sm: 'calc(100svh - 180px)' },
-          pt: { xs: 4, md: 5 },
+          pt: { xs: 4.4, md: 5.5 },
         }}
       >
         <HeroCopy />
