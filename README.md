@@ -30,7 +30,7 @@ The window-scroll store owns one animation-frame-batched scroll/resize subscript
 
 Sections and service cards fade in when entering the viewport, replaying after they leave and re-enter. Content follows normal document flow; the hero and portfolio are not pinned, and scrolling does not select projects. Portfolio projects remain visible in a vertical showcase, with an active sticky index on desktop and direct website links. Reduced motion disables the fades; prerendered content remains visible without JavaScript.
 
-The mesh retains its position buffers and precomputes possible connections on resize. A maximum-displacement bound excludes pairs that can never connect. Sampled viewports from 390×844 to 2560×1440 require 78–95% fewer pair checks per frame. This measures candidate work, not overall frame rate.
+The background arranges nodes and fine particles along a sweeping ribbon, with soft glow, sparse focal lights, and out-of-focus particles. It retains its position buffers and precomputes possible connections on resize; a maximum-displacement bound excludes pairs that can never connect. Fine particles and glow sprites are cached instead of regenerated or blurred each frame. All layers use the shared purple, pink and peach brand gradient.
 
 The logo precomputes branch/status-light schedules and samples its paths at setup, so animation frames interpolate cached points without reading SVG geometry. Large spill lights move with transforms. Animation suspends when inactive, outside the viewport, or in a hidden document. Compact logos skip circuit initialization. Geometry scripts and design notes live in `brand/logo/`.
 
