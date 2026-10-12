@@ -1,5 +1,5 @@
 import { useMemo, type PropsWithChildren } from 'react';
-import { DEFAULT_ACCENT } from './useAccentColor';
+import { DEFAULT_ACCENT } from '../brand/accentVariables';
 import useReducedMotion from './useReducedMotion';
 import { PreferencesContext } from './PreferencesContext';
 

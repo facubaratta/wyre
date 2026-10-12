@@ -1,33 +1,15 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import SectionIconGraphic, {
-  type SectionIcon,
-} from '../brand/SectionIconGraphic';
-
-const getKeyForIcon = (icon: SectionIcon) => {
-  switch (icon) {
-    case 'globe':
-      return 'web';
-    case 'brain':
-      return 'human';
-    case 'growth':
-      return 'growth';
-  }
-};
+import SectionIconGraphic from '../brand/SectionIconGraphic';
 
 export default function SectionHeading({
   id,
-  icon,
   children,
-  hidden = false,
 }: {
   id: string;
-  icon: SectionIcon;
   children: React.ReactNode;
-  hidden?: boolean;
 }) {
-  const key = getKeyForIcon(icon);
   return (
     <Typography
       component="h2"
@@ -47,25 +29,23 @@ export default function SectionHeading({
       }}
     >
       <Box
-        id={`section-${icon}`}
+        id="section-globe"
         sx={{
-          opacity: hidden ? 0 : 1,
           width: { xs: 30, sm: 36 },
           height: { xs: 30, sm: 36 },
           flexShrink: 0,
           '@media (max-height:500px)': { width: 28, height: 28 },
         }}
       >
-        <SectionIconGraphic icon={icon} />
+        <SectionIconGraphic />
       </Box>
       <Box
         component="span"
-        id={`section-title-${key}`}
+        id="section-title-web"
         sx={{
           display: 'block',
           textBoxTrim: 'trim-both',
           textBoxEdge: 'cap alphabetic',
-          opacity: hidden ? 0 : 1,
         }}
       >
         {typeof children === 'string'

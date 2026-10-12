@@ -19,14 +19,3 @@ export function useScrollSnapshot<T>(select: (scroll: WindowScroll) => T): T {
     getServerSnapshot,
   );
 }
-
-export default function useWindowScroll() {
-  return useSyncExternalStore(
-    subscribeWindowScroll,
-    getWindowScroll,
-    getServerWindowScroll,
-  );
-}
-
-const viewportHeight = (scroll: WindowScroll) => scroll.viewport;
-export const useViewportHeight = () => useScrollSnapshot(viewportHeight);

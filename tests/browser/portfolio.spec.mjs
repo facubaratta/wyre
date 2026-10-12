@@ -3,69 +3,54 @@ import { test, expect } from '@playwright/test';
 for (const viewport of [
   { width: 1440, height: 900 },
   { width: 390, height: 844 },
+  { width: 320, height: 568 },
 ]) {
-  test(`portfolio advances through every project with normal scrolling at ${viewport.width}`, async ({
+  test(`portfolio shows linked project cards at ${viewport.width}`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('./', { waitUntil: 'domcontentloaded' });
-    await page.evaluate(() => document.fonts.ready);
-    const names = [
-      'Health & Harmony',
-      'Finca Don Clemente',
-      'ProTennisSquash',
-      'Club Zurich',
-      'Time Magnitude',
-    ];
-    const start = await page
-      .locator('#crecimiento-real')
-      .evaluate(
-        (element) => element.getBoundingClientRect().top + window.scrollY,
-      );
-    await page.evaluate(
-      (y) => window.scrollTo(0, y),
-      start + viewport.height * 0.05,
-    );
-    for (const [index, name] of names.entries()) {
-      if (index) await page.mouse.wheel(0, viewport.height);
-      const image = page.locator('picture:not([aria-hidden="true"]) img');
-      await expect(image).toHaveAttribute('alt', `${name} website screenshot`);
+    const section = page.locator('#crecimiento-real');
+    await section.scrollIntoViewIfNeeded();
+    await expect(section.locator('article')).toHaveCount(5);
+    for (const card of await section.locator('article').all()) {
+      await card.scrollIntoViewIfNeeded();
+      await expect(card.locator('h3')).toBeVisible();
+      await expect(card.locator('a')).toHaveAttribute('href', /^https:\/\//);
+      await expect(card.locator('a')).toHaveAttribute('target', '_blank');
       await expect
         .poll(() =>
-          image.evaluate(
-            (element) => element.complete && element.naturalWidth > 0,
-          ),
+          card
+            .locator('img')
+            .evaluate((img) => img.complete && img.naturalWidth > 0),
         )
         .toBe(true);
-      await page.screenshot({
-        path: `test-results/project-${viewport.width}-${index}.png`,
-      });
     }
-    await page.mouse.wheel(0, viewport.height * 2);
-    await expect(page.locator('picture:not([aria-hidden="true"])')).toHaveCount(
-      0,
-    );
-    await expect(
-      page.getByRole('button', { name: 'Scroll to top' }),
-    ).toBeVisible();
-    // Wheel delivery is asynchronous; finish the downward scroll before
-    // reversing, then land inside Club Zurich rather than on its stage boundary.
     await expect
       .poll(() =>
-        page.evaluate(() =>
-          Math.abs(
-            window.scrollY -
-              (document.documentElement.scrollHeight - window.innerHeight),
-          ),
-        ),
+        page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       )
-      .toBeLessThanOrEqual(2);
-    await page.mouse.wheel(0, -viewport.height * 2.95);
-    await expect(
-      page.locator('picture:not([aria-hidden="true"]) img'),
-    ).toHaveAttribute('alt', /Club Zurich/);
+      .toBe(true);
+    await section.locator('article').first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(600);
+    await page.screenshot({
+      path: `test-results/portfolio-grid-${viewport.width}.png`,
+      fullPage: false,
+    });
+    if (viewport.width >= 900) {
+      const index = page.getByRole('navigation', { name: 'Project index' });
+      await index.getByRole('link', { name: /04 Club Zurich/ }).click();
+      await expect(page.locator('#project-4 h3')).toBeVisible();
+      await expect(
+        index.getByRole('link', { name: /04 Club Zurich/ }),
+      ).toHaveAttribute('aria-current', 'location');
+      await page.waitForTimeout(600);
+      await page.screenshot({
+        path: `test-results/portfolio-index-${viewport.width}.png`,
+      });
+    }
     expect(errors).toEqual([]);
   });
 }

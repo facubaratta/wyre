@@ -5,7 +5,7 @@ import { useLogoAnimation } from './useLogoAnimation';
 import {
   DEFAULT_ACCENT,
   getAccentVariables,
-} from '../../preferences/useAccentColor';
+} from '../../brand/accentVariables';
 
 const logoStyle = {
   display: 'inline-flex',

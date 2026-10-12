@@ -3,7 +3,7 @@ import { HeroLogo } from '../brand/logo';
 import { usePreferences } from '../preferences/PreferencesContext';
 import NavigationActions from './NavigationActions';
 import useHeaderHeight from './useHeaderHeight';
-import { useScrollSnapshot } from '../scroll/useWindowScroll';
+import { useScrollSnapshot } from '../scroll/useScrollSnapshot';
 import useNavbarVisibility from './useNavbarVisibility';
 
 export default function Navbar() {

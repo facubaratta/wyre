@@ -20,7 +20,7 @@ for (const viewport of [
       .getByRole('link', { name: 'Let’s talk' })
       .click();
     const closing = page.locator('section[aria-labelledby="closing-heading"]');
-    await expect(closing).toHaveAttribute('aria-hidden', 'false');
+    await expect(closing).not.toHaveAttribute('aria-hidden', 'true');
     await expect(closing).not.toHaveAttribute('inert');
     for (const locator of [
       page.locator('#closing-heading'),

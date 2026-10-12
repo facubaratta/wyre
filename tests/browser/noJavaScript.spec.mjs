@@ -10,9 +10,8 @@ test('content and styling are available without JavaScript', async ({
   const page = await context.newPage();
   await page.goto('./es/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('#hero')).toBeVisible();
-  await expect(page.locator('#human-heading')).toHaveText('Decisiones Humanas');
-  await expect(page.locator('#growth-heading')).toHaveText('Crecimiento real');
-  await expect(page.getByText('qué ofrecés y cómo contratarte.')).toBeVisible();
+  await expect(page.locator('#growth-heading')).toHaveText('Trabajo real.');
+  await expect(page.locator('#crecimiento-real article')).toHaveCount(5);
   expect(
     await page
       .locator('#hero')

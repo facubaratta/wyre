@@ -5,9 +5,8 @@ import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
 
 const closingSx = {
-  position: 'absolute',
+  position: 'relative',
   zIndex: 3,
-  inset: 0,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'safe center',
@@ -16,9 +15,11 @@ const closingSx = {
   overflowX: 'hidden',
   overscrollBehavior: 'contain',
   gap: '16px',
-  p: '5%',
+  pt: { xs: 5, md: 8 },
+  pb: 4,
+  borderTop: '1px solid rgba(235,232,222,.3)',
   color: '#ebe8de',
-  background: '#181a19',
+  background: 'transparent',
 } satisfies SxProps<Theme>;
 
 const headingSx = {
@@ -26,11 +27,9 @@ const headingSx = {
   flexShrink: 0,
   maxWidth: '100%',
   overflowWrap: 'anywhere',
-  py: '5%',
-  borderTop: '1px solid rgba(235,232,222,.22)',
-  fontSize: 'clamp(20px, 12cqw, 30px)',
-  fontWeight: 400,
-  lineHeight: 1.18,
+  fontSize: 'clamp(36px, 7cqw, 84px)',
+  fontWeight: 500,
+  lineHeight: 1.06,
   letterSpacing: '-.05em',
 } satisfies SxProps<Theme>;
 
@@ -40,22 +39,10 @@ const Highlight = ({ children }: { children: React.ReactNode }) => (
   </Box>
 );
 
-export default function ClosingScreen({ progress }: { progress: number }) {
-  const visible = progress > 0;
+export default function ClosingScreen() {
   const { copy } = useLanguage();
   return (
-    <Box
-      component="section"
-      sx={closingSx}
-      aria-labelledby="closing-heading"
-      aria-hidden={progress < 0.5}
-      inert={progress < 0.5}
-      style={{
-        pointerEvents: progress >= 0.5 ? 'auto' : 'none',
-        opacity: progress,
-        visibility: visible ? 'visible' : 'hidden',
-      }}
-    >
+    <Box component="section" sx={closingSx} aria-labelledby="closing-heading">
       <Box component="h2" sx={headingSx} id="closing-heading">
         {copy.closing.start}
         <Highlight>{copy.closing.web}</Highlight>

@@ -12,7 +12,7 @@ for (const [route, language, heading, contact] of [
     const page = await context.newPage();
     await page.goto(route);
     await expect(page.locator('html')).toHaveAttribute('lang', language);
-    await expect(page.locator('#hero-title-web')).toHaveText(heading);
+    await expect(page.locator('#web-heading')).toHaveText(heading);
     await expect(
       page.locator('#hero-actions').getByRole('link', { name: contact }),
     ).toBeVisible();
@@ -46,7 +46,7 @@ for (const viewport of [
     await toggle.click();
     await expect(page).toHaveURL(/\/es\/\?source=test$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-    await expect(page.locator('#hero-title-web')).toHaveText('Presencia web');
+    await expect(page.locator('#web-heading')).toHaveText('Presencia web');
     await expect(page.getByRole('dialog')).toHaveCount(0);
     await expect(
       page
@@ -58,7 +58,7 @@ for (const viewport of [
     await page.goForward();
     await expect(page.locator('html')).toHaveAttribute('lang', 'es');
     await page.reload();
-    await expect(page.locator('#hero-title-web')).toHaveText('Presencia web');
+    await expect(page.locator('#web-heading')).toHaveText('Presencia web');
     await page.screenshot({
       path: `test-results/hero-es-${viewport.width}.png`,
     });
@@ -82,14 +82,12 @@ test('navbar language changes translate a previously selected contact service', 
     })
     .click();
   const closing = page.locator('section[aria-labelledby="closing-heading"]');
-  await expect(closing).toHaveAttribute('aria-hidden', 'false');
+  await expect(closing).not.toHaveAttribute('aria-hidden', 'true');
   const whatsapp = closing.getByRole('link', { name: /^WhatsApp:/ });
   expect(
     new URL(await whatsapp.getAttribute('href')).searchParams.get('text'),
   ).toBe('Hi Wyre, I’m interested in a company website.');
-  await expect(
-    page.getByRole('button', { name: 'Scroll to top' }),
-  ).toBeVisible();
+  await expect(page.locator('#closing-heading')).toBeVisible();
   // The navbar appears when scrolling upward after the contact scroll finishes.
   await page.evaluate(() => window.scrollBy({ top: -80, behavior: 'instant' }));
   await expect(page.locator('#site-header')).not.toHaveAttribute('inert');

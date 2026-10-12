@@ -15,7 +15,6 @@ const fluidGradientSx = {
     'radial-gradient(ellipse at var(--pointer-x, 28%) var(--pointer-y, 68%), #ffc397a6 0%, transparent 34%), radial-gradient(ellipse at calc(100% - var(--pointer-x, 28%)) calc(100% - var(--pointer-y, 68%)), #9854d77a 0%, transparent 42%), radial-gradient(ellipse at 80% 25%, #ffaf8270 0%, transparent 38%), linear-gradient(145deg, #302237, #17131d 65%)',
   backgroundSize: '100% 100%',
   transition: 'opacity 450ms ease',
-  transition: 'opacity 450ms ease',
   '@media (hover: hover)': {
     '@media (prefers-reduced-motion: reduce)': {
       transition: 'none',

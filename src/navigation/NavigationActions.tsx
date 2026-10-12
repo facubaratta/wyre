@@ -1,3 +1,4 @@
+import LinkArrow from '../brand/LinkArrow';
 import { useLanguage } from '../i18n/LanguageContext';
 import { memo } from 'react';
 import { Box, Button } from '@mui/material';
@@ -7,7 +8,7 @@ import { getWhatsAppUrl } from '../contact/contactUrls';
 
 const fontSizes = {
   navigation: {
-    hero: { xs: 12, sm: 14 },
+    hero: { xs: 13.2, sm: 15.4 },
     navbar: { xs: 12, sm: 14 },
   },
 } as const;
@@ -23,6 +24,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
       aria-label={copy.navigation.label}
       sx={{
         display: 'flex',
+        flexWrap: placement === 'hero' ? 'wrap' : 'nowrap',
         alignItems: 'center',
         fontSize: fontSizes.navigation[placement],
         gap: { xs: placement === 'navbar' ? 0.5 : 1, sm: 2 },
@@ -32,10 +34,28 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
     >
       <Button
         component="a"
+        href="#about"
+        sx={{
+          display:
+            placement === 'hero'
+              ? 'inline-flex'
+              : { xs: 'none', sm: 'inline-flex' },
+          minWidth: 0,
+          minHeight: placement === 'hero' ? 48.4 : 44,
+          px: 1,
+          color: 'text.primary',
+          textTransform: 'none',
+          fontSize: 'inherit',
+        }}
+      >
+        {copy.heroDesign.about}
+      </Button>
+      <Button
+        component="a"
         href="#crecimiento-real"
         sx={{
           display: placement === 'hero' ? 'none' : 'inline-flex',
-          minHeight: 44,
+          minHeight: placement === 'hero' ? 48.4 : 44,
           color: 'text.primary',
           textTransform: 'none',
           fontSize: 'inherit',
@@ -55,7 +75,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
         }}
         variant="contained"
         sx={{
-          minHeight: 44,
+          minHeight: placement === 'hero' ? 48.4 : 44,
           px: { xs: placement === 'navbar' ? 1 : 1.5, sm: 2.5 },
           gap: 0.5,
           whiteSpace: 'nowrap',
@@ -69,24 +89,12 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
         }}
       >
         {copy.navigation.contact}
-        <Box
-          component="svg"
-          viewBox="0 0 20 20"
+        <LinkArrow
           sx={{
-            width: placement === 'navbar' ? 14 : 18,
-            height: placement === 'navbar' ? 14 : 18,
-            flexShrink: 0,
+            width: placement === 'navbar' ? 14 : 19.8,
+            height: placement === 'navbar' ? 14 : 19.8,
           }}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M5 15 15 5M5 5h10v10" />
-        </Box>
+        />
       </Button>
       <LanguageToggle />
     </Box>

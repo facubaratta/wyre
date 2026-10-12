@@ -1,6 +1,5 @@
 import { gradientFocusSx } from '../../brand/colors';
-import { useId } from 'react';
-import BrandGradient from '../../brand/BrandGradient';
+import LinkArrow from '../../brand/LinkArrow';
 import { useLanguage } from '../../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import type { MouseEvent } from 'react';
@@ -19,7 +18,6 @@ export default function ServiceInterestLink({
   const openContact = useOpenContact();
   const { language, copy } = useLanguage();
 
-  const gradientId = `brand-${useId().replace(/:/g, '')}`;
   return (
     <Box
       component="a"
@@ -56,21 +54,7 @@ export default function ServiceInterestLink({
         outlineOffset: 4,
       }}
     >
-      <Box
-        component="svg"
-        viewBox="0 0 20 20"
-        fill="none"
-        stroke={`url(#${gradientId})`}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-        focusable="false"
-        sx={{ width: 22, height: 22 }}
-      >
-        <BrandGradient id={gradientId} />
-        <path d="M4 10h12M10 4l6 6-6 6" />
-      </Box>
+      <LinkArrow sx={{ width: 22, height: 22 }} />
     </Box>
   );
 }

@@ -1,8 +1,5 @@
 import { BRAND_STOPS, brandGradient } from './brand/colors';
-import {
-  DEFAULT_ACCENT,
-  getAccentVariables,
-} from './preferences/useAccentColor';
+import { DEFAULT_ACCENT, getAccentVariables } from './brand/accentVariables';
 import LanguageProvider from './i18n/LanguageProvider';
 import type { Language } from './i18n/messages';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
@@ -12,11 +9,8 @@ import MeshBackground from './background/MeshBackground';
 import { PreferencesProvider } from './preferences/PreferencesProvider';
 import HeroTransitionScene from './hero/HeroTransitionScene';
 import PortfolioScene from './portfolio/PortfolioScene';
-import WebPresence from './sections/WebPresence';
-import ScrollArrow from './scroll/ScrollArrow';
-import { LandingLayoutProvider } from './scroll/LandingLayoutProvider';
-import { useLandingLayout } from './scroll/LandingLayoutContext';
-import PortfolioSequenceProvider from './portfolio/PortfolioSequenceProvider';
+import WebPresence from './sections/WebPresence/WebPresence';
+import About from './sections/About';
 import ContactInterestProvider from './contact/ContactInterestProvider';
 
 const theme = createTheme({
@@ -50,19 +44,17 @@ const theme = createTheme({
 });
 
 function LandingPage() {
-  const { introRef } = useLandingLayout();
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ minHeight: '100svh', background: '#181a19' }}>
         <MeshBackground />
         <Navbar />
-        <ScrollArrow />
         <Box component="main" sx={{ position: 'relative' }}>
-          <Box ref={introRef}>
+          <Box>
             <HeroTransitionScene />
             <WebPresence />
+            <About />
           </Box>
           <PortfolioScene />
         </Box>
@@ -75,13 +67,9 @@ export default function App({ language = 'en' }: { language?: Language }) {
   return (
     <LanguageProvider initialLanguage={language}>
       <PreferencesProvider>
-        <LandingLayoutProvider>
-          <PortfolioSequenceProvider>
-            <ContactInterestProvider>
-              <LandingPage />
-            </ContactInterestProvider>
-          </PortfolioSequenceProvider>
-        </LandingLayoutProvider>
+        <ContactInterestProvider>
+          <LandingPage />
+        </ContactInterestProvider>
       </PreferencesProvider>
     </LanguageProvider>
   );

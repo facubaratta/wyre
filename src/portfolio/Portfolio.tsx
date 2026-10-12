@@ -1,148 +1,83 @@
-import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
-import type { SxProps, Theme } from '@mui/material/styles';
+import { useLanguage } from '../i18n/LanguageContext';
 import { projects } from './projects';
-import ProjectBrowser from './ProjectBrowser';
-import PortfolioNavigation from './PortfolioNavigation';
-import SectionHeading from '../sections/SectionHeading';
-import { usePortfolioSequenceState } from './PortfolioSequenceContext';
-
-const hiddenOnSmallOrShort = {
-  '@media (max-width:640px)': { display: 'none' },
-  '@media (min-width:641px) and (max-height:500px)': { display: 'none' },
-} satisfies SxProps<Theme>;
-
-const styles = {
-  portfolio: {
-    position: 'relative',
-    minHeight: '100svh',
-    zIndex: 2,
-    inset: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4svh',
-    alignItems: 'center',
-    justifyContent: 'center',
-    px: '7vw',
-    pt: 'calc(var(--header-height, 100px) + 24px)',
-    pb: '80px',
-    color: '#ebe8de',
-    '@media (max-width:640px)': {
-      px: '6vw',
-      pt: 'max(24px, env(safe-area-inset-top))',
-      pb: 'calc(84px + env(safe-area-inset-bottom))',
-    },
-    '@media (max-height:500px)': {
-      pt: 'calc(var(--header-height, 100px) + 12px)',
-      pb: '64px',
-    },
-  },
-  assembly: {
-    width:
-      'min(100%, 1100px, calc((100dvh - var(--header-height, 100px) - 310px) * 1.7778))',
-    '@media (max-width:640px)': {
-      width:
-        'min(100%, calc((100dvh - 280px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * .5625))',
-    },
-    '@media (min-width:641px) and (max-height:500px)': {
-      width:
-        'min(100%, calc((100dvh - var(--header-height, 100px) - 190px) * 1.7778))',
-    },
-  },
-  monitor: {
-    borderRadius: '12px',
-    overflow: 'hidden',
-    background: '#202321',
-    '@media (max-width:640px)': {
-      borderRadius: '36px',
-      p: '10px 6px 0',
-      borderColor: '#74766d',
-    },
-  },
-  stand: {
-    height: 'clamp(30px, 6svh, 60px)',
-    width: '14%',
-    mx: 'auto',
-    borderInline: '1px solid #60615b',
-    background: '#202321',
-  },
-  foot: {
-    width: '30%',
-    height: '8px',
-    mx: 'auto',
-    border: '1px solid #60615b',
-    borderRadius: '3px',
-    background: '#202321',
-  },
-  notch: {
-    display: 'none',
-    width: '27%',
-    height: '9px',
-    mx: 'auto',
-    mb: '12px',
-    borderRadius: '20px',
-    background: '#0e100f',
-    '@media (max-width:640px)': { display: 'block' },
-  },
-} satisfies Record<string, SxProps<Theme>>;
+import ClosingScreen from './ClosingScreen';
+import ProjectCard from './ProjectCard';
+import PortfolioIndex from './PortfolioIndex';
 
 export default function Portfolio() {
-  const {
-    closingProgress,
-    projectIndex,
-    selectProject: onSelect,
-  } = usePortfolioSequenceState();
-  const { copy } = useLanguage();
-  const project = projects[projectIndex];
-  const showClosing = closingProgress >= 0.5;
-  const selectedIndex = showClosing ? projects.length : projectIndex;
+  const { language } = useLanguage();
+
   return (
     <Box
       component="section"
       aria-labelledby="growth-heading"
       sx={{
-        ...styles.portfolio,
+        position: 'relative',
+        zIndex: 2,
+        maxWidth: 1280,
+        mx: 'auto',
+        px: { xs: '6vw', md: 5 },
+        pt: { xs: 8, md: 14 },
+        pb: { xs: 8, md: 12 },
+        color: '#ebe8de',
       }}
     >
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: { xs: '20px', sm: '3svh' },
-          width: '100%',
-          '@media (max-height:500px)': { gap: '12px' },
+          justifyContent: 'space-between',
+          borderTop: '1px solid rgba(235,232,222,.3)',
+          pt: 2,
+          pb: { xs: 5, md: 8 },
+          fontSize: 10,
+          letterSpacing: '.15em',
+          textTransform: 'uppercase',
         }}
       >
-        <SectionHeading id="growth-heading" icon="growth">
-          {copy.headings.growth}
-        </SectionHeading>
-        <Box sx={styles.assembly}>
-          <Box sx={styles.monitor}>
-            <Box aria-hidden="true" sx={styles.notch} />
-            <ProjectBrowser
-              project={project}
-              projects={projects}
-              projectIndex={projectIndex}
-              closingProgress={closingProgress}
-            />
-          </Box>
-          <Box
-            aria-hidden="true"
-            sx={{ ...styles.stand, ...hiddenOnSmallOrShort }}
-          />
-          <Box
-            aria-hidden="true"
-            sx={{ ...styles.foot, ...hiddenOnSmallOrShort }}
-          />
-          {
-            <PortfolioNavigation
-              selectedIndex={selectedIndex}
-              projectIndex={projectIndex}
-              onSelect={onSelect}
-            />
-          }
+        <Box component="span">
+          {language === 'es' ? 'Diseño + desarrollo' : 'Design + development'}
         </Box>
+        <Box component="span">
+          {language === 'es'
+            ? `Selección / ${String(projects.length).padStart(2, '0')}`
+            : `Selection / ${String(projects.length).padStart(2, '0')}`}
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            md: 'minmax(0, .7fr) minmax(0, 1.3fr)',
+          },
+          gap: { xs: 6, md: 8 },
+          alignItems: 'start',
+        }}
+      >
+        <PortfolioIndex />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: { xs: 7, md: 12 },
+          }}
+        >
+          {projects.map((project, index) => (
+            <ProjectCard key={project.url} project={project} index={index} />
+          ))}
+        </Box>
+      </Box>
+      <Box
+        id="portfolio-contact"
+        sx={{
+          position: 'relative',
+          mt: { xs: 10, md: 16 },
+          containerType: 'inline-size',
+          scrollMarginTop: 'var(--header-height, 100px)',
+        }}
+      >
+        <ClosingScreen />
       </Box>
     </Box>
   );
