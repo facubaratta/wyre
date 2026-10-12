@@ -1,24 +1,8 @@
 import Box from '@mui/material/Box';
+import LinkArrow from '../brand/LinkArrow';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { Project } from './projects';
-
-const artDirections = [
-  { background: '#dce5da', ink: '#344d3c', accent: '#a4bea8', align: 'center' },
-  {
-    background: '#e8d9c8',
-    ink: '#654938',
-    accent: '#c4a281',
-    align: 'flex-end',
-  },
-  { background: '#492b35', ink: '#f4c8ab', accent: '#ad604c', align: 'center' },
-  {
-    background: '#c9dce7',
-    ink: '#254963',
-    accent: '#8daec5',
-    align: 'flex-start',
-  },
-  { background: '#d1c4e5', ink: '#463156', accent: '#aa8dcc', align: 'center' },
-] as const;
+import { projectThemes } from './projectThemes';
 
 export default function ProjectArtwork({
   project,
@@ -28,7 +12,7 @@ export default function ProjectArtwork({
   index: number;
 }) {
   const { copy, language } = useLanguage();
-  const art = artDirections[index % artDirections.length];
+  const art = projectThemes[index % projectThemes.length];
   const number = String(index + 1).padStart(2, '0');
   const domain = new URL(project.url).hostname.replace(/^www\./, '');
   return (
@@ -43,27 +27,27 @@ export default function ProjectArtwork({
         background: art.background,
         color: art.ink,
         px: { xs: 3, md: 5 },
-        pt: { xs: 7, md: 11 },
-        pb: { xs: 7, md: 11 },
+        pt: { xs: 3, md: 4 },
+        pb: { xs: 3, md: 4 },
       }}
     >
       <Box
         sx={{
-          position: 'absolute',
-          left: { xs: 24, md: 32 },
-          right: { xs: 24, md: 32 },
-          top: { xs: 20, md: 24 },
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: 10,
-          letterSpacing: '.12em',
-          textTransform: 'uppercase',
+          width: '100%',
+          mb: { xs: 3, md: 4 },
         }}
       >
-        <Box component="span">WYRE / {number}</Box>
-        <Box component="span">
-          {language === 'es' ? 'Proyecto web' : 'Web project'}
+        <Box
+          component="h3"
+          sx={{
+            m: 0,
+            fontSize: { xs: 27, md: 'clamp(30px, 3vw, 44px)' },
+            fontWeight: 500,
+            lineHeight: 1.1,
+            letterSpacing: '-.045em',
+          }}
+        >
+          {project.name}
         </Box>
       </Box>
       <Box
@@ -110,20 +94,49 @@ export default function ProjectArtwork({
           display: 'block',
           width: index % 2 ? '92%' : '100%',
           height: 'auto',
+          border: '1px solid',
+          borderColor: art.accent,
+          boxSizing: 'border-box',
           boxShadow: `0 20px 45px -15px ${art.ink}55`,
           transition: 'transform 400ms cubic-bezier(.2,.7,.2,1)',
         }}
       />
       <Box
         sx={{
-          position: 'absolute',
-          bottom: { xs: 20, md: 24 },
-          right: { xs: 24, md: 32 },
+          width: '100%',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 1.5,
+          mt: { xs: 3, md: 4 },
           fontSize: 11,
-          letterSpacing: '.015em',
         }}
       >
-        {domain}
+        <Box component="span" sx={{ overflowWrap: 'anywhere' }}>
+          {domain}
+        </Box>
+        <Box
+          component="span"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5,
+            ml: 'auto',
+            letterSpacing: '.08em',
+            textTransform: 'uppercase',
+          }}
+        >
+          {language === 'es' ? 'Explorar el sitio' : 'Explore the website'}
+          <Box
+            component="span"
+            data-project-arrow
+            aria-hidden="true"
+            sx={{ display: 'flex', transition: 'transform 250ms ease' }}
+          >
+            <LinkArrow />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
