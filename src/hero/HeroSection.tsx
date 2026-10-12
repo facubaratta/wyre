@@ -61,15 +61,7 @@ export default function HeroSection() {
         }}
       >
         <HeroCopy />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <HeroWordmark animationActive />
-        </Box>
+        <HeroWordmark animationActive />
       </Box>
     </Box>
   );
