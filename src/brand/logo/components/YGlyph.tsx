@@ -35,40 +35,18 @@ export function YGlyph({ id, compact = false }: YGlyphProps) {
       style={{ ...glyphStyle, lineHeight: compact ? 1 : 0 }}
     >
       {compact ? (
-        <>
-          <svg
-            aria-hidden="true"
-            width="0"
-            height="0"
-            style={{ position: 'absolute' }}
-          >
-            <defs>
-              <filter id={`${id}-outline`}>
-                <feMorphology
-                  in="SourceAlpha"
-                  operator="erode"
-                  radius="1.2"
-                  result="interior"
-                />
-                <feComposite in="SourceGraphic" in2="interior" operator="out" />
-              </filter>
-            </defs>
-          </svg>
-          <Box
-            component="span"
-            aria-hidden="true"
-            sx={{
-              display: 'inline-block',
-              background: 'var(--brand-gradient)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-              filter: `url(#${id}-outline)`,
-            }}
-          >
-            y
-          </Box>
-        </>
+        <Box
+          component="span"
+          aria-hidden="true"
+          sx={{
+            display: 'inline-block',
+            color: 'transparent',
+            // Stroke the original contours so the tight tail keeps its shape.
+            WebkitTextStroke: '1px var(--accent-light)',
+          }}
+        >
+          y
+        </Box>
       ) : (
         <svg
           aria-hidden="true"
