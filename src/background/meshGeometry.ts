@@ -19,12 +19,33 @@ export function createMeshNodes(width: number, height: number): MeshNode[] {
     seed = (seed * 16807) % 2147483647;
     return (seed - 1) / 2147483646;
   };
-  return Array.from({ length: count }, () => ({
-    x: random() * (width + 80) - 40,
-    y: random() * (height + 80) - 40,
-    phase: random() * Math.PI * 2,
-    depth: 0.3 + random() * 0.7,
-  }));
+  return Array.from({ length: count }, (_, index) => {
+    const ribbon = index % 5 !== 0;
+    const point = ribbon
+      ? meshRibbonPoint(width, height, random(), (random() - 0.5) * 2)
+      : { x: random() * width, y: random() * height };
+    return {
+      ...point,
+      phase: random() * Math.PI * 2,
+      depth: 0.3 + random() * 0.7,
+    };
+  });
+}
+
+/** A sweeping strand leaves the upper-left content area quiet. */
+export function meshRibbonPoint(
+  width: number,
+  height: number,
+  progress: number,
+  offset: number,
+) {
+  const sweep = Math.sin(progress * 8.5 + 0.4);
+  return {
+    x: progress * (width + 100) - 50,
+    y:
+      height * (1.12 - progress * 0.87 + sweep * 0.085) +
+      offset * height * (0.045 + progress * 0.075),
+  };
 }
 
 export function updateMeshPositions(
