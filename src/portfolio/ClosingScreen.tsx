@@ -64,7 +64,7 @@ export default function ClosingScreen() {
         <br />
         {copy.closing.next}
       </Box>
-      <ContactButtons placement="closing" />
+      <ContactButtons />
     </Box>
   );
 }

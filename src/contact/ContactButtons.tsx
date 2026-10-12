@@ -1,11 +1,8 @@
 import { useLanguage } from '../i18n/LanguageContext';
 import Box from '@mui/material/Box';
 import ContactLink from './ContactLink';
-import type { ContactPlacement } from './ContactLink';
 import { useContactInterest } from './ContactInterestContext';
 import { getEmailUrl, getWhatsAppUrl } from './contactUrls';
-
-type Placement = ContactPlacement;
 
 const iconProps = {
   viewBox: '0 0 24 24',
@@ -51,31 +48,7 @@ const contactLinks = [
   },
 ];
 
-const containerSx = (placement: Placement) => ({
-  mt: placement === 'closing' ? { xs: 1, sm: 3 } : 5,
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap:
-    placement === 'hero'
-      ? { xs: '10px', sm: '16px' }
-      : placement === 'closing'
-        ? { xs: '8px', sm: '14px' }
-        : '10px',
-  ...(placement === 'hero' ? { justifyContent: 'center' } : {}),
-  ...(placement === 'closing'
-    ? {
-        width: '100%',
-        flexShrink: 0,
-        '@container (max-width: 360px)': { mt: 1, gap: '8px' },
-      }
-    : {}),
-});
-
-export default function ContactButtons({
-  placement = 'default',
-}: {
-  placement?: Placement;
-}) {
+export default function ContactButtons() {
   const { interest } = useContactInterest();
   const { language, copy } = useLanguage();
   const links = contactLinks.map((link) => ({
@@ -89,15 +62,18 @@ export default function ContactButtons({
     <Box
       component="nav"
       aria-label={copy.contact.label}
-      sx={containerSx(placement)}
+      sx={{
+        mt: { xs: 1, sm: 3 },
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: { xs: '8px', sm: '14px' },
+        width: '100%',
+        flexShrink: 0,
+        '@container (max-width: 360px)': { mt: 1, gap: '8px' },
+      }}
     >
       {links.map(({ icon, emphasized = false, ...link }) => (
-        <ContactLink
-          key={link.href}
-          {...link}
-          emphasized={emphasized}
-          placement={placement}
-        >
+        <ContactLink key={link.href} {...link} emphasized={emphasized}>
           {icon}
         </ContactLink>
       ))}
