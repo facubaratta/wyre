@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import LinkArrow from '../brand/LinkArrow';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Collapse, Typography } from '@mui/material';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getWhatsAppUrl } from '../contact/contactUrls';
 import useOpenContact from '../contact/useOpenContact';
@@ -12,6 +13,13 @@ const backgroundGradient = `linear-gradient(to bottom, transparent, ${black} ${f
 export default function About() {
   const { copy, language } = useLanguage();
   const openContact = useOpenContact();
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    const expand = () => setExpanded(true);
+    window.addEventListener('wyre:expand-about', expand);
+    return () => window.removeEventListener('wyre:expand-about', expand);
+  }, []);
 
   return (
     <Box
@@ -52,74 +60,96 @@ export default function About() {
           >
             {copy.about.intro}
           </Typography>
-        </FadeIn>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-            gap: { xs: 5, md: 8 },
-            mt: { xs: 5, sm: 8 },
-          }}
-        >
-          {copy.about.blocks.map((block) => (
-            <FadeIn
-              key={block.title}
-              sx={{ borderTop: '1px solid rgba(235,232,222,.18)', pt: 3 }}
+          {!expanded && (
+            <Button
+              aria-expanded={expanded}
+              aria-controls="about-details"
+              onClick={() => setExpanded(true)}
+              sx={{
+                mt: 3,
+                minHeight: 48,
+                px: 2.5,
+                border: '1px solid rgba(235,232,222,.35)',
+                color: 'text.primary',
+                fontSize: 16,
+                textTransform: 'none',
+              }}
             >
-              <Typography
-                component="h3"
-                sx={{
-                  fontSize: { xs: 23, sm: 28 },
-                  fontWeight: 600,
-                  lineHeight: 1.3,
-                  letterSpacing: '-.025em',
-                  mb: 2.5,
-                }}
-              >
-                {block.title}
-              </Typography>
-              {block.paragraphs.map((paragraph) => (
-                <Typography
-                  key={paragraph}
-                  sx={{
-                    color: 'text.secondary',
-                    fontSize: { xs: 16, sm: 18 },
-                    lineHeight: 1.75,
-                    mb: 2,
-                  }}
+              {copy.about.readMore}
+            </Button>
+          )}
+        </FadeIn>
+        <Collapse in={expanded} timeout={0}>
+          <Box id="about-details">
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+                gap: { xs: 5, md: 8 },
+                mt: { xs: 5, sm: 8 },
+              }}
+            >
+              {copy.about.blocks.map((block) => (
+                <FadeIn
+                  key={block.title}
+                  sx={{ borderTop: '1px solid rgba(235,232,222,.18)', pt: 3 }}
                 >
-                  {paragraph}
-                </Typography>
+                  <Typography
+                    component="h3"
+                    sx={{
+                      fontSize: { xs: 23, sm: 28 },
+                      fontWeight: 600,
+                      lineHeight: 1.3,
+                      letterSpacing: '-.025em',
+                      mb: 2.5,
+                    }}
+                  >
+                    {block.title}
+                  </Typography>
+                  {block.paragraphs.map((paragraph) => (
+                    <Typography
+                      key={paragraph}
+                      sx={{
+                        color: 'text.secondary',
+                        fontSize: { xs: 16, sm: 18 },
+                        lineHeight: 1.75,
+                        mb: 2,
+                      }}
+                    >
+                      {paragraph}
+                    </Typography>
+                  ))}
+                </FadeIn>
               ))}
-            </FadeIn>
-          ))}
-        </Box>
-        <Typography
-          sx={{ mt: 5, fontSize: { xs: 23, sm: 28 }, fontWeight: 600 }}
-        >
-          {copy.about.closing}
-        </Typography>
-        <Button
-          component="a"
-          href={getWhatsAppUrl(null, language)}
-          onClick={(event) => {
-            event.preventDefault();
-            openContact();
-          }}
-          sx={{
-            mt: 2,
-            minHeight: 48,
-            px: 2.5,
-            background: 'var(--brand-gradient)',
-            color: '#181a19',
-            fontWeight: 700,
-            fontSize: { xs: 16, sm: 18 },
-            textTransform: 'none',
-          }}
-        >
-          {copy.about.cta}
-          <LinkArrow sx={{ ml: 1 }} />
-        </Button>
+            </Box>
+            <Typography
+              sx={{ mt: 5, fontSize: { xs: 23, sm: 28 }, fontWeight: 600 }}
+            >
+              {copy.about.closing}
+            </Typography>
+            <Button
+              component="a"
+              href={getWhatsAppUrl(null, language)}
+              onClick={(event) => {
+                event.preventDefault();
+                openContact();
+              }}
+              sx={{
+                mt: 2,
+                minHeight: 48,
+                px: 2.5,
+                background: 'var(--brand-gradient)',
+                color: '#181a19',
+                fontWeight: 700,
+                fontSize: { xs: 16, sm: 18 },
+                textTransform: 'none',
+              }}
+            >
+              {copy.about.cta}
+              <LinkArrow sx={{ ml: 1 }} />
+            </Button>
+          </Box>
+        </Collapse>
       </Box>
     </Box>
   );

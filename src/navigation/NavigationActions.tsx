@@ -35,6 +35,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
       <Button
         component="a"
         href="#about"
+        onClick={() => window.dispatchEvent(new Event('wyre:expand-about'))}
         sx={{
           display:
             placement === 'hero'

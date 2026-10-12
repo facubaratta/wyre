@@ -23,6 +23,7 @@ export const messages = {
     },
     about: {
       title: 'About Wyre',
+      readMore: 'Read more',
       intro: 'Founded in 2026. Built around real business needs.',
       blocks: [
         {
@@ -113,6 +114,7 @@ export const messages = {
     },
     about: {
       title: 'Sobre Wyre',
+      readMore: 'Leer más',
       intro:
         'Fundada en 2026. Pensada para las necesidades reales de cada negocio.',
       blocks: [
