@@ -1,26 +1,12 @@
 import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
+import useActiveProject from './useActiveProject';
+import ProjectIndexLink from './ProjectIndexLink';
 import { useLanguage } from '../i18n/LanguageContext';
 import { projects } from './projects';
 
 export default function PortfolioIndex() {
-  const { language } = useLanguage();
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries.find((item) => item.isIntersecting);
-        if (entry)
-          setActive(Number(entry.target.id.replace('project-', '')) - 1);
-      },
-      { rootMargin: '-15% 0px -45% 0px' },
-    );
-    projects.forEach((_, index) => {
-      const element = document.getElementById(`project-${index + 1}`);
-      if (element) observer.observe(element);
-    });
-    return () => observer.disconnect();
-  }, []);
+  const { copy } = useLanguage();
+  const active = useActiveProject();
 
   return (
     <Box
@@ -44,7 +30,7 @@ export default function PortfolioIndex() {
           lineHeight: 0.95,
         }}
       >
-        {language === 'es' ? 'Trabajo' : 'Selected'} <br />
+        {copy.portfolio.titleFirst} <br />
         <Box
           component="span"
           sx={{
@@ -55,52 +41,18 @@ export default function PortfolioIndex() {
             letterSpacing: '-.035em',
           }}
         >
-          {language === 'es' ? 'real.' : 'work.'}
+          {copy.portfolio.titleLast}
         </Box>
       </Box>
       <Box sx={{ display: { xs: 'none', md: 'block' }, mt: 7 }}>
-        <Box
-          component="nav"
-          aria-label={
-            language === 'es' ? 'Índice de proyectos' : 'Project index'
-          }
-        >
+        <Box component="nav" aria-label={copy.portfolio.indexLabel}>
           {projects.map((project, index) => (
-            <Box
-              component="a"
+            <ProjectIndexLink
               key={project.url}
-              href={`#project-${index + 1}`}
-              aria-current={active === index ? 'location' : undefined}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-                py: 1.6,
-                borderBottom: '1px solid rgba(235,232,222,.12)',
-                color: active === index ? '#ebe8de' : '#969890',
-                textDecoration: 'none',
-                fontSize: 13,
-                transition: 'color 180ms ease',
-                '&:hover': { color: '#ebe8de' },
-                '&:focus-visible': {
-                  outline: '2px solid #e89ac4',
-                  outlineOffset: 3,
-                },
-              }}
-            >
-              <Box
-                component="span"
-                sx={{
-                  fontSize: 10,
-                  fontVariantNumeric: 'tabular-nums',
-                }}
-              >
-                {index + 1}
-              </Box>
-              <Box component="span" sx={{ flex: 1 }}>
-                {project.name}
-              </Box>
-            </Box>
+              project={project}
+              index={index}
+              active={active === index}
+            />
           ))}
         </Box>
       </Box>

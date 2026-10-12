@@ -15,3 +15,5 @@ export const projectThemes = [
   },
   { background: '#101010', ink: '#ebe8de', accent: '#7b7676', align: 'center' },
 ] as const;
+
+export type ProjectTheme = (typeof projectThemes)[number];

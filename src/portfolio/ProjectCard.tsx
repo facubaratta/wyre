@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { useLanguage } from '../i18n/LanguageContext';
 import type { Project } from './projects';
 import ProjectArtwork from './ProjectArtwork';
+import useControlState from '../controls/useControlState';
 
 export default function ProjectCard({
   project,
@@ -11,6 +12,7 @@ export default function ProjectCard({
   index: number;
 }) {
   const { copy } = useLanguage();
+  const { hovered, events } = useControlState();
   return (
     <Box
       component="article"
@@ -22,6 +24,7 @@ export default function ProjectCard({
         href={project.url}
         target="_blank"
         rel="noopener noreferrer"
+        {...events}
         aria-label={`${project.name} — ${copy.portfolio.visit}`}
         sx={{
           position: 'relative',
@@ -29,21 +32,9 @@ export default function ProjectCard({
           color: 'inherit',
           textDecoration: 'none',
           '&:focus-visible': { outline: '2px solid #e89ac4', outlineOffset: 8 },
-          '@media (hover: hover)': {
-            '&:hover img': { transform: 'translateY(-8px)' },
-            '&:hover [data-project-arrow]': {
-              transform: 'translate(3px, -3px)',
-            },
-          },
-          '@media (prefers-reduced-motion: reduce)': {
-            '& img, & [data-project-arrow]': {
-              transition: 'none',
-              transform: 'none !important',
-            },
-          },
         }}
       >
-        <ProjectArtwork project={project} index={index} />
+        <ProjectArtwork project={project} index={index} hovered={hovered} />
       </Box>
     </Box>
   );

@@ -54,3 +54,18 @@ for (const viewport of [
     expect(errors).toEqual([]);
   });
 }
+
+test('portfolio elements own hover motion and respect reduced motion', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('./en/');
+  const card = page.locator('#project-1');
+  const image = card.locator('img');
+  await card.scrollIntoViewIfNeeded();
+  await image.hover();
+  await expect(image).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -8)');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(image).toHaveCSS('transform', 'none');
+  await expect(image).toHaveCSS('transition-duration', '0s');
+});

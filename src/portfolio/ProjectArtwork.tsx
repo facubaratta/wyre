@@ -1,20 +1,20 @@
 import Box from '@mui/material/Box';
-import LinkArrow from '../brand/LinkArrow';
-import { useLanguage } from '../i18n/LanguageContext';
+import ProjectScreenshot from './ProjectScreenshot';
+import ProjectFooter from './ProjectFooter';
 import type { Project } from './projects';
 import { projectThemes } from './projectThemes';
 
 export default function ProjectArtwork({
   project,
   index,
+  hovered,
 }: {
   project: Project;
   index: number;
+  hovered: boolean;
 }) {
-  const { copy, language } = useLanguage();
   const art = projectThemes[index % projectThemes.length];
   const number = String(index + 1).padStart(2, '0');
-  const domain = new URL(project.url).hostname.replace(/^www\./, '');
   return (
     <Box
       sx={{
@@ -80,64 +80,13 @@ export default function ProjectArtwork({
       >
         {number}
       </Box>
-      <Box
-        component="img"
-        src={project.images.at(-1)!.src}
-        srcSet={project.images
-          .map(({ src, width }) => `${src} ${width}w`)
-          .join(', ')}
-        sizes="(min-width: 1200px) 620px, (min-width: 900px) 50vw, 76vw"
-        alt={`${project.name} ${copy.portfolio.screenshot}`}
-        loading="lazy"
-        decoding="async"
-        sx={{
-          display: 'block',
-          width: index % 2 ? '92%' : '100%',
-          height: 'auto',
-          border: '1px solid',
-          borderColor: art.accent,
-          boxSizing: 'border-box',
-          boxShadow: `0 20px 45px -15px ${art.ink}55`,
-          transition: 'transform 400ms cubic-bezier(.2,.7,.2,1)',
-        }}
+      <ProjectScreenshot
+        project={project}
+        index={index}
+        art={art}
+        hovered={hovered}
       />
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 1.5,
-          mt: { xs: 3, md: 4 },
-          fontSize: 11,
-        }}
-      >
-        <Box component="span" sx={{ overflowWrap: 'anywhere' }}>
-          {domain}
-        </Box>
-        <Box
-          component="span"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
-            ml: 'auto',
-            letterSpacing: '.08em',
-            textTransform: 'uppercase',
-          }}
-        >
-          {language === 'es' ? 'Explorar el sitio' : 'Explore the website'}
-          <Box
-            component="span"
-            data-project-arrow
-            aria-hidden="true"
-            sx={{ display: 'flex', transition: 'transform 250ms ease' }}
-          >
-            <LinkArrow />
-          </Box>
-        </Box>
-      </Box>
+      <ProjectFooter url={project.url} hovered={hovered} />
     </Box>
   );
 }

@@ -79,6 +79,10 @@ export const messages = {
       next: 'We’ll define the next step together.',
     },
     portfolio: {
+      titleFirst: 'Selected',
+      titleLast: 'work.',
+      indexLabel: 'Project index',
+      explore: 'Explore the website',
       visit: 'Open website in a new tab',
       screenshot: 'website screenshot',
     },
@@ -171,6 +175,10 @@ export const messages = {
       next: 'Definimos juntos el próximo paso.',
     },
     portfolio: {
+      titleFirst: 'Trabajo',
+      titleLast: 'real.',
+      indexLabel: 'Índice de proyectos',
+      explore: 'Explorar el sitio',
       visit: 'Abrir sitio en una pestaña nueva',
       screenshot: 'captura del sitio web',
     },
