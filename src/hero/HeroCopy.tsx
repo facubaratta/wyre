@@ -1,3 +1,4 @@
+import LinkArrow from '../brand/LinkArrow';
 import { gradientTextSx } from '../brand/colors';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Box, Button, Typography } from '@mui/material';
@@ -68,7 +69,8 @@ export default function HeroCopy() {
             borderRadius: 1,
           }}
         >
-          {copy.heroDesign.discuss} ↗
+          {copy.heroDesign.discuss}
+          <LinkArrow sx={{ ml: 1, width: 18, height: 18 }} />
         </Button>
         <Button
           component="a"
