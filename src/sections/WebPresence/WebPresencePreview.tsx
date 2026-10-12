@@ -18,7 +18,7 @@ export default function WebPresencePreview({ kind }: { kind: number }) {
       aria-hidden="true"
       sx={{
         width: '100%',
-        maxWidth: kind === 4 ? 105 : 340,
+        maxWidth: kind === 4 ? 120 : 340,
         filter: 'drop-shadow(0 0 9px #e89ac42e)',
         transform:
           kind === 4 ? 'rotate(3deg)' : 'perspective(700px) rotateY(-4deg)',

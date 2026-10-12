@@ -29,7 +29,6 @@ export default function ServiceCard({
   service: WebService;
   index: number;
 }) {
-  const wide = index === 1 || index === 4;
   const detailsId = useId();
   const cardRef = useRef<HTMLElement>(null);
 
@@ -65,13 +64,7 @@ export default function ServiceCard({
         borderColor: '#ebe8de20',
         background: 'linear-gradient(145deg, #141415e6, #0d1010f5)',
         boxShadow: 'inset 0 1px 0 #ffffff06',
-        display: wide ? { xs: 'flex', lg: 'grid' } : 'flex',
-        gridTemplateColumns: wide
-          ? index === 4
-            ? 'minmax(0, 1fr) 100px'
-            : 'minmax(0, 1.2fr) minmax(0, 1fr)'
-          : undefined,
-        alignItems: wide ? { lg: 'center' } : undefined,
+        display: 'flex',
         flexDirection: 'column',
         gap: 3,
         '&::before': fluidGradientSx,
@@ -94,7 +87,14 @@ export default function ServiceCard({
         detailsId={detailsId}
       />
       <Box
-        sx={{ mt: wide ? { xs: 'auto', lg: 0 } : 'auto', pt: 0.5, minWidth: 0 }}
+        sx={{
+          mt: 'auto',
+          pt: 0.5,
+          minWidth: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
       >
         <WebPresencePreview kind={index} />
       </Box>
