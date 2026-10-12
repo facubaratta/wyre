@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import LinkArrow from '../brand/LinkArrow';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { projects } from './projects';
@@ -48,23 +47,16 @@ export default function PortfolioIndex() {
         {language === 'es' ? 'Trabajo' : 'Selected'} <br />
         <Box
           component="span"
-          sx={{ color: 'transparent', WebkitTextStroke: '1px #ebe8de' }}
+          sx={{
+            color: 'transparent',
+            WebkitTextStroke: '1px #ebe8de',
+            fontFamily: 'Arial, sans-serif',
+            fontWeight: 400,
+            letterSpacing: '-.035em',
+          }}
         >
           {language === 'es' ? 'real.' : 'work.'}
         </Box>
-        <Box
-          component="span"
-          aria-hidden="true"
-          sx={{
-            display: 'inline-block',
-            width: 13,
-            height: 13,
-            ml: 1.5,
-            mb: 1,
-            borderRadius: '50%',
-            background: 'var(--brand-gradient)',
-          }}
-        />
       </Box>
       <Box sx={{ display: { xs: 'none', md: 'block' }, mt: 7 }}>
         <Box
@@ -98,43 +90,18 @@ export default function PortfolioIndex() {
             >
               <Box
                 component="span"
-                sx={{ fontSize: 10, fontVariantNumeric: 'tabular-nums' }}
+                sx={{
+                  fontSize: 10,
+                  fontVariantNumeric: 'tabular-nums',
+                }}
               >
-                {String(index + 1).padStart(2, '0')}
+                {index + 1}
               </Box>
               <Box component="span" sx={{ flex: 1 }}>
                 {project.name}
               </Box>
-              <Box
-                component="span"
-                aria-hidden="true"
-                sx={{ opacity: active === index ? 1 : 0 }}
-              >
-                <LinkArrow />
-              </Box>
             </Box>
           ))}
-        </Box>
-        <Box
-          sx={{
-            mt: 5,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2,
-            color: 'text.secondary',
-            fontSize: 10,
-            letterSpacing: '.08em',
-            textTransform: 'uppercase',
-          }}
-        >
-          <Box
-            component="span"
-            sx={{
-              width: 32,
-              height: 1,
-              background: 'var(--brand-gradient)',
-            }}
-          />
         </Box>
       </Box>
     </Box>

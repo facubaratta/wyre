@@ -1,13 +1,10 @@
 import Box from '@mui/material/Box';
-import { useLanguage } from '../i18n/LanguageContext';
 import { projects } from './projects';
 import ClosingScreen from './ClosingScreen';
 import ProjectCard from './ProjectCard';
 import PortfolioIndex from './PortfolioIndex';
 
 export default function Portfolio() {
-  const { language } = useLanguage();
-
   return (
     <Box
       component="section"
@@ -24,26 +21,12 @@ export default function Portfolio() {
       }}
     >
       <Box
+        aria-hidden="true"
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
           borderTop: '1px solid rgba(235,232,222,.3)',
-          pt: 2,
           pb: { xs: 5, md: 8 },
-          fontSize: 10,
-          letterSpacing: '.15em',
-          textTransform: 'uppercase',
         }}
-      >
-        <Box component="span">
-          {language === 'es' ? 'Diseño + desarrollo' : 'Design + development'}
-        </Box>
-        <Box component="span">
-          {language === 'es'
-            ? `Selección / ${String(projects.length).padStart(2, '0')}`
-            : `Selection / ${String(projects.length).padStart(2, '0')}`}
-        </Box>
-      </Box>
+      />
       <Box
         sx={{
           display: 'grid',

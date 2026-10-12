@@ -41,10 +41,10 @@ for (const viewport of [
     });
     if (viewport.width >= 900) {
       const index = page.getByRole('navigation', { name: 'Project index' });
-      await index.getByRole('link', { name: /04 Club Zurich/ }).click();
+      await index.getByRole('link', { name: /Club Zurich/ }).click();
       await expect(page.locator('#project-4 h3')).toBeVisible();
       await expect(
-        index.getByRole('link', { name: /04 Club Zurich/ }),
+        index.getByRole('link', { name: /Club Zurich/ }),
       ).toHaveAttribute('aria-current', 'location');
       await page.waitForTimeout(600);
       await page.screenshot({
