@@ -3,6 +3,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { memo } from 'react';
 import { Box, Button } from '@mui/material';
 import LanguageToggle from './LanguageToggle';
+import { useAbout } from '../sections/About/AboutContext';
 import useOpenContact from '../contact/useOpenContact';
 import { getWhatsAppUrl } from '../contact/contactUrls';
 
@@ -15,6 +16,7 @@ const fontSizes = {
 
 function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
   const openContact = useOpenContact();
+  const { expand } = useAbout();
   const { language, copy } = useLanguage();
 
   return (
@@ -35,7 +37,7 @@ function NavigationActions({ placement }: { placement: 'hero' | 'navbar' }) {
       <Button
         component="a"
         href="#about"
-        onClick={() => window.dispatchEvent(new Event('wyre:expand-about'))}
+        onClick={expand}
         sx={{
           display:
             placement === 'hero'

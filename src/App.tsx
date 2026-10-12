@@ -12,6 +12,7 @@ import PortfolioScene from './portfolio/PortfolioScene';
 import WebPresence from './sections/WebPresence/WebPresence';
 import About from './sections/About';
 import ContactInterestProvider from './contact/ContactInterestProvider';
+import AboutProvider from './sections/About/AboutProvider';
 
 const theme = createTheme({
   palette: {
@@ -68,7 +69,9 @@ export default function App({ language = 'en' }: { language?: Language }) {
     <LanguageProvider initialLanguage={language}>
       <PreferencesProvider>
         <ContactInterestProvider>
-          <LandingPage />
+          <AboutProvider>
+            <LandingPage />
+          </AboutProvider>
         </ContactInterestProvider>
       </PreferencesProvider>
     </LanguageProvider>
